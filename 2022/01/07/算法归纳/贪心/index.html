@@ -18,21 +18,20 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="列表的内容是由服务器返回的分页数据，每次浏览到当前页的尾部，都会拉取下一页的数据。这中断用户的浏览，不免产生等待。产品希望让这个过程无感知。一种实现方案是预加载，即在一页数据还未看完时就请求下一页数据，让用户感觉列表的内容是无穷的。 监听列表滚动状态第一个想到的方案是监听列表滚动状态，当列表快滚动到底部时执行预加载，RecyclerView.OnScrollListener提供了两个回调： 123">
+    <meta name="description" content="738. 单调递增的数字给定一个非负整数 N，找出小于或等于 N 的最大的整数，同时这个整数需要满足其各个位数上的数字是单调递增。 （当且仅当每个相邻位数上的数字 x 和 y 满足 x &lt;&#x3D; y 时，我们称这个整数是单调递增的。） 示例 1: 12输入: N &#x3D; 10输出: 9  示例 2: 12输入: N &#x3D; 1234输出: 1234  示例 3: 12输入: N &#x3D; 332输出: 299">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RecyclerView预加载">
-<meta property="og:url" content="http://example.com/2022/01/07/RecyclerView/index.html">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2022/01/07/%E7%AE%97%E6%B3%95%E5%BD%92%E7%BA%B3/%E8%B4%AA%E5%BF%83/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="列表的内容是由服务器返回的分页数据，每次浏览到当前页的尾部，都会拉取下一页的数据。这中断用户的浏览，不免产生等待。产品希望让这个过程无感知。一种实现方案是预加载，即在一页数据还未看完时就请求下一页数据，让用户感觉列表的内容是无穷的。 监听列表滚动状态第一个想到的方案是监听列表滚动状态，当列表快滚动到底部时执行预加载，RecyclerView.OnScrollListener提供了两个回调： 123">
+<meta property="og:description" content="738. 单调递增的数字给定一个非负整数 N，找出小于或等于 N 的最大的整数，同时这个整数需要满足其各个位数上的数字是单调递增。 （当且仅当每个相邻位数上的数字 x 和 y 满足 x &lt;&#x3D; y 时，我们称这个整数是单调递增的。） 示例 1: 12输入: N &#x3D; 10输出: 9  示例 2: 12输入: N &#x3D; 1234输出: 1234  示例 3: 12输入: N &#x3D; 332输出: 299">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-07T11:35:20.294Z">
+<meta property="article:published_time" content="2022-01-07T11:29:24.193Z">
+<meta property="article:modified_time" content="2022-01-06T14:46:39.943Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>RecyclerView预加载 - Hexo</title>
+  <title>Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +177,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="RecyclerView预加载">
+            <span class="h2" id="subtitle" title="">
               
             </span>
 
@@ -188,8 +187,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-07 00:00" pubdate>
-        2022年1月7日 凌晨
+      <time datetime="2022-01-07 19:29" pubdate>
+        2022年1月7日 晚上
       </time>
     </span>
   
@@ -199,7 +198,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      568 字
     </span>
   
 
@@ -208,7 +207,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      5 分钟
     </span>
   
 
@@ -237,35 +236,29 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">RecyclerView预加载</h1>
+            <h1 style="display: none"></h1>
             
             <div class="markdown-body">
-              <p>列表的内容是由服务器返回的分页数据，每次浏览到当前页的尾部，都会拉取下一页的数据。这中断用户的浏览，不免产生等待。产品希望让这个过程无感知。一种实现方案是预加载，即在一页数据还未看完时就请求下一页数据，让用户感觉列表的内容是无穷的。</p>
-<p>监听列表滚动状态<br>第一个想到的方案是监听列表滚动状态，当列表快滚动到底部时执行预加载，RecyclerView.OnScrollListener提供了两个回调：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">RecyclerView</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">OnScrollListener</span> &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onScrollStateChanged</span>(<span class="hljs-params">@NonNull RecyclerView recyclerView, <span class="hljs-built_in">int</span> newState</span>)</span>&#123;&#125;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onScrolled</span>(<span class="hljs-params">@NonNull RecyclerView recyclerView, <span class="hljs-built_in">int</span> dx, <span class="hljs-built_in">int</span> dy</span>)</span>&#123;&#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+              <h4 id="738-单调递增的数字"><a href="#738-单调递增的数字" class="headerlink" title="738. 单调递增的数字"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/monotone-increasing-digits/">738. 单调递增的数字</a></h4><p>给定一个非负整数 <code>N</code>，找出小于或等于 <code>N</code> 的最大的整数，同时这个整数需要满足其各个位数上的数字是单调递增。</p>
+<p>（当且仅当每个相邻位数上的数字 <code>x</code> 和 <code>y</code> 满足 <code>x &lt;= y</code> 时，我们称这个整数是单调递增的。）</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">输入: N = 10</span><br><span class="hljs-section">输出: 9</span><br></code></pre></td></tr></table></figure>
 
-<p>在onScrolled()可以拿到LayoutManager，它提供了很多和表项位置有关的方法：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 为 RecyclerView 新增扩展方法，用于监听预加载事件</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> RecyclerView.<span class="hljs-title">addOnPreloadListener</span><span class="hljs-params">(preloadCount: <span class="hljs-type">Int</span>, onPreload: () -&gt; <span class="hljs-type">Unit</span>)</span></span> &#123;<br>    <span class="hljs-comment">// 监听 RecyclerView 滚动状态</span><br>    addOnScrollListener(<span class="hljs-keyword">object</span> : RecyclerView.OnScrollListener() &#123;<br>        <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onScrolled</span><span class="hljs-params">(recyclerView: <span class="hljs-type">RecyclerView</span>, dx: <span class="hljs-type">Int</span>, dy: <span class="hljs-type">Int</span>)</span></span> &#123;<br>            <span class="hljs-keyword">super</span>.onScrolled(recyclerView, dx, dy)<br>            <span class="hljs-comment">// 获取 LayoutManger </span><br>            <span class="hljs-keyword">val</span> layoutManager = recyclerView.layoutManager<br>            <span class="hljs-comment">// 如果 LayoutManager 是 LinearLayoutManager</span><br>            <span class="hljs-keyword">if</span> (layoutManager <span class="hljs-keyword">is</span> LinearLayoutManager) &#123;<br>             <span class="hljs-comment">// 如果列表正在往上滚动，并且表项最后可见表项索引值 等于 预加载阈值</span><br>                <span class="hljs-keyword">if</span> (dy &gt; <span class="hljs-number">0</span> &amp;&amp; layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount - <span class="hljs-number">1</span> - preloadCount) &#123;<br>                    onPreload()<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>示例 2:</strong></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">输入: N = 1234</span><br><span class="hljs-section">输出: 1234</span><br></code></pre></td></tr></table></figure>
 
-<p>当列表滚动时，实时检测列表中最后一个可见表项索引 和 预加载阈值 是否相等，若相等则表示列表快滚动到底部了，则触发预加载回调。然后就可以像这样实现预加载：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">recyclerView.<span class="hljs-built_in">addOnPreloadListener</span>(<span class="hljs-number">3</span>) &#123;<span class="hljs-comment">// 当距离列表底部还有 3 个表项时执行预加载</span><br>    <span class="hljs-comment">// 预加载业务逻辑</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>示例 3:</strong></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">输入: N = 332</span><br><span class="hljs-section">输出: 299</span><br></code></pre></td></tr></table></figure>
 
-<p>一运行 Demo 就测出 bug：当快速滚动列表时onPreload()没有执行，当慢慢滚动列表时onPrelaod()会执行多次。</p>
-<p>原因是RecyclerView并不保证每个表项出现时onScrolled()都会被调用，若滚动非常快，某个表项错过该回调是有可能发生的。</p>
-<p>为了避免错过，只能放宽条件：</p>
+<p><strong>说明:</strong> <code>N</code> 是在 <code>[0, 10^9]</code> 范围内的一个整数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">monotoneIncreasingDigits</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>        <span class="hljs-keyword">char</span>[] chars = String.valueOf(n).toCharArray();<br>        <span class="hljs-keyword">int</span> flag = chars.length;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = chars.length - <span class="hljs-number">1</span>; i &gt; <span class="hljs-number">0</span>; i--) &#123;<br>            <span class="hljs-keyword">if</span> (chars[i] &lt; chars[i - <span class="hljs-number">1</span>]) &#123;<br>                flag = i;<br>                chars[i - <span class="hljs-number">1</span>]--;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = flag; i &lt; chars.length; i++) &#123;<br>            chars[i] = <span class="hljs-string">&#x27;9&#x27;</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> Integer.parseInt(<span class="hljs-keyword">new</span> String(chars));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
-                    
-                  </div>
                 
               </div>
               
@@ -274,7 +267,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/07/%E7%AE%97%E6%B3%95%E5%BD%92%E7%BA%B3/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                      <a href="/2022/01/07/%E7%AE%97%E6%B3%95%E5%BD%92%E7%BA%B3/%E9%93%BE%E8%A1%A8/">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
@@ -284,8 +277,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/07/bfs/">
-                        <span class="hidden-mobile">bfs</span>
+                      <a href="/2022/01/07/%E7%AE%97%E6%B3%95%E5%BD%92%E7%BA%B3/%E8%A1%A8%E6%A0%BC/">
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
