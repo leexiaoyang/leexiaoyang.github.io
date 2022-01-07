@@ -32,7 +32,7 @@
     max-height: 100vw;
   }
   #board {
-    margin-top: -5rem !important;
+    margin-top: -1rem !important;
   }
 }
 @media (max-width: 79.99vh) {
@@ -42,10 +42,10 @@
 }
 #board {
   position: relative;
-  margin-top: -1rem;
+  margin-top: -6rem;
   background-color: var(--board-bg-color);
   transition: background-color 0.2s ease-in-out;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   z-index: 3;
   -webkit-box-shadow: 0 12px 15px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
   box-shadow: 0 12px 15px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
