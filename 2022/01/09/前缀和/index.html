@@ -18,22 +18,22 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="巴什博弈 只有一堆n个物品，两个人轮流从这堆物品中取物， 规定每次至少取一个，最多取m个。最后取光者得胜。 只要 n 不能整除 m+1 ,那么必然是先手取胜，否则后手取胜. 12345class Solution &amp;#123;    public boolean canWinNim(int n) &amp;#123;        return n % 4 !&#x3D; 0;    &amp;#125;&amp;#125;">
+    <meta name="description" content="325. 和等于 k 的最长子数组长度给定一个数组 *nums* 和一个目标值 *k*，找到和等于 k 的最长连续子数组长度。如果不存在任意一个符合要求的子数组，则返回 0。 示例 1: 123输入: nums &#x3D; [1,-1,5,-2,3], k &#x3D; 3输出: 4 解释: 子数组 [1, -1, 5, -2] 和等于 3，且长度最长。  示例 2: 123输入: nums &#x3D; [-2,-1,2,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="博弈">
-<meta property="og:url" content="http://example.com/2022/01/07/%E5%8D%9A%E5%BC%88/index.html">
+<meta property="og:title" content="前缀树">
+<meta property="og:url" content="http://example.com/2022/01/09/%E5%89%8D%E7%BC%80%E5%92%8C/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="巴什博弈 只有一堆n个物品，两个人轮流从这堆物品中取物， 规定每次至少取一个，最多取m个。最后取光者得胜。 只要 n 不能整除 m+1 ,那么必然是先手取胜，否则后手取胜. 12345class Solution &amp;#123;    public boolean canWinNim(int n) &amp;#123;        return n % 4 !&#x3D; 0;    &amp;#125;&amp;#125;">
+<meta property="og:description" content="325. 和等于 k 的最长子数组长度给定一个数组 *nums* 和一个目标值 *k*，找到和等于 k 的最长连续子数组长度。如果不存在任意一个符合要求的子数组，则返回 0。 示例 1: 123输入: nums &#x3D; [1,-1,5,-2,3], k &#x3D; 3输出: 4 解释: 子数组 [1, -1, 5, -2] 和等于 3，且长度最长。  示例 2: 123输入: nums &#x3D; [-2,-1,2,">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-09T05:18:55.316Z">
+<meta property="article:published_time" content="2022-01-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-09T04:07:58.777Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
-<meta property="article:tag" content="博弈">
+<meta property="article:tag" content="前缀数">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>博弈 - Hexo</title>
+  <title>前缀树 - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -179,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="博弈">
+            <span class="h2" id="subtitle" title="前缀树">
               
             </span>
 
@@ -189,8 +189,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-07 00:00" pubdate>
-        2022年1月7日 凌晨
+      <time datetime="2022-01-09 00:00" pubdate>
+        2022年1月9日 凌晨
       </time>
     </span>
   
@@ -200,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      162 字
+      557 字
     </span>
   
 
@@ -209,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2 分钟
+      5 分钟
     </span>
   
 
@@ -238,11 +238,17 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">博弈</h1>
+            <h1 style="display: none">前缀树</h1>
             
             <div class="markdown-body">
-              <p>巴什博弈 只有一堆n个物品，两个人轮流从这堆物品中取物， 规定每次至少取一个，最多取m个。最后取光者得胜。 只要 n 不能整除 m+1 ,那么必然是先手取胜，否则后手取胜.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">canWinNim</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> n % <span class="hljs-number">4</span> != <span class="hljs-number">0</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+              <h4 id="325-和等于-k-的最长子数组长度"><a href="#325-和等于-k-的最长子数组长度" class="headerlink" title="325. 和等于 k 的最长子数组长度"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-size-subarray-sum-equals-k/">325. 和等于 k 的最长子数组长度</a></h4><p>给定一个数组 <code>*nums*</code> 和一个目标值 <code>*k*</code>，找到和等于 <em><code>k</code></em> 的最长连续子数组长度。如果不存在任意一个符合要求的子数组，则返回 <code>0</code>。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs subunit">输入: nums = [1,<span class="hljs-string">-1</span>,5,<span class="hljs-string">-2</span>,3], k = 3<br>输出: 4 <br>解释: 子数组 [1, <span class="hljs-string">-1</span>, 5, <span class="hljs-string">-2</span>] 和等于 3，且长度最长。<br></code></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">输入: nums = [-2,-1,2,1], k = 1</span><br><span class="hljs-section">输出: 2 </span><br><span class="hljs-section">解释: 子数组 [-1, 2] 和等于 1，且长度最长。</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">maxSubArrayLen</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> k)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">int</span> len = nums.length;<br>        Map&lt;Integer, Integer&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>        map.put(<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) &#123;<br>            sum += nums[i];<br>            map.putIfAbsent(sum, i);<br>            <span class="hljs-keyword">if</span> (map.containsKey(sum - k)) &#123;<br>                res = Math.max(res, i - map.get(sum - k));<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
             </div>
@@ -263,7 +269,7 @@
                     
                       <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%8D%9A%E5%BC%88/">博弈</a>
+                      <a class="hover-with-bg" href="/tags/%E5%89%8D%E7%BC%80%E6%95%B0/">前缀数</a>
                     
                   </div>
                 
@@ -274,18 +280,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/07/%E5%93%88%E5%B8%8C/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">哈希</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/07/%E6%95%B0%E5%AD%A6/">
-                        <span class="hidden-mobile">数学</span>
+                      <a href="/2022/01/07/bfs/">
+                        <span class="hidden-mobile">bfs</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

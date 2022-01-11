@@ -26,7 +26,7 @@
 <meta property="og:description" content="191. 位1的个数编写一个函数，输入是一个无符号整数（以二进制串的形式），返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。 提示：  请注意，在某些语言（如 Java）中，没有无符号整数类型。在这种情况下，输入和输出都将被指定为有符号整数类型，并且不应影响您的实现，因为无论整数是有符号的还是无符号的，其内部的二进制表示形式都是相同的。 在 Java 中，编译器使用二进制补码记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-08T11:01:58.659Z">
+<meta property="article:modified_time" content="2022-01-09T05:14:35.438Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      814 字
+      2.6k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7 分钟
+      22 分钟
     </span>
   
 
@@ -259,6 +259,32 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-comment">// you need to treat n as an unsigned value</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hammingWeight</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">while</span> (n != <span class="hljs-number">0</span>) &#123;<br>            ans += (n &amp; <span class="hljs-number">1</span>);<br>            n &gt;&gt;&gt;= <span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
+
+
+
+<h4 id="二进制表示字符串"><a href="#二进制表示字符串" class="headerlink" title="二进制表示字符串"></a>二进制表示字符串</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">String s = <span class="hljs-string">&quot;abcz&quot;</span>;<br><span class="hljs-keyword">int</span> a = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">char</span> c : s.toCharArray()) &#123;<br>    a |= <span class="hljs-number">1</span> &lt;&lt; (c - <span class="hljs-string">&#x27;a&#x27;</span>);<br>&#125;<br>System.out.println(Integer.toBinaryString(a));<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="5978-统计追加字母可以获得的单词数"><a href="#5978-统计追加字母可以获得的单词数" class="headerlink" title="5978. 统计追加字母可以获得的单词数"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/count-words-obtained-after-adding-a-letter/">5978. 统计追加字母可以获得的单词数</a></h4><p>给你两个下标从 <strong>0</strong> 开始的字符串数组 <code>startWords</code> 和 <code>targetWords</code> 。每个字符串都仅由 <strong>小写英文字母</strong> 组成。</p>
+<p>对于 <code>targetWords</code> 中的每个字符串，检查是否能够从 <code>startWords</code> 中选出一个字符串，执行一次 <strong>转换操作</strong> ，得到的结果与当前 <code>targetWords</code> 字符串相等。</p>
+<p><strong>转换操作</strong> 如下面两步所述：</p>
+<ol>
+<li>追加 任何 不存在 于当前字符串的任一小写字母到当前字符串的末尾。<br>例如，如果字符串为 “abc” ，那么字母 ‘d’、’e’ 或 ‘y’ 都可以加到该字符串末尾，但 ‘a’ 就不行。如果追加的是 ‘d’ ，那么结果字符串为 “abcd” 。</li>
+<li>重排 新字符串中的字母，可以按 任意 顺序重新排布字母。<br>例如，”abcd” 可以重排为 “acbd”、”bacd”、”cbda”，以此类推。注意，它也可以重排为 “abcd” 自身。</li>
+</ol>
+<p>找出 <code>targetWords</code> 中有多少字符串能够由 <code>startWords</code> 中的 <strong>任一</strong> 字符串执行上述转换操作获得。返回 <code>targetWords</code> 中这类 <strong>字符串的数目</strong> 。</p>
+<p><strong>注意：</strong>你仅能验证 <code>targetWords</code> 中的字符串是否可以由 <code>startWords</code> 中的某个字符串经执行操作获得。<code>startWords</code> 中的字符串在这一过程中 <strong>不</strong> 发生实际变更。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs prolog">输入：startWords = [<span class="hljs-string">&quot;ant&quot;</span>,<span class="hljs-string">&quot;act&quot;</span>,<span class="hljs-string">&quot;tack&quot;</span>], targetWords = [<span class="hljs-string">&quot;tack&quot;</span>,<span class="hljs-string">&quot;act&quot;</span>,<span class="hljs-string">&quot;acti&quot;</span>]<br>输出：<span class="hljs-number">2</span><br>解释：<br>- 为了形成 targetWords[<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;tack&quot;</span> ，可以选用 startWords[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;act&quot;</span> ，追加字母 <span class="hljs-string">&#x27;k&#x27;</span> ，并重排 <span class="hljs-string">&quot;actk&quot;</span> 为 <span class="hljs-string">&quot;tack&quot;</span> 。<br>- startWords 中不存在可以用于获得 targetWords[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;act&quot;</span> 的字符串。<br>  注意 <span class="hljs-string">&quot;act&quot;</span> 确实存在于 startWords ，但是 必须 在重排前给这个字符串追加一个字母。<br>- 为了形成 targetWords[<span class="hljs-number">2</span>] = <span class="hljs-string">&quot;acti&quot;</span> ，可以选用 startWords[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;act&quot;</span> ，追加字母 <span class="hljs-string">&#x27;i&#x27;</span> ，并重排 <span class="hljs-string">&quot;acti&quot;</span> 为 <span class="hljs-string">&quot;acti&quot;</span> 自身。<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">wordCount</span><span class="hljs-params">(String[] startWords, String[] targetWords)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br>        Set&lt;Integer&gt; set = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (String s : startWords) &#123;<br>            <span class="hljs-keyword">int</span> num = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">char</span> ch : s.toCharArray()) &#123;<br>                num |= <span class="hljs-number">1</span> &lt;&lt; (ch - <span class="hljs-string">&#x27;a&#x27;</span>);<br>            &#125;<br>            set.add(num);<br>        &#125;<br>        <span class="hljs-keyword">for</span> (String s : targetWords) &#123;<br>            <span class="hljs-keyword">int</span> num = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">char</span> ch : s.toCharArray()) &#123;<br>                num |= <span class="hljs-number">1</span> &lt;&lt; (ch - <span class="hljs-string">&#x27;a&#x27;</span>);<br>            &#125;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">char</span> ch : s.toCharArray()) &#123;<br>                <span class="hljs-keyword">if</span> (set.contains(num ^ (<span class="hljs-number">1</span> &lt;&lt; (ch - <span class="hljs-string">&#x27;a&#x27;</span>)))) &#123;<br>                    ans++;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
             </div>
             <hr>
             <div>
@@ -296,8 +322,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/05/RecyclerView/">
-                        <span class="hidden-mobile">RecyclerView原理及使用</span>
+                      <a href="/2022/01/07/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                        <span class="hidden-mobile">线程相关</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
