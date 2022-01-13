@@ -26,9 +26,10 @@
 <meta property="og:description" content="20. 有效的括号给定一个只包括 &#39;(&#39;，&#39;)&#39;，&#39;&amp;#123;&#39;，&#39;&amp;#125;&#39;，&#39;[&#39;，&#39;]&#39; 的字符串 s ，判断字符串是否有效。 有效字符串需满足：  左括号必须用相同类型的右括号闭合。 左括号必须以正确的顺序闭合。  示例 1： 12输入：s &#x3D; &quot;()&quot;输出：true">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-07T11:43:34.603Z">
+<meta property="article:modified_time" content="2022-01-13T17:20:56.372Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
+<meta property="article:tag" content="栈">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -199,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.7k 字
+      2.7k 字
     </span>
   
 
@@ -208,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      15 分钟
+      23 分钟
     </span>
   
 
@@ -271,6 +272,20 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">removeKdigits</span><span class="hljs-params">(String num, <span class="hljs-keyword">int</span> k)</span> </span>&#123;<br>        <span class="hljs-keyword">char</span>[] chs = num.toCharArray();<br>        Deque&lt;Character&gt; deque = <span class="hljs-keyword">new</span> ArrayDeque&lt;&gt;();<br>        <span class="hljs-keyword">if</span> (k &gt;= chs.length) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;0&quot;</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; chs.length; i++) &#123;<br>            <span class="hljs-keyword">while</span> (!deque.isEmpty() &amp;&amp; deque.peekLast() &gt; chs[i] &amp;&amp; k &gt; <span class="hljs-number">0</span>) &#123;<br>                deque.pollLast();<br>                k--;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (deque.isEmpty() &amp;&amp; chs[i] == <span class="hljs-string">&#x27;0&#x27;</span>) <span class="hljs-keyword">continue</span>;<br>            deque.offerLast(chs[i]);<br>        &#125;<br>        <span class="hljs-keyword">while</span> (k &gt; <span class="hljs-number">0</span>) &#123;<br>            deque.pollLast();<br>            k--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (deque.isEmpty()) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;0&quot;</span>;<br>        StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();<br>        <span class="hljs-keyword">while</span> (!deque.isEmpty()) &#123;<br>            sb.append(deque.pollFirst());<br>        &#125;<br>        <span class="hljs-keyword">return</span> sb.toString();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
+
+<h4 id="402-移掉-K-位数字-1"><a href="#402-移掉-K-位数字-1" class="headerlink" title="402. 移掉 K 位数字"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-k-digits/">402. 移掉 K 位数字</a></h4><p>给你一个以字符串表示的非负整数 <code>num</code> 和一个整数 <code>k</code> ，移除这个数中的 <code>k</code> 位数字，使得剩下的数字最小。请你以字符串形式返回这个最小的数字。</p>
+<p><strong>示例 1 ：</strong></p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nix">输入：<span class="hljs-attr">num</span> = <span class="hljs-string">&quot;1432219&quot;</span>, <span class="hljs-attr">k</span> = <span class="hljs-number">3</span><br>输出：<span class="hljs-string">&quot;1219&quot;</span><br>解释：移除掉三个数字 <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, 和 <span class="hljs-number">2</span> 形成一个新的最小的数字 <span class="hljs-number">1219</span> 。<br></code></pre></td></tr></table></figure>
+
+<p><strong>示例 2 ：</strong></p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nix">输入：<span class="hljs-attr">num</span> = <span class="hljs-string">&quot;10200&quot;</span>, <span class="hljs-attr">k</span> = <span class="hljs-number">1</span><br>输出：<span class="hljs-string">&quot;200&quot;</span><br>解释：移掉首位的 <span class="hljs-number">1</span> 剩下的数字为 <span class="hljs-number">200</span>. 注意输出不能有任何前导零。<br></code></pre></td></tr></table></figure>
+
+<p><strong>示例 3 ：</strong></p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nix">输入：<span class="hljs-attr">num</span> = <span class="hljs-string">&quot;10&quot;</span>, <span class="hljs-attr">k</span> = <span class="hljs-number">2</span><br>输出：<span class="hljs-string">&quot;0&quot;</span><br>解释：从原数字移除所有的数字，剩余为空就是 <span class="hljs-number">0</span> 。<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">removeKdigits</span><span class="hljs-params">(String num, <span class="hljs-keyword">int</span> k)</span> </span>&#123;<br>        <span class="hljs-keyword">char</span>[] chs = num.toCharArray();<br>        Deque&lt;Character&gt; deque = <span class="hljs-keyword">new</span> ArrayDeque&lt;&gt;();<br>        <span class="hljs-keyword">if</span> (k &gt;= chs.length) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;0&quot;</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; chs.length; i++) &#123;<br>            <span class="hljs-keyword">while</span> (!deque.isEmpty() &amp;&amp; deque.peekLast() &gt; chs[i] &amp;&amp; k &gt; <span class="hljs-number">0</span>) &#123;<br>                deque.pollLast();<br>                k--;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (deque.isEmpty() &amp;&amp; chs[i] == <span class="hljs-string">&#x27;0&#x27;</span>) <span class="hljs-keyword">continue</span>;<br>            deque.offerLast(chs[i]);<br>        &#125;<br>        <span class="hljs-keyword">while</span> (k &gt; <span class="hljs-number">0</span>) &#123;<br>            deque.pollLast();<br>            k--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (deque.isEmpty()) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;0&quot;</span>;<br>        StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();<br>        <span class="hljs-keyword">while</span> (!deque.isEmpty()) &#123;<br>            sb.append(deque.pollFirst());<br>        &#125;<br>        <span class="hljs-keyword">return</span> sb.toString();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
             </div>
             <hr>
             <div>
@@ -288,6 +303,8 @@
                     <i class="iconfont icon-tags"></i>
                     
                       <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%A0%88/">栈</a>
                     
                   </div>
                 
