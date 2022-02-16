@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="View绘制Activity生命周期与View绘制123456789101112131415161718192021222324252627D&#x2F;ViewLifeTestActivity: onCreate: D&#x2F;ViewLifeTestActivity: onWindowAttributesChanged: ...D&#x2F;ViewLifeTestView: ViewLifeTestView: cons">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2022/02/10/%E9%9D%A2%E8%AF%95%E9%A2%98Android/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="View绘制Activity生命周期与View绘制123456789101112131415161718192021222324252627D&#x2F;ViewLifeTestActivity: onCreate: D&#x2F;ViewLifeTestActivity: onWindowAttributesChanged: ...D&#x2F;ViewLifeTestView: ViewLifeTestView: cons">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-10T07:18:18.389Z">
+<meta property="article:modified_time" content="2022-02-15T11:58:58.532Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading3.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alexander Lee</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-10 15:18" pubdate>
+        2022年2月10日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      80 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            <div class="markdown-body">
+              <h3 id="View绘制"><a href="#View绘制" class="headerlink" title="View绘制"></a>View绘制</h3><h4 id="Activity生命周期与View绘制"><a href="#Activity生命周期与View绘制" class="headerlink" title="Activity生命周期与View绘制"></a>Activity生命周期与View绘制</h4><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><pre><code class="hljs java">D/ViewLifeTestActivity: onCreate: <br>D/ViewLifeTestActivity: onWindowAttributesChanged: <br>...<br>D/ViewLifeTestView: ViewLifeTestView: construct <br>D/ViewLifeTestView: onFinishInflate: <br>D/ViewLifeTestActivity: onStart: <br>D/ViewLifeTestActivity: onWindowAttributesChanged: <br>D/ViewLifeTestActivity: onResume: <br>D/ViewLifeTestActivity: onAttachedToWindow: <br>D/ViewLifeTestView: onAttachedToWindow: <br>D/ViewLifeTestView: onWindowVisibilityChanged: visiable<br>D/ViewLifeTestView: onMeasure: <br>D/ViewLifeTestView: onMeasure: <br>D/ViewLifeTestView: onSizeChanged: <br>D/ViewLifeTestView: onLayout: <br>D/ViewLifeTestView: onDraw: <br>D/ViewLifeTestActivity: onWindowFocusChanged hashFocus: <span class="hljs-keyword">true</span><br>D/ViewLifeTestView: onWindowFocusChanged: <span class="hljs-keyword">true</span><br>D/ViewLifeTestView: onTouchEvent: <br>D/ViewLifeTestActivity: onPause: <br>D/ViewLifeTestView: onWindowVisibilityChanged: gone<br>D/ViewLifeTestActivity: onWindowFocusChanged hashFocus: <span class="hljs-keyword">false</span><br>D/ViewLifeTestView: onWindowFocusChanged: <span class="hljs-keyword">false</span><br>D/ViewLifeTestActivity: onStop: <br>D/ViewLifeTestActivity: onDestroy: <br>D/ViewLifeTestView: onDetachedFromWindow: <br>D/ViewLifeTestActivity: onDetachedFromWindow: <br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java">Activity 调用onCreate方法，这个时候我们setContentView加载了带View的布局<br>Activity 调用onWindowAttributesChanged 方法，而且这个方法连续调用多次<br>View 调用构造方法<br>View 调用onFinishInflate方法，说明这个时候View已经填充完毕，但是这个时候还没开始触发绘制过程<br>Activity 调用onstart方法<br>Activity 再次调用 onWindowAttributesChanged 方法，说明这个方法在onResume之前会多次调用<br>Activity 调用onResume，我们一般认为当Activity调用onResume的时候，整个Activit已经可以和用户进行交互了，但事实上可能并不是这样，后面解释原因。<br>Activity 调用onAttachedToWindow，说明跟Window进行了绑定。发现了吗，Activity在onResume之后才跟Window进行了绑定。<br>View 调用onAttachedToWindow，View开始跟Window进行绑定，这个过程肯定是在Activity绑定之后才进行的。<br>View 调用 onWindowVisibilityChanged(<span class="hljs-keyword">int</span> visibility)，参数变为 View.VISIABLE，说明Window已经可见了，这个时候我们发现一个问题就是其实onResume的时候似乎并不代表Activity中的View已经可见了。<br>View 调用onMeasure，开始测量<br>View 调用onSizeChanged，表示测量完成，尺寸发生了变化<br>View 调用onLayout，开始摆放位置<br>View 调用 onDraw，开始绘制<br>**Activity 调用onWindowFocusChanged(<span class="hljs-keyword">boolean</span> hasFocus)，此时为<span class="hljs-keyword">true</span>，代表窗体已经获取了焦点** <br>View 调用 onWindowFocusChanged(<span class="hljs-keyword">boolean</span> hasWindowFocus)，此时为<span class="hljs-keyword">true</span>，代表当前的控件获取了Window焦点，当调用这个方法后说明当前Activity中的View才是真正的可见了。<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="Activity、Window、DecorView"><a href="#Activity、Window、DecorView" class="headerlink" title="Activity、Window、DecorView"></a>Activity、Window、DecorView</h4><ul>
+<li>Window：每个<code>Activity</code>都会创建一个<code>Window</code>用于承载View视图的显示，<code>Window</code>是一个抽象类存在了一个唯一实现类<code>PhoneWindow</code>。PhoneWindow也是Activity和View系统交互的接口</li>
+<li>DecorView：最顶层的View，是Activity中所有View的祖先。是一个FrameLayout子类，最终会被加载到Window当中，它内部只有一个垂直方向的LinearLayout分为两部分：<ul>
+<li>TitleBar：屏幕顶部的标题栏</li>
+<li>ContentView：<code>Activity</code>对应的XML布局，通过<code>setContentView</code>设置到<code>DecorView</code>中。</li>
+</ul>
+</li>
+</ul>
+<p>后面会讲到具体细节。其中在generateLayout（）实际上就是在根据我们requestFeature设置的style(如FULL_SCREEN，NO_ACTION_BAR)加载对应的布局容器(这里也可以解释为什么我们getWindow.requestFeature时必须在setContentView()之前)</p>
+<h4 id="Activity中setContentView-发生了什么"><a href="#Activity中setContentView-发生了什么" class="headerlink" title="Activity中setContentView()发生了什么"></a>Activity中setContentView()发生了什么</h4><h4 id="MeasureSpec"><a href="#MeasureSpec" class="headerlink" title="MeasureSpec"></a>MeasureSpec</h4><p>MeasureSpec是View类的一个静态内部类，用来说明应该如何测量这个View。MeasureSpec表示的</p>
+<p>是一个32位的整形值，它的高2位表示测量模式SpecMode，低30位表示某种测量模式下的规格大小</p>
+<p>SpecSize。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk">UNSPECIFIED 不指定测量模式, 父视图没有限制子视图的大小，子视图可以是想要的任何尺寸<br><span class="hljs-regexp">//</span> int widthSpec = MeasureSpec.makeMeasureSpec(<span class="hljs-number">100</span>, MeasureSpec.EXACTLY);<br><br>EXACTLY 精确测量模式，视图宽高指定为match_parent或具体数值时生效。表示父视图已经决定了子视图的精确大小，这种模式下View的测量值就是SpecSize的值<br><br>AT_MOST 最大值测量模式，当视图的宽高指定为wrap_content时生效，此时子视图的尺寸是不超过父视图的最大尺寸。<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMeasure</span><span class="hljs-params">(<span class="hljs-keyword">int</span> widthMeasureSpec, <span class="hljs-keyword">int</span> heightMeasureSpec)</span> </span>&#123;<br>    <span class="hljs-comment">// 干掉父 View onMeasure 先</span><br>    <span class="hljs-comment">// super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br> <br>    <span class="hljs-comment">// 遍历子 View，测量</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; getChildCount(); i++)&#123;<br>        View view = getChildAt(i);<br> <br>        <span class="hljs-comment">// 获取子 View 的宽度测量规则</span><br>        <span class="hljs-keyword">int</span> createChildWidthMeasureSpec = createChildWidthMeasureSpec(widthMeasureSpec, view);<br> <br>        <span class="hljs-comment">// 获取子 View 的高度测量规则</span><br>        <span class="hljs-keyword">int</span> createChildHeightMeasureSpec = createChildHeightMeasureSpec(heightMeasureSpec, view);<br> <br>        <span class="hljs-comment">// 开始测量</span><br>        view.measure(createChildWidthMeasureSpec, createChildHeightMeasureSpec);<br> <br>        <span class="hljs-comment">// 输出测量结果</span><br>        System.out.println(<span class="hljs-string">&quot;View MeasureWidth: &quot;</span> + view.getMeasuredWidth());<br>        System.out.println(<span class="hljs-string">&quot;View MeasureHeight: &quot;</span> + view.getMeasuredHeight());<br>    &#125;<br> <br><span class="hljs-comment">// 最终，父 View，根据子 View 的测量结果，才可以设置自己的尺寸</span><br>setMeasuredDimension(parentWidth, parentHeight);<br>&#125;       <br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="View-和-ViewGroup"><a href="#View-和-ViewGroup" class="headerlink" title="View 和 ViewGroup"></a>View 和 ViewGroup</h4><p>View 对象用于在屏幕上绘制可供用户交互的内容。ViewGroup 对象用于储存其他 View（和 ViewGroup）对象，以便定义界面的布局。其中，View是所有UI组件的基类，而 ViewGroup是容纳这些组件的容器，其本身也是从View派生出来的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDraw</span><span class="hljs-params">(Canvas canvas)</span></span><br><span class="hljs-function">View类中用于重绘的方法，这个方法是所有View、ViewGroup及其派生类都具有的方法，也是Android UI绘制最重要的方法。开发者可重载该方法，并在重载的方法内部基于参数canvas绘制自己的各种图形、图像效果。</span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onLayout</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> changed, <span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> top, <span class="hljs-keyword">int</span> right, <span class="hljs-keyword">int</span> bottom)</span></span><br><span class="hljs-function">View类中布局发生改变时会调用的方法，这个方法是所有View、ViewGroup及其派生类都具有的方法，重载该类可以在布局发生改变时作定制处理，这在实现一些特效时非常有用。</span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchDraw</span><span class="hljs-params">(Canvas canvas)</span></span><br><span class="hljs-function">ViewGroup类及其派生类具有的方法，这个方法主要用于控制子View的绘制分发，重载该方法可改变子View的绘制，进而实现一些复杂的视效。</span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">drawChild</span><span class="hljs-params">(Canvas canvas, View child, <span class="hljs-keyword">long</span> drawingTime)</span>)</span><br><span class="hljs-function">ViewGroup类及其派生类具有的方法，这个方法直接控制绘制某具体的子view，重载该方法可控制具体某个具体子View。</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="View的绘制流程"><a href="#View的绘制流程" class="headerlink" title="View的绘制流程"></a>View的绘制流程</h4><ul>
+<li>View系统的绘制流程会从ViewRootImpl的performTraversals()方法中开始</li>
+<li>View树的绘制是一个递归的过程，从ViewGroup一直向下遍历，直到所有的子view都完成绘制</li>
+<li>View的整个绘制流程可以分为以下三个阶段：<ul>
+<li>measure: 判断是否需要重新计算View的大小，需要的话则计算；每个View的控件的实际宽高都是由父视图和本身视图决定的</li>
+<li>layout: 判断是否需要重新计算View的位置，需要的话则计算；</li>
+<li>draw: 判断是否需要重新绘制View，需要的话则重绘制。   </li>
+</ul>
+</li>
+</ul>
+<h3 id="Toolbar"><a href="#Toolbar" class="headerlink" title="Toolbar"></a>Toolbar</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">// ActionBar在各个安卓版本和定制Rom中的效果表现不一，导致严重的碎片化问题，ToolBar应运而生。setSupportActionBar ，Toolbar即能取代原本的 actionbar </span><br><br>Toolbar toolbar = (Toolbar) find<span class="hljs-constructor">ViewById(R.<span class="hljs-params">id</span>.<span class="hljs-params">toolbar</span>)</span>;<br>set<span class="hljs-constructor">SupportActionBar(<span class="hljs-params">toolbar</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="ViewStub"><a href="#ViewStub" class="headerlink" title="ViewStub"></a>ViewStub</h3><p>View.Gone: 因为即便该view不可见，仍会被父窗体绘制，仍会创建对象，仍会被实例化，仍会被设置属性</p>
+<p>ViewStub 是一个不可见的，大小为0的视图，可以在运行过程中延时加载布局资源。<strong>当ViewStub被设置成可见，或者它的inflate() 方法被调用的时候，布局资源才会被填充，然后ViewStub本身就会被填充起来的布局资源替换掉</strong>。也就是说 ViewStub 被设置成可见或者它的inflate() 方法被调用之后，<strong>在视图树中就不存在了</strong>。被填充的<strong>布局在替换ViewStub的时候会使用ViewStub的布局参数（LayoutParameters）</strong></p>
+<p><strong>inflate() 方法只能被调用一次，如果再次调用会报异常信息 ViewStub must have a non-null ViewGroup viewParent</strong>。</p>
+<p>这是因为，当ViewStub 调用inflate() 将其引用的 布局/view 展示出来之后，ViewStub本身就会从视图树中被移除，此时viewStub 就获取不到他的 父布局， 而 inflate() 方法中，上来就需要获取它的父布局，然后根据父布局是否为空再去执行具体的填充逻辑，如果为空就报上面的错</p>
+<h3 id="View获取宽高"><a href="#View获取宽高" class="headerlink" title="View获取宽高"></a>View获取宽高</h3><ul>
+<li><strong>ViewTreeObserver.addOnGlobalLayoutListener()</strong></li>
+</ul>
+<p>监听View的onLayout()绘制过程，一旦layout触发变化，立即回调onLayoutChange方法。 注意，使用完也要主要调用removeOnGlobalListener()方法移除监听事件。避免后续每一次发生全局View变化均触发该事件，影响性能。</p>
+<ul>
+<li><strong>View.post</strong></li>
+</ul>
+<p>保证了 action 一定是在 performTraversals 执行完毕后才会被调用，因此我们就可以在 Runnable 中获取到 View 的真实宽高了</p>
+<h3 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h3><p><a target="_blank" rel="noopener" href="https://ljd1996.github.io/2021/06/01/Android-NDK%E5%BC%80%E5%8F%91%E4%B9%8B%E6%A6%82%E8%BF%B0/">https://ljd1996.github.io/2021/06/01/Android-NDK%E5%BC%80%E5%8F%91%E4%B9%8B%E6%A6%82%E8%BF%B0/</a></p>
+<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>Service是一个专门在后台处理长时间任务的Android组件，它没有UI。它有两种启动方式，startService和bindService。</p>
+<h4 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span> </span>&#123;<br><br>        <span class="hljs-keyword">super</span>.onCreate();<br>        <span class="hljs-comment">//获取这个线程的looper</span><br>        mServiceLooper = thread.getLooper();<br>        <span class="hljs-comment">//创建了一个handler</span><br>        mServiceHandler = <span class="hljs-keyword">new</span> ServiceHandler(mServiceLooper);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ServiceHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Handler</span> </span>&#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ServiceHandler</span><span class="hljs-params">(Looper looper)</span> </span>&#123;<br>            <span class="hljs-keyword">super</span>(looper);<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;<br>            <span class="hljs-comment">//处理逻辑是我们在MyService里面重写的这个方法</span><br>            onHandleIntent((Intent)msg.obj);<br>            <span class="hljs-comment">//从这里可以看出,我们执行完任务后,service就销毁了</span><br>            stopSelf(msg.arg1);<br>        &#125;<br>    &#125;<br><br><span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onStart</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Intent intent, <span class="hljs-keyword">int</span> startId)</span> </span>&#123;<br>        Message msg = mServiceHandler.obtainMessage();<br>        msg.arg1 = startId;<br>        msg.obj = intent;<br>        mServiceHandler.sendMessage(msg);<br>    &#125;  <br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h3><p>looper、handler、messagequeue三者共同实现了android系统里线程间通信机制， 主要是消息的发送和接收过程。</p>
+<p>Handler通过sendMessage发送消息，将消息放入MessageQueue中，Looper通过调用loop方法不断的从MessageQueue中获取消息，执行Handler的dispatchMessage，最后调用handleMessage方法。</p>
+<h4 id="Looper"><a href="#Looper" class="headerlink" title="Looper"></a>Looper</h4><p>可以把 Looper 理解为消息的管理者，它负责从 MessageQueue 中提取出消息，传递给 Handler 进行处理，每一个 Handler 都必须要有一个 Looper，在 Handler 创建的时候，它会自动使用当前线程的 Looper，而 <strong><code>Looper.prepare()</code> 的作用就是为当前线程准备一个 Looper，<code>Looper.loop()</code> 的作用是开始查找当前 MessageQueue 中是否有了新的消息。</strong></p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Looper</span>.</span></span>prepare<span class="hljs-literal">()</span><br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Looper</span>.</span></span>loop<span class="hljs-literal">()</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>ActivityThread 的创建过程中，Looper 已经被创建好了</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Looper</span>.</span></span>prepare<span class="hljs-constructor">MainLooper()</span>;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="为什么handler可以用于子线程更新UI"><a href="#为什么handler可以用于子线程更新UI" class="headerlink" title="为什么handler可以用于子线程更新UI?"></a><strong>为什么handler可以用于子线程更新UI</strong>?</h4><p>子线程能更新UI，但是不推荐这么做。一般说的子线程不能更新UI，是因为执行更新UI操作的时候会进行checkThread检查，checkThread判断如果当前线程不是UI线程就会抛出异常。而checkThread跟ViewRootImpl这个类的对象有关，那么只要ViewRootImpl的对象还未创建，就无法执行checkThread，也就是在子线程更新UI也不会报错。ViewRootImpl的对象是在onResume()之后创建的，因此在onCreate()、onStart()、onResume()中可以做子线程更新UI</p>
+<h4 id="Android-为什么要设计为只能在主线程中更新-UI-呢？"><a href="#Android-为什么要设计为只能在主线程中更新-UI-呢？" class="headerlink" title="Android 为什么要设计为只能在主线程中更新 UI 呢？"></a>Android 为什么要设计为只能在主线程中更新 UI 呢？</h4><ul>
+<li>Android 在子线程中更新 UI 是不安全的，如果多个子线程同时修改一个控件的数据，后果是不可控的</li>
+<li>如果给 UI 更新机制加锁，会降低 UI 的访问效率，并且可能阻塞某些线程的执行</li>
+</ul>
+<h4 id="Handler内存泄漏"><a href="#Handler内存泄漏" class="headerlink" title="Handler内存泄漏"></a>Handler内存泄漏</h4><p>Handler 在 Activity 中作为一个匿名内部类来定义，它的内部持有来 Activity 的实例。当 Activity 被用户关闭时，因为 Handler 持有了 Activity 的引用，就造成了 Activity 无法被回收，从而导致了内存泄漏。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Handler</span></span>&#123;<br>    <span class="hljs-keyword">private</span> WeakReference&lt;Activity&gt; weakReference;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyHandler</span><span class="hljs-params">(Activity activity)</span></span>&#123;<br>        weakReference = <span class="hljs-keyword">new</span> WeakReference&lt;&gt;(activity);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.handleMessage(msg);<br>        <span class="hljs-keyword">switch</span> (msg.what)&#123;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:                     <br>Toast.makeText(weakReference.get(),Thread.currentThread().getName(),Toast.LENGTH_SHORT).show();<br>                  <span class="hljs-keyword">break</span>;<br>            &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">private</span> MyHandler handler = <span class="hljs-keyword">new</span> MyHandler(<span class="hljs-keyword">this</span>);<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h3><p>当一个对象不在使用了，本应该被垃圾回收器（JVM）回收。但是这个对象由于被其他正在使用的对象所持有，造成无法被回收的结果。内存泄漏最终会导致内存溢出。</p>
+<ul>
+<li><p>广播未取消注册</p>
+<p>如果我们在Activity中使用了registerReceiver()方法注册了一个BroadcastReceiver，如果没在Activity的生命周期内调用unregisterReceiver()方法取消注册此BroadcastReceiver，由于BroadcastReceiver不止被Activity引用，还可能会被AMS等系统服务、管理器等之类的引用，导致BroadcastReceiver无法被回收，而BroadcastReceiver中又持有着Activity的引用(即：onReceive方法中的参数Context)，会导致Activity也无法被回收(虽然Activity回调了onDestroy方法，但并不意味着Activity被回收了)，从而导致严重的内存泄漏。</p>
+</li>
+</ul>
+<h3 id="内存溢出"><a href="#内存溢出" class="headerlink" title="内存溢出"></a>内存溢出</h3><p>当APP占用的内存加上我们申请的内存资源超过了Dalvik虚拟机的最大内存时就会抛出的Out Of Memory异常</p>
+<h4 id="监控工具"><a href="#监控工具" class="headerlink" title="监控工具"></a>监控工具</h4><ul>
+<li><p><strong>静态代码分析工具-Lint</strong> 检查内存泄漏</p>
+</li>
+<li><p>LeakCanary</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">dependencies &#123;<br> debugImplementation <span class="hljs-string">&#x27;com.squareup.leakcanary:leakcanary-android:1.6.3&#x27;</span><br> releaseImplementation <span class="hljs-string">&#x27;com.squareup.leakcanary:leakcanary-android-no-op:1.6.3&#x27;</span><br> <span class="hljs-comment">// Optional, if you use support library fragments:</span><br> debugImplementation <span class="hljs-string">&#x27;com.squareup.leakcanary:leakcanary-support-fragment:1.6.3&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleApplication</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Application</span> </span>&#123;<br><br>  <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">super</span>.onCreate();<br>    <span class="hljs-keyword">if</span> (LeakCanary.isInAnalyzerProcess(<span class="hljs-keyword">this</span>)) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    LeakCanary.install(<span class="hljs-keyword">this</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><ul>
+<li><p>handler隐式持有外部类activity的引用</p>
+</li>
+<li><p>Bitmap对象在不使用时,我们应该先调用recycle()释放内存</p>
+</li>
+<li><p>集合中对象没清理造成的内存泄露</p>
+</li>
+<li><p>资源对象没关闭造成的内存泄露，资源性对象比如（Cursor，File文件等）</p>
+</li>
+<li><p>占用内存较多的对象(图片过大)造成内存溢出</p>
+<ul>
+<li>等比例缩小图片</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">BitmapFactory.Options options = <span class="hljs-keyword">new</span> BitmapFactory.Options(); <br>options.inSampleSize = <span class="hljs-number">2</span>; <span class="hljs-comment">//图片宽高都为原来的二分之一，即图片为原来的四分之一</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>对图片采用软引用，及时地进行recycle()操作</li>
+</ul>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-comment">//软引用</span><br> SoftReference&lt;Bitmap&gt; bitmap = <span class="hljs-keyword">new</span> <span class="hljs-type">SoftReference</span>&lt;Bitmap&gt;(pBitmap); <br><span class="hljs-comment">//回收操作</span><br> <span class="hljs-keyword">if</span>(bitmap != <span class="hljs-literal">null</span>) &#123;  <br>    <span class="hljs-keyword">if</span>(bitmap.<span class="hljs-keyword">get</span>() != <span class="hljs-literal">null</span> &amp;&amp; !bitmap.<span class="hljs-keyword">get</span>().isRecycled()) &#123; <br>        bitmap.<span class="hljs-keyword">get</span>().recycle(); <br>        bitmap = <span class="hljs-literal">null</span>;  <br>    &#125; <br>&#125; <br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="内存抖动"><a href="#内存抖动" class="headerlink" title="内存抖动"></a>内存抖动</h3><p>内存抖动是指在短时间内有大量的对象被创建或者被回收的现象，主要是循环中大量创建、回收对象。这种情况应当尽量避免。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/14/%E9%9D%A2%E8%AF%95%E9%A2%98Java/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/20/%E5%8F%8C%E6%8C%87%E9%92%88/">
+                        <span class="hidden-mobile">双指针</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'leexiaoyang/leexiaoyang.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

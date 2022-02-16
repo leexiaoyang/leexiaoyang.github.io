@@ -21,13 +21,13 @@
     <meta name="description" content="Activity 与 Fragment 之间常见的几种通信方式？Activity-&gt;Activity 1.Intent 123通过Intent携带需要的信息，但要注意，intent对携带写信的大小有限制，传递对象要实现序列化接口startActivity()startActivityForResult()  2.Broadcast或者LocalBroadcast或者EventBus 1在A中">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 四大组件相关">
-<meta property="og:url" content="http://example.com/2022/01/05/RecyclerView/index.html">
+<meta property="og:url" content="http://example.com/2022/01/05/Android/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Activity 与 Fragment 之间常见的几种通信方式？Activity-&gt;Activity 1.Intent 123通过Intent携带需要的信息，但要注意，intent对携带写信的大小有限制，传递对象要实现序列化接口startActivity()startActivityForResult()  2.Broadcast或者LocalBroadcast或者EventBus 1在A中">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Blogs/source/_posts/RecyclerView.assets/image-20220110112958969.png">
 <meta property="article:published_time" content="2022-01-04T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-10T07:08:57.287Z">
+<meta property="article:modified_time" content="2022-02-10T07:18:22.733Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="四大组件">
@@ -202,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      13k 字
+      15k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      110 分钟
+      126 分钟
     </span>
   
 
@@ -491,13 +491,57 @@
 <h4 id="既使用startService又使用bindService的情况"><a href="#既使用startService又使用bindService的情况" class="headerlink" title="既使用startService又使用bindService的情况"></a>既使用startService又使用bindService的情况</h4><p>如果一个Service又被启动又被绑定，则该Service会一直在后台运行。首先不管如何调用，onCreate始终只会调用一次。对应startService调用多少次，Service的onStart方法便会调用多少次。Service的终止，需要unbindService和stopService同时调用才行。不管startService与bindService的调用顺序，如果先调用unbindService，此时服务不会自动终止，再调用stopService之后，服务才会终止；如果先调用stopService，此时服务也不会终止，而再调用unbindService或者之前调用bindService的Context不存在了（如Activity被finish的时候）之后，服务才会自动停止。</p>
 <p>那么，什么情况下既使用startService，又使用bindService呢？</p>
 <p>如果你只是想要启动一个后台服务长期进行某项任务，那么使用startService便可以了。如果你还想要与正在运行的Service取得联系，那么有两种方法：一种是使用broadcast，另一种是使用bindService。前者的缺点是如果交流较为频繁，容易造成性能上的问题，而后者则没有这些问题。因此，这种情况就需要startService和bindService一起使用了。</p>
-<p>Service如何进行保活？ </p>
-<ol>
+<h4 id="Service如何进行保活？"><a href="#Service如何进行保活？" class="headerlink" title="Service如何进行保活？"></a>Service如何进行保活？</h4><ol>
 <li>提升进程的优先级，让系统不要轻易杀死进程；</li>
 <li>App间关联唤醒，打开一个App的时候会启动、唤醒其他App。</li>
 <li>最好的方案那肯定是跟系统厂商建立合作关系，把App加入系统内存清理的白名单；比如微信，降低oom_adj值，尽量保证进程不被系统杀死。</li>
 </ol>
-<p>简单介绍下ContentProvider是如何实现数据共享的？ </p>
+<h4 id="Android的post-方法运行在哪个线程中"><a href="#Android的post-方法运行在哪个线程中" class="headerlink" title="Android的post()方法运行在哪个线程中"></a>Android的post()方法运行在哪个线程中</h4><p>1、如果post方法是handler的，则Runnable执行在handler依附线程中，可能是主线程，也可能是其他线程；</p>
+<p>2、如果post方法是View的，则一定是运行在主线程中的，因为所有view都自带一个handler，所有handler都有post方法，所以它的Runnable是运行在主线程中的。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">public</span> <span class="hljs-built_in">boolean</span> <span class="hljs-function"><span class="hljs-title">post</span>(<span class="hljs-params">Runnable action</span>)</span> &#123;<br>    final AttachInfo attachInfo = mAttachInfo;<br>    <span class="hljs-keyword">if</span> (attachInfo != <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> attachInfo.mHandler.post(action);<br>    &#125;<br><br>    <span class="hljs-comment">// Postpone the runnable until we know on which thread it needs to run.</span><br>    <span class="hljs-comment">// Assume that the runnable will be successfully placed after attach.</span><br>    getRunQueue().post(action);<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-keyword">private</span> HandlerActionQueue <span class="hljs-function"><span class="hljs-title">getRunQueue</span>(<span class="hljs-params"></span>)</span> &#123;<br>    <span class="hljs-keyword">if</span> (mRunQueue == <span class="hljs-literal">null</span>) &#123;<br>        mRunQueue = <span class="hljs-keyword">new</span> HandlerActionQueue();<br>    &#125;<br>    <span class="hljs-keyword">return</span> mRunQueue;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>AttachInfo</strong> 是 <strong>View</strong> 的静态内部类。<strong>View</strong> 关联到父 window 后，用这个类来存储一些信息。</p>
+<p><strong>AttachInfo</strong> 存储的一部分信息如下：</p>
+<ul>
+<li><code>WindowId mWindowId</code> window 的标志</li>
+<li><code>View mRootView</code> 最顶部的 view</li>
+<li><code>Handler mHandler</code> 这个 handler 可以用来处理任务</li>
+</ul>
+<h4 id="Window、View、Activity"><a href="#Window、View、Activity" class="headerlink" title="Window、View、Activity"></a>Window、View、Activity</h4><p><strong>1、Window是什么？</strong></p>
+<p>表示一个窗口的概念，是所有View的直接管理者，任何视图都通过Window呈现(点击事件由Window-</p>
+<blockquote>
+<p>DecorView-&gt;View; Activity的setContentView底层通过Window完成)。</p>
+</blockquote>
+<h4 id="View绘制过程：measure，layout，draw"><a href="#View绘制过程：measure，layout，draw" class="headerlink" title="View绘制过程：measure，layout，draw"></a>View绘制过程：measure，layout，draw</h4><ul>
+<li>measure：为测量宽高过程，如果是ViewGroup还要在onMeasure中对所有子View进行measure操作。</li>
+<li>layout：用于摆放View在ViewGroup中的位置，如果是ViewGroup要在onLayout方法中对所有子View进行layout操作。</li>
+<li>draw：往/View上绘制图像。</li>
+</ul>
+<p>从mView(最顶层ViewGroup)开始进行测量操作，然后逐层遍历View并执行measure操作。</p>
+<p><code>Measure</code>是<code>View</code>绘制三个过程中的第一步，提到<code>Measure</code>就不得不提<code>MeasureSpac</code>它是一个32位<code>int</code>类型数值，高两位<code>SpacMode</code>代表测量模式，低30位<code>SpacSize</code>代表测量尺寸，是View的内部类，源码如下：</p>
+<p>内部也包含三种测量模式：</p>
+<ul>
+<li><strong>UNSPECIFIED ：</strong>父布局不会对子View做任何限制，例如我们常用的<code>ScrollView</code>就是这种测量模式。</li>
+<li><strong>EXACTLY ：</strong>精确数值，比如使用了<code>match_parent</code>或者xxxdp，表示父布局已经决定了子<code>View</code>的大小，通常在这种情况下<code>View</code>的尺寸就是<code>SpacSize</code></li>
+<li><strong>AT_MOST ：</strong>自适应，对应<code>wrap_content</code>子View可以根据内容设置自己的大小，但前提是不能超出父<code>ViewGroup</code>的宽高。</li>
+</ul>
+<h4 id="ListView-如何缓存的？"><a href="#ListView-如何缓存的？" class="headerlink" title="ListView 如何缓存的？"></a>ListView 如何缓存的？</h4><p>RecyclerView联系人列表如何实现A-Z快速定位 </p>
+<p>广播和EventBus的区别 </p>
+<p>主线程Looper循环为什么没有卡主线程？nativePollOnce </p>
+<p>SharedPreference的线程安全、进程安全，如何跨进程 </p>
+<p>Android 中实现多线程： threads, <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/os/Handler">Handler</a>, <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/os/AsyncTask">AsyncTask</a>, <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/app/IntentService">IntentService</a> </p>
+<p>Android 中如何实现多进程 </p>
+<p>LayoutInflater#inflate 的 attrachToParent true 是什么意思 </p>
+<p>theme 和 style 有什么区别，优先级 </p>
+<p>有哪些进程间通信方式 </p>
+<p>View 的渲染过程 </p>
+<p>Binder 的原理和优势 </p>
+<p>AIDL 中的 oneway 有什么用，方向标签 in、out、inout 是什么意思 </p>
+<p>Android 中有哪些动画，都说下 </p>
+<p>Serializable 和 Parcelable 的区别 </p>
+<p>你知道哪些Layout，ConstraintLayout 的特点是什么 </p>
+<p>手机开发者选项有哪些，不保留活动是什么</p>
+<p>简单介绍下   是如何实现数据共享的？ </p>
 <p>说下切换横竖屏时Activity的生命周期? </p>
 <p>Activity中onNewIntent方法的调用时机和使用场景？ </p>
 <p>Intent传输数据的大小有限制吗？如何解决？ </p>
@@ -533,9 +577,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/07/%E7%AE%97%E6%B3%95%E5%91%80/">
+                      <a href="/2022/01/07/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B4%9B%E8%B0%B7/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">算法呀</span>
+                        <span class="hidden-mobile">动态规划洛谷</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

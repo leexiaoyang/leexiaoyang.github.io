@@ -1,0 +1,516 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="面试流程：hr沟通-&gt;电面-&gt;4轮技术面-&gt;大老板面电面：项目简单沟通；C++相关：虚指针、智能指针；算法题：leetcode739 每日温度、   leetcode261 判断图是否是二叉树技术面1：反转链表、每隔k个反转链表技术面2：stringtodouble 实现技术面3：系统设计题：京东优惠券，大致思路，关键数据结构设计，数据存储等等技术面4：组内leader，n个球内">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2022/01/19/%E9%9D%A2%E7%BB%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="面试流程：hr沟通-&gt;电面-&gt;4轮技术面-&gt;大老板面电面：项目简单沟通；C++相关：虚指针、智能指针；算法题：leetcode739 每日温度、   leetcode261 判断图是否是二叉树技术面1：反转链表、每隔k个反转链表技术面2：stringtodouble 实现技术面3：系统设计题：京东优惠券，大致思路，关键数据结构设计，数据存储等等技术面4：组内leader，n个球内">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-19T15:43:06.326Z">
+<meta property="article:modified_time" content="2022-01-19T16:12:11.836Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading3.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alexander Lee</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-19 23:43" pubdate>
+        2022年1月19日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            <div class="markdown-body">
+              <p>面试流程：hr沟通-&gt;电面-&gt;4轮技术面-&gt;大老板面<br>电面：项目简单沟通；C++相关：虚指针、智能指针；算法题：leetcode739 每日温度、   leetcode261 判断图是否是二叉树<br>技术面1：反转链表、每隔k个反转链表<br>技术面2：stringtodouble 实现<br>技术面3：系统设计题：京东优惠券，大致思路，关键数据结构设计，数据存储等等<br>技术面4：组内leader，n个球内选k个，所有的排列组合<br>大老板面：树的反序列化、二叉树查找父节点<br>总结：微软很看重coding， 项目、八股文面试比重比较小。<br>新人发帖，请教怎么快速加米呀？ 哈哈哈哈哈哈哈哈哈！！！！！</p>
+<p>面了不少国内的公司，回馈地里.<br>苏州巨硬:<br>感受：面了两个部门都没过，还遇到了pua面试官。苏州小阿里名不虚传，快心里阴影了。</p>
+<ol>
+<li>lc 1569</li>
+<li>lc 968</li>
+<li>lc 231<ol>
+<li>要求 o(1)解法</li>
+</ol>
+</li>
+<li>有父指针的二叉搜索树，给定一个节点，求下一个节点。<ol>
+<li>一开始说找到root，然后做二分搜索。o(logn)</li>
+<li>面试官不同意，要求优化时间复杂度的常数。</li>
+</ol>
+</li>
+<li>lc 15 三数之和<br>没有使用双指针的做法。用的是枚举左端点+ 2sum 用hash set的做法，背面试官diss了。</li>
+<li>lc 76<ol>
+<li>follow up要求优化掉所有冗余的变量</li>
+</ol>
+</li>
+<li>lc 33<ol>
+<li>要求只用一遍二分</li>
+</ol>
+</li>
+<li>lc 438-baidu 1point3acres<ol>
+<li>follow up 要求优化空间：<ol>
+<li>这里想了很久面试官才说是return 的std::vector可用一个堆上的char[]代替。具体做法是调用这个函数前malloc一个char数组，然后当作参数传进来。这样写的时候不需要做vector的扩容。</li>
+<li>我反问：非法访问怎么办？面试官扯了一通说os都是这么写的，exception就是调用者的问题。</li>
+<li>这次面试挂在这里了，面试官feedback c++基础不好。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>lc 376<ol>
+<li>要求o(n)的复杂度，没做出来<br>总结：可能是因为我没有工作经验，直接社招导致他们不是很想要吧。feedback给的coding能力过关但是技术栈不match。</li>
+</ol>
+</li>
+<li>不过也暴露出来我coding时对没有见过的的问题分析和实现能力不足。原因可能是刷了400道题, 但是以背为主，缺少: 读题-&gt;分析-&gt;优化-&gt;实现的过程。以后坚持每周做周赛，平时一天做3道新题，要求不看答案做出来。</li>
+<li>其次是专注下要想一下常数级的最优解法。</li>
+<li>微软面试官没有一个关心edge case。</li>
+<li>面试的时候推荐找海外的组，每次如果面试官是英文名感觉面试就很顺利，中文名字各种难。<br>上海ebay<br>感受：不怎么招人了，面试官面试时一直玩手机也不是很专心:</li>
+<li>二叉树右视图 lc 199</li>
+<li>lc 22</li>
+<li>quick sort-baidu 1point3acres</li>
+<li>lru<br>总结：题目比起微软容易很多，但不知道因为是不是hc已经满了。可能正常难度要大一些？<br>. 1point3acres<br>上海amazon<br>感受：面试体验最好的一家。但是面的时候刚旅游回来，累的脑子不动了，hard题写错了。</li>
+<li>带括号的计算器。</li>
+<li>最短路径长度，bfs模版写了一下。</li>
+<li>最低公父共节点。<br>北京grab<br>感受：面试官体验不错，hr差评。最后aa面推了，不想去北京。</li>
+<li>链表判环</li>
+<li>3sum</li>
+<li>解数独</li>
+<li>不含有重复字符的最长子串的长度 lc3。<br>此外还面了一些国内的公司(美团，腾讯)，但都是对coding要求都不高，基本背上前300道题都可以秒杀。基础知识/八股文要求其实也不高(阿里系除外)，主要是system design加介绍项目。面下来感觉除非想面试阿里，其实不太用背什么八股文(个人看法)。<br>目前找了个1065不加班的国内公司，我的找工旅途暂时告一段落。以后会每天刷题，打周赛，隔几个月投微软练练手，争取把coding技能点满。写了这么多，求加米！！！救救孩子吧，看不到帖子了。<br>补充内容 (2021-12-31 15:38 +8:00):<br>补充一下，微软有两面问过很多八股文的问题：1. 线程进程，2. https的密钥交换 3. 如何在没有ca的情况下做加密。<br>. From 1point 3acres bbs<br>再补充一下微软还面了道1569。这道题没写出来，因为组合数的递推公式忘了。面试官给提示还提示错了，写出来结果不对。后来想了一下，大概面试官以为除法取mod运算符合分配律。<br>补充内容 (2021-12-31 15:39 +8:00):<br>微软八股还有：随机森林的剪枝。<br>. From 1point 3acres bbs<br>补充内容 (2021-12-31 15:43 +8:00):</li>
+</ol>
+<p>本帖最后由 kjreen 于 2021-12-29 11:12 编辑<br>其实我面了2次。第一次 面了4轮。挂了 。过了1周。又面了一次 ，过了 我尽量写的详细。大家看心情打赏下吧。<br>A1店面 链表判断有没有环<br>A2VO 复制复杂链表（random pointer)，follow up 判断 复杂链表a 是不是 b 的 深拷贝 ，判断的时候，需要用一个map。我想简单了 。但最后改对了，还是没给过<br>A3VO 强盗tree的那个版本，代码写对了，被挑了一些小毛病。没给过<br>A4VO 全英文 自创题应该<br>oprs:<br>    + -<br>    &gt; &lt;<br>    . print<br>input: ++.&gt;+..[ ++[–].. ]<br>output: 2 1 1<br>题目是这个 。大概就是，遇到+就把当前index（初始0）+1，遇到&gt;跳到下一个 index，follow up 是[],如果遇到括号。好像是，直到当前index 上的值是0.不然 重复[]里面的操作。<br>面试官人特别好，就是那种特别典型的 好的面试官。<br>B1店面 小姐姐也是人特别好，典型的特别好 ，英文简历，问了一个 rotate 链表的题。然后问了一个 开放式 设计的题。答的不好 ，但还是给过了<br>B2VO 1-26 对应 a-z，给一个 数字 比如 1212 输入所有 字母组合<br>B3VO 给一个array ，找到最长 subarray 和为k，不知道怎么，这个题，竟然懵了。其实就是前缀和。但我可能刷题 刷杂了 。当陌生题。自己一点点做的。所以。写的有点多余 。比如 前缀和 那个数组 其实不需要。之类的 （面试官 挺好）<br>B4VO 这轮特别煎熬，一上来了 如果你做个项目，input 有很多 错误，或者 不全丢失，我有点懵。然后接着问我 。如果让我管微软所有的log，那么在少花钱，多办事的原则下，让我给出我能想到的方案，我吭哧半天，说了4，5个吧，花了20分钟了吧。然后他说 。这个很简单。10个算及格。15个算可以 ，20个算优秀。（压力测试？）但我也没当回事，反正能说啥 说啥吧。甚至，最后都说了。买点 便宜的 服务器和硬盘这种，，，。。反正最后说了10个，但只剩下 20分钟了。竟然还是出了个题。最长回文substring，他不让我说思路，就是让写。然后提醒我 时间不多了 。弄的我很紧张。本来很简单的题，写了bug，然后紧张的 花了挺久才 debug成功，最终，超过15分钟吧，然后，他还不满意，继续问，你的test case 写的 全吗，我想了想。感觉还行啊，憋了半天。他说。test case里面怎么没有中文，，OMG，我彻底奔溃了 ，，，，我说。。好吧。我没想到这么周全，他继续问 ，那如果是中文，你的代码还能使用吗，我说，我不确定。然后我说 ，可能不行，他说 。你发邮件给我，为什么你觉得不行。然后结束了<br>（最后发现是可以的）<br>B5VO bq 问了一大堆。答的还行吧。比较真实，没有特意准备，最后问了一个 ，给一个 int year int month int day，问你这个 当年的第几天。代码功力全是不行，这么个简单题，第一版 让我写的挺复杂。。重复代码比较多 。你们别嘲笑，比如。我写了一个 前缀和数组。。这样，我在知道第几个月的时候，我就知道，这个月之前有多少天。之类的，然后 闰年和非闰年，还是分开写的。。。。总之 ，她很不满意，让我改。不过也没花多久时间。改到了 她满意的版本。<br>大概就这样吧，因为是组招，可能还需要面对 那些曾经“难为”过你的人。。。。  </p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/20/%E5%8F%8C%E6%8C%87%E9%92%88/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">双指针</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/16/%E5%8D%95%E8%B0%83%E6%A0%88/">
+                        <span class="hidden-mobile">模板</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'leexiaoyang/leexiaoyang.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

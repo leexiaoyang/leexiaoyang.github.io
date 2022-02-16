@@ -26,7 +26,7 @@
 <meta property="og:description" content="738. 单调递增的数字给定一个非负整数 N，找出小于或等于 N 的最大的整数，同时这个整数需要满足其各个位数上的数字是单调递增。 （当且仅当每个相邻位数上的数字 x 和 y 满足 x &lt;&#x3D; y 时，我们称这个整数是单调递增的。） 示例 1: 12输入: N &#x3D; 10输出: 9  示例 2: 12输入: N &#x3D; 1234输出: 1234  示例 3: 12输入: N &#x3D; 332输出: 299">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T17:19:58.613Z">
+<meta property="article:modified_time" content="2022-01-18T05:47:26.985Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="贪心">
@@ -200,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2k 字
+      2.9k 字
     </span>
   
 
@@ -209,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17 分钟
+      24 分钟
     </span>
   
 
@@ -285,6 +285,23 @@
 
 
 
+<h4 id="1156-单字符重复子串的最大长度"><a href="#1156-单字符重复子串的最大长度" class="headerlink" title="1156. 单字符重复子串的最大长度"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/swap-for-longest-repeated-character-substring/">1156. 单字符重复子串的最大长度</a></h4><p>如果字符串中的所有字符都相同，那么这个字符串是单字符重复的字符串。</p>
+<p>给你一个字符串 <code>text</code>，你只能交换其中两个字符一次或者什么都不做，然后得到一些单字符重复的子串。返回其中最长的子串的长度。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">输入：<span class="hljs-built_in">text</span> = <span class="hljs-string">&quot;ababa&quot;</span><br>输出：<span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">输入：<span class="hljs-built_in">text</span> = <span class="hljs-string">&quot;aaabaaa&quot;</span><br>输出：<span class="hljs-number">6</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">输入：<span class="hljs-built_in">text</span> = <span class="hljs-string">&quot;aaabbaaa&quot;</span><br>输出：<span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">maxRepOpt1</span><span class="hljs-params">(String text)</span> </span>&#123;<br>        Map&lt;Character, List&lt;Integer&gt;&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; text.length(); i++) &#123;<br>            map.computeIfAbsent(text.charAt(i), k -&gt; <span class="hljs-keyword">new</span> ArrayList&lt;&gt;()).add(i);<br>        &#125;<br>        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (List&lt;Integer&gt; list : map.values()) &#123;<br>            <span class="hljs-keyword">int</span> pre = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">int</span> cur = <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; list.size(); i++) &#123;<br>                <span class="hljs-keyword">if</span> (list.get(i) == list.get(i - <span class="hljs-number">1</span>) + <span class="hljs-number">1</span>) &#123;<br>                    cur++;<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    pre = list.get(i) == list.get(i - <span class="hljs-number">1</span>) + <span class="hljs-number">2</span> ? cur : <span class="hljs-number">0</span>;<br>                    cur = <span class="hljs-number">1</span>;<br>                &#125;<br>                sum = Math.max(sum, pre + cur);<br>            &#125;<br>            ans = Math.max(ans, sum + (sum &lt; list.size() ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>));<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
 
 
 
@@ -342,9 +359,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/07/%E6%A0%91/">
+                      <a href="/2022/01/07/%E6%A0%88/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">二叉树</span>
+                        <span class="hidden-mobile">栈</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

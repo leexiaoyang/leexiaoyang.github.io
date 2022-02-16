@@ -18,12 +18,12 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1262. 可被三整除的最大和给你一个整数数组 nums，请你找出并返回能被三整除的元素最大和。 示例 1： 123输入：nums &#x3D; [3,6,5,1,8]输出：18解释：选出数字 3, 6, 1 和 8，它们的和是 18（可被 3 整除的最大和）。  示例 2： 123输入：nums &#x3D; [4]输出：0解释：4 不能被 3 整除，所以无法选出数字，返回 0。  示例 3： 123输入：nums">
+    <meta name="description" content="剑指 Offer 46. 把数字翻译成字符串给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。 示例 1: 123输入: 12258输出: 5解释: 12258有5种不同的翻译，分别是&quot;bccfi&quot;,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="动态规划">
 <meta property="og:url" content="http://example.com/2022/01/07/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1262. 可被三整除的最大和给你一个整数数组 nums，请你找出并返回能被三整除的元素最大和。 示例 1： 123输入：nums &#x3D; [3,6,5,1,8]输出：18解释：选出数字 3, 6, 1 和 8，它们的和是 18（可被 3 整除的最大和）。  示例 2： 123输入：nums &#x3D; [4]输出：0解释：4 不能被 3 整除，所以无法选出数字，返回 0。  示例 3： 123输入：nums">
+<meta property="og:description" content="剑指 Offer 46. 把数字翻译成字符串给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。 示例 1: 123输入: 12258输出: 5解释: 12258有5种不同的翻译，分别是&quot;bccfi&quot;,">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Blogs/source_posts/动态规划.assets/image-20220111180424529.png">
 <meta property="og:image" content="c:/Users/AlexanderLee/Documents/算法归纳/动态规划.assets/image-20220105200827284.png">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="c:/Blogs/source_posts/动态规划.assets/image-20220111203422746.png">
 <meta property="og:image" content="c:/Blogs/source/_posts/动态规划.assets/image-20220111215837971.png">
 <meta property="article:published_time" content="2022-01-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T17:04:17.887Z">
+<meta property="article:modified_time" content="2022-01-20T01:43:41.775Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="动态规划">
@@ -207,7 +207,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      21k 字
+      23k 字
     </span>
   
 
@@ -216,7 +216,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      174 分钟
+      191 分钟
     </span>
   
 
@@ -248,9 +248,43 @@
             <h1 style="display: none">动态规划</h1>
             
             <div class="markdown-body">
-              <h4 id="1262-可被三整除的最大和"><a href="#1262-可被三整除的最大和" class="headerlink" title="1262. 可被三整除的最大和"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/greatest-sum-divisible-by-three/">1262. 可被三整除的最大和</a></h4><p>给你一个整数数组 <code>nums</code>，请你找出并返回能被三整除的元素最大和。</p>
+              <h4 id="剑指-Offer-46-把数字翻译成字符串"><a href="#剑指-Offer-46-把数字翻译成字符串" class="headerlink" title="剑指 Offer 46. 把数字翻译成字符串"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/">剑指 Offer 46. 把数字翻译成字符串</a></h4><p>给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs 1c">输入: <span class="hljs-number">12258</span><br>输出: <span class="hljs-number">5</span><br>解释: <span class="hljs-number">12258</span>有<span class="hljs-number">5</span>种不同的翻译，分别是<span class="hljs-string">&quot;bccfi&quot;</span>, <span class="hljs-string">&quot;bwfi&quot;</span>, <span class="hljs-string">&quot;bczi&quot;</span>, <span class="hljs-string">&quot;mcfi&quot;</span>和<span class="hljs-string">&quot;mzi&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>0 &lt;= num &lt; 231</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">translateNum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span> </span>&#123;<br>        String s = String.valueOf(num);<br>        <span class="hljs-keyword">char</span>[] chars = s.toCharArray();<br>        <span class="hljs-keyword">int</span> n = chars.length;<br>        <span class="hljs-keyword">int</span>[] dp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n + <span class="hljs-number">1</span>];<br>        dp[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>        dp[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;<br>            dp[i] += dp[i - <span class="hljs-number">1</span>];<br>            <span class="hljs-keyword">if</span> (isValid(s.substring(i - <span class="hljs-number">2</span>, i))) &#123;<br>                dp[i] += dp[i - <span class="hljs-number">2</span>];<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> dp[n];<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isValid</span><span class="hljs-params">(String sub)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (sub.startsWith(<span class="hljs-string">&quot;0&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        <span class="hljs-keyword">int</span> num = Integer.parseInt(sub);<br>        <span class="hljs-keyword">return</span> num &gt;= <span class="hljs-number">0</span> &amp;&amp; num &lt; <span class="hljs-number">26</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h4 id="354-俄罗斯套娃信封问题"><a href="#354-俄罗斯套娃信封问题" class="headerlink" title="354. 俄罗斯套娃信封问题"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/russian-doll-envelopes/">354. 俄罗斯套娃信封问题</a></h4><p>给你一个二维整数数组 <code>envelopes</code> ，其中 <code>envelopes[i] = [wi, hi]</code> ，表示第 <code>i</code> 个信封的宽度和高度。</p>
+<p>当另一个信封的宽度和高度都比这个信封大的时候，这个信封就可以放进另一个信封里，如同俄罗斯套娃一样。</p>
+<p>请计算 <strong>最多能有多少个</strong> 信封能组成一组“俄罗斯套娃”信封（即可以把一个信封放到另一个信封里面）。</p>
+<p><strong>注意</strong>：不允许旋转信封。</p>
 <p><strong>示例 1：</strong></p>
-<figure class="highlight tap"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs tap">输入：nums = [3,6,5,1,8]<br>输出：18<br>解释：选出数字 3, 6,<span class="hljs-number"> 1 </span>和 8，它们的和是 18（可被<span class="hljs-number"> 3 </span>整除的最大和）。<br></code></pre></td></tr></table></figure>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs inform7">输入：envelopes = <span class="hljs-comment">[<span class="hljs-comment">[5,4]</span>,<span class="hljs-comment">[6,4]</span>,<span class="hljs-comment">[6,7]</span>,<span class="hljs-comment">[2,3]</span>]</span><br>输出：3<br>解释：最多信封的个数为 3, 组合为: <span class="hljs-comment">[2,3]</span> =&gt; <span class="hljs-comment">[5,4]</span> =&gt; <span class="hljs-comment">[6,7]</span>。<br></code></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua">输入：envelopes = <span class="hljs-string">[[1,1],[1,1],[1,1]]</span><br>输出：<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">maxEnvelopes</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] arr)</span> </span>&#123;<br>        Arrays.sort(arr, (a, b) -&gt; a[<span class="hljs-number">0</span>] - b[<span class="hljs-number">0</span>]);<br>        <span class="hljs-keyword">int</span> n = arr.length;<br>        <span class="hljs-keyword">int</span>[] dp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n];<br>        Arrays.fill(dp, <span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span> ((arr[i][<span class="hljs-number">0</span>] &gt; arr[j][<span class="hljs-number">0</span>]) &amp;&amp; (arr[i][<span class="hljs-number">1</span>] &gt; arr[j][<span class="hljs-number">1</span>])) &#123;<br>                    dp[i] = Math.max(dp[i], dp[j] + <span class="hljs-number">1</span>);<br>                &#125;<br>            &#125;<br>            ans = Math.max(ans, dp[i]);<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="1262-可被三整除的最大和"><a href="#1262-可被三整除的最大和" class="headerlink" title="1262. 可被三整除的最大和"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/greatest-sum-divisible-by-three/">1262. 可被三整除的最大和</a></h4><p>给你一个整数数组 <code>nums</code>，请你找出并返回能被三整除的元素最大和。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs tap">输入：nums = [3,6,5,1,8]<br>输出：18<br>解释：选出数字 3, 6,<span class="hljs-number"> 1 </span>和 8，它们的和是 18（可被<span class="hljs-number"> 3 </span>整除的最大和）。<br></code></pre></td></tr></table></figure>
 
 <p><strong>示例 2：</strong></p>
 <figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs fix"><span class="hljs-attr">输入：nums </span>=<span class="hljs-string"> [4]</span><br><span class="hljs-string">输出：0</span><br><span class="hljs-string">解释：4 不能被 3 整除，所以无法选出数字，返回 0。</span><br></code></pre></td></tr></table></figure>
@@ -348,7 +382,7 @@
 
 
 
-<h4 id="剑指-Offer-46-把数字翻译成字符串"><a href="#剑指-Offer-46-把数字翻译成字符串" class="headerlink" title="剑指 Offer 46. 把数字翻译成字符串"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/">剑指 Offer 46. 把数字翻译成字符串</a></h4><p>给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。</p>
+<h4 id="剑指-Offer-46-把数字翻译成字符串-1"><a href="#剑指-Offer-46-把数字翻译成字符串-1" class="headerlink" title="剑指 Offer 46. 把数字翻译成字符串"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/">剑指 Offer 46. 把数字翻译成字符串</a></h4><p>给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。</p>
 <p><strong>示例 1:</strong></p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs 1c">输入: <span class="hljs-number">12258</span><br>输出: <span class="hljs-number">5</span><br>解释: <span class="hljs-number">12258</span>有<span class="hljs-number">5</span>种不同的翻译，分别是<span class="hljs-string">&quot;bccfi&quot;</span>, <span class="hljs-string">&quot;bwfi&quot;</span>, <span class="hljs-string">&quot;bczi&quot;</span>, <span class="hljs-string">&quot;mcfi&quot;</span>和<span class="hljs-string">&quot;mzi&quot;</span><br></code></pre></td></tr></table></figure>
 
@@ -679,6 +713,23 @@
 <figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs fix"><span class="hljs-attr">输入：nums </span>=<span class="hljs-string"> [1,5]</span><br><span class="hljs-string">输出：10</span><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">maxCoins</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.length;<br>        <span class="hljs-keyword">int</span>[][] dp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n + <span class="hljs-number">2</span>][n + <span class="hljs-number">2</span>];<br>        <span class="hljs-keyword">int</span>[] nums = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n + <span class="hljs-number">2</span>];<br>        System.arraycopy(a, <span class="hljs-number">0</span>, nums, <span class="hljs-number">1</span>, a.length);<br>        nums[<span class="hljs-number">0</span>] = nums[n + <span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> len = <span class="hljs-number">1</span>; len &lt;= n; len++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i + len - <span class="hljs-number">1</span> &lt;= n; i++) &#123;<br>                <span class="hljs-keyword">int</span> j = i + len - <span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = i; k &lt;= j; k++) &#123;<br>                    dp[i][j] = Math.max(dp[i][j], <br>                        dp[i][k - <span class="hljs-number">1</span>] + dp[k + <span class="hljs-number">1</span>][j] + nums[i - <span class="hljs-number">1</span>] * nums[k] * nums[j + <span class="hljs-number">1</span>]);<br>                &#125;<br>            &#125;<br>        &#125;<br>      <br>        <span class="hljs-keyword">return</span> dp[<span class="hljs-number">1</span>][n];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="1014-最佳观光组合"><a href="#1014-最佳观光组合" class="headerlink" title="1014. 最佳观光组合"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-sightseeing-pair/">1014. 最佳观光组合</a></h4><p>给你一个正整数数组 <code>values</code>，其中 <code>values[i]</code> 表示第 <code>i</code> 个观光景点的评分，并且两个景点 <code>i</code> 和 <code>j</code> 之间的 <strong>距离</strong> 为 <code>j - i</code>。</p>
+<p>一对景点（<code>i &lt; j</code>）组成的观光组合的得分为 <code>values[i] + values[j] + i - j</code> ，也就是景点的评分之和 <strong>减去</strong> 它们两者之间的距离。</p>
+<p>返回一对观光景点能取得的最高分。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">输入：values = <span class="hljs-selector-attr">[8,1,5,2,6]</span><br>输出：<span class="hljs-number">11</span><br>解释：<span class="hljs-selector-tag">i</span> = <span class="hljs-number">0</span>, j = <span class="hljs-number">2</span>, values<span class="hljs-selector-attr">[i]</span> + values<span class="hljs-selector-attr">[j]</span> + <span class="hljs-selector-tag">i</span> - j = <span class="hljs-number">8</span> + <span class="hljs-number">5</span> + <span class="hljs-number">0</span> - <span class="hljs-number">2</span> = <span class="hljs-number">11</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs fix"><span class="hljs-attr">输入：values </span>=<span class="hljs-string"> [1,2]</span><br><span class="hljs-string">输出：2</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 稍微给这个公式变形成A[i]+i+A[j]-j，这样就可以看成是左A[i]+i和右A[j]-j两部分和的最大值</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">maxScoreSightseeingPair</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] values)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> ans = Integer.MIN_VALUE;<br>        <span class="hljs-keyword">int</span> max = values[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; values.length; i++) &#123;<br>            ans = Math.max(ans, max + values[i] - i);<br>            max = Math.max(max, values[i] + i);<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
 
 
 
