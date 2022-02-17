@@ -18,20 +18,23 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="进程与线程并发和并行 并发只是在宏观上给人感觉有多个程序在同时运行，但在实际的单CPU系统中，每一时刻只有一个程序在运行，微观上这些程序是分时交替执行。  在多CPU系统中，将这些并发执行的程序分配到不同的CPU上处理，每个CPU用来处理一个程序，这样多个程序便可以实现同时执行。   线程与进程进程是资源分配的最小单位，线程是CPU调度的最小单位。 Runnable和Callable代表那些在不同">
+    <meta name="description" content="转载：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7044797219878223909 RecyclerView 一种可以在有限区域内展示大量数据的View，可以实现普通的水平&#x2F;垂直列表。通过提供的各种工具类，还可以在此基础上实现多种自定义的动画效果、滑动效果等。   RecyclerView的本质是ViewGroup，因此它需要将大量数据对象映射成View对象集合，将View对 象集合中的V">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2022/02/14/%E9%9D%A2%E8%AF%95%E9%A2%98Java/index.html">
+<meta property="og:title" content="RecyclerView 和 ListView">
+<meta property="og:url" content="http://example.com/2022/02/17/RecyclerView/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="进程与线程并发和并行 并发只是在宏观上给人感觉有多个程序在同时运行，但在实际的单CPU系统中，每一时刻只有一个程序在运行，微观上这些程序是分时交替执行。  在多CPU系统中，将这些并发执行的程序分配到不同的CPU上处理，每个CPU用来处理一个程序，这样多个程序便可以实现同时执行。   线程与进程进程是资源分配的最小单位，线程是CPU调度的最小单位。 Runnable和Callable代表那些在不同">
+<meta property="og:description" content="转载：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7044797219878223909 RecyclerView 一种可以在有限区域内展示大量数据的View，可以实现普通的水平&#x2F;垂直列表。通过提供的各种工具类，还可以在此基础上实现多种自定义的动画效果、滑动效果等。   RecyclerView的本质是ViewGroup，因此它需要将大量数据对象映射成View对象集合，将View对 象集合中的V">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-14T15:16:39.644Z">
-<meta property="article:modified_time" content="2022-02-15T16:45:45.361Z">
+<meta property="og:image" content="c:/Blogs/source_posts/RecyclerView.assets/image-20220217131330247.png">
+<meta property="article:published_time" content="2022-02-16T17:04:56.000Z">
+<meta property="article:modified_time" content="2022-02-16T17:04:56.000Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/RecyclerView.assets/image-20220217131330247.png">
   
   
-  <title>Hexo</title>
+  <title>RecyclerView 和 ListView - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -177,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="">
+            <span class="h2" id="subtitle" title="RecyclerView 和 ListView">
               
             </span>
 
@@ -187,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-14 23:16" pubdate>
-        2022年2月14日 晚上
+      <time datetime="2022-02-17 01:04" pubdate>
+        2022年2月17日 凌晨
       </time>
     </span>
   
@@ -198,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      1.2k 字
     </span>
   
 
@@ -207,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      11 分钟
     </span>
   
 
@@ -236,62 +239,84 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">RecyclerView 和 ListView</h1>
             
             <div class="markdown-body">
-              <h3 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h3><h4 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h4><ul>
-<li><p>并发只是在宏观上给人感觉有多个程序在同时运行，但在实际的单CPU系统中，每一时刻只有一个程序在运行，微观上这些程序是分时交替执行。</p>
-</li>
-<li><p>在多CPU系统中，将这些并发执行的程序分配到不同的CPU上处理，每个CPU用来处理一个程序，这样多个程序便可以实现同时执行。</p>
-</li>
-</ul>
-<h4 id="线程与进程"><a href="#线程与进程" class="headerlink" title="线程与进程"></a>线程与进程</h4><p>进程是资源分配的最小单位，线程是CPU调度的最小单位。</p>
-<h4 id="Runnable和Callable"><a href="#Runnable和Callable" class="headerlink" title="Runnable和Callable"></a>Runnable和Callable</h4><p>代表那些在不同线程中执行的任务。Callable的 call() 方法可以返回值和抛出异常</p>
-<h4 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h4><p>volatile是一个特殊的修饰符，只有成员变量才能使用它。在Java并发程序缺少同步类的情况下，多线程对成员变量的操作对其它线程是透明的。volatile变量可以保证下一个读取操作会在前一个写操作之后发生，就是上一题的volatile变量规则。<a target="_blank" rel="noopener" href="http://javarevisited.blogspot.com/2011/06/volatile-keyword-java-example-tutorial.html">点击这里</a>查看更多volatile的相关内容。</p>
-<h3 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h3><p>允许一个类嵌套在另一个类中，把嵌套在其他类中的类称为内部类。</p>
+              <p>转载：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7044797219878223909">https://juejin.cn/post/7044797219878223909</a></p>
+<h3 id="RecyclerView"><a href="#RecyclerView" class="headerlink" title="RecyclerView"></a>RecyclerView</h3><blockquote>
+<p>一种可以在有限区域内展示大量数据的View，可以实现普通的水平/垂直列表。通过提供的各种工具类，还可以在此基础上实现多种自定义的动画效果、滑动效果等。</p>
+</blockquote>
 <ul>
-<li><p>内部类又分为两种，静态内部类(<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=static&spm=1001.2101.3001.7020">static</a> nested classes)和非静态内部类(inner classes)。</p>
+<li><p>RecyclerView的本质是ViewGroup，因此它需要将大量数据对象映射成View对象集合，将View对</p>
+<p>象集合中的View作为自己的子View在自身区域内布局展示。</p>
 </li>
-<li><p>非静态内部类可以直接调用外部类的其他成员。</p>
-<figure class="highlight haxe"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-comment">// 只有创建了外部类的实例才能使用非静态内部类，所以非静态内部类不允许存在静态成员。</span><br>OuterClass outerObject = <span class="hljs-keyword">new</span> <span class="hljs-type">OuterClass</span>();<br>OuterClass.InnerClass innerClass = outerObject.<span class="hljs-keyword">new</span> <span class="hljs-type">InnerClass</span>();<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">x = <span class="hljs-number">23</span><br><span class="hljs-keyword">this</span>.x = <span class="hljs-number">1</span><br>ShadowTest.<span class="hljs-keyword">this</span>.x = <span class="hljs-number">0</span><br><br>那么内部类的局部变量就是x<br>内部类的成员变量用<span class="hljs-keyword">this</span>.x表示<br>外部类的成员变量用外部类名.x表示<br></code></pre></td></tr></table></figure></li>
-<li><p>静态内部类可以直接调用外部类的静态成员(静态成员变量和静态方法)，但是不能直接调用外部类的非静态成员。</p>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs haxe">OuterClass.StaticNestedClass nestedObject = <span class="hljs-keyword">new</span> <span class="hljs-type">OuterClass</span>.StaticNestedClass();<br></code></pre></td></tr></table></figure></li>
-<li><p>官方强烈不建议序列化非静态内部类，包括局部内部类和匿名内部类</p>
+<li><p>数据集可能是无限的。但RecyclerView自身区域有限，无法同时在这个区域内展示出所有子</p>
+<p>View，这意味着它需要提供按需在自身区域内布局出应被展示的子View的能力，并通过手势操作</p>
+<p>替换正在展示的子View的能力，相对应的，在替换展示的View时需要及时回收已经不被展示的</p>
+<p>View对象。</p>
+</li>
+<li><p>type来区分数据对象期望的View展示形态。同一种type的不同数据对象可以在不同时机复用同一</p>
+<p>个View对象进行展示。</p>
 </li>
 </ul>
-<h4 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h4><ul>
-<li>匿名内部类会持有外部类的引用，当内部类进行延时操作的时候，如果外部类是Activity，那么在执行destroy后，并不会被销毁，从而导致内存泄漏。</li>
-<li>匿名内部类会持有外部类的引用，当内部类进行延时操作的时候，如果外部类是Activity，那么在执行destroy后，并不会被销毁，从而导致内存泄漏。</li>
-<li>静态内部类不持有外部类的引用</li>
+<h4 id="三-四级缓存"><a href="#三-四级缓存" class="headerlink" title="三/四级缓存"></a>三/四级缓存</h4><ul>
+<li><code>mAttachedScrap</code>：LayoutManager每次<code>layout</code>子View之前，那些已经添加到RecyclerView中的Item以及被删除的Item的临时存放地。使用场景就是RecyclerView滚动时、还有在可见范围内删除Item后用<code>notifyItemRemoved</code>方法通知更新时；</li>
+<li><code>mChangedScrap</code>：作用：存放可见范围内有更新的Item。使用场景：可见范围内的Item有更新，并且使用<code>notifyItemChanged</code>方法通知更新时；就是临时缓存局部更新，用于播放动画，动画播放完viewholder还是会给 recyclerpool</li>
+<li><code>mCachedViews</code>：作用：存放滚动过程中没有被重新使用且状态无变化的那些旧Item。场景：滚动，<em>prefetch</em>；</li>
+<li><code>RecycledViewPool</code>：作用：缓存Item的最终站，用于保存那些<em>Removed</em>、<em>Changed</em>、以及<em>mCachedViews</em>满了之后更旧的Item。场景：Item被移除、Item有更新、滚动过程；</li>
 </ul>
-<h3 id="GCRoot"><a href="#GCRoot" class="headerlink" title="GCRoot"></a>GCRoot</h3><p>JVM判定一个对象是否存活，已不采用引用计数算法；取而代之的是<strong>可达性分析算法</strong>。通常，将所有堆外存在的对堆内对象的引用类型的变量作为GC Roots，然后遍历GC Roots中的每一个根节点，继而采用自上而下的方式，以深度优先的搜索策略去标记整个引用链。在此阶段，堆上所有被标记的对象称之为活动对象，活动对象构成的集合称之为Live Set。其他未被标记的对象称之为非活动对象，或者不可达对象(Unreachable Objects)。这样这些不可达的对象在一次GC时会被当做垃圾而清除。</p>
-<h3 id="四种引用"><a href="#四种引用" class="headerlink" title="四种引用"></a>四种引用</h3><p>强引用：如果一个对象具有强引用，那垃圾回收器绝不会回收它。 当内存空间不足，Java虚拟机宁愿抛出OutOfMemoryError错误，使程序异常终止</p>
-<p>软引用：如果一个对象只具有软引用，但内存空间足够时，垃圾回收器就不会回收它;直到虚拟机报告内存不够时才会回收， 只要垃圾回收器没有回收它，该对象就可以被程序使用。软引用可用来实现内存敏感的高速缓存。</p>
-<p>弱引用：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间是否足够，都会回收它的内存。 不过，由于垃圾回收器是一个优先级很低的线程，因此不一定会很快发现那些只具有弱引用的对象。 </p>
-<p>虚引用：虚引用可以理解为虚设的引用，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收器回收。 虚引用主要用来跟踪对象被垃圾回收器回收的活动。</p>
-<h3 id="final"><a href="#final" class="headerlink" title="final"></a>final</h3><p>final关键字可以用来修饰类、方法和变量（包括成员变量和局部变量）</p>
+<h4 id="相关类"><a href="#相关类" class="headerlink" title="相关类"></a>相关类</h4><ul>
+<li><p>ViewHolder</p>
+<blockquote>
+<p>ViewHolder负责在RecyclerView中承载一个ItemView。temView表示用来展示该Item的</p>
+<p>View对象。</p>
+</blockquote>
+</li>
+</ul>
 <ul>
-<li>当用final修饰一个类时，表明这个类不能被继承</li>
-<li>防任何继承类修改它的含义（类的private方法会隐式地被指定为final方法）</li>
-<li>对于一个final变量，如果是基本数据类型的变量，则其数值一旦在初始化之后便不能更改；如果是引用类型的变量，则在对其初始化之后便不能再让其指向另一个对象</li>
-</ul>
-<h3 id="static-和-final"><a href="#static-和-final" class="headerlink" title="static 和 final"></a>static 和 final</h3><ul>
-<li><p>static</p>
-<p>静态变量在内存中只有一份， jvm只为静态变量分配一次内存，随着类的加载而加载到静态方法区内存中。由于静态变量属于类，和类的实例无关</p>
-<p>对于成员变量，每创建一个该类的实例就会创建该成员变量的一个拷贝，分配一次内存，由于成员变量是和类的实例绑定的，所以不能直接通过类名对它进行访问。</p>
+<li><p>Adapter</p>
+<blockquote>
+<p>Adapter负责将数据对象映射为View对象。</p>
+</blockquote>
+<ul>
+<li><p>onCreateViewHolder :根据itemType创建符合预期的ViewHolder对象，此处更关注于View的</p>
+<p>结构样式。</p>
 </li>
-<li><p>final</p>
-<p>final的作用是用来保证变量不可变</p>
+<li><p>onBindViewHolder：根据position从Adapter维护的数据集中获取数据对象，将数据对象与</p>
+<p>ViewHolder中的View进行绑定，</p>
 </li>
 </ul>
+</li>
+</ul>
+<ul>
+<li><p>Recycler</p>
+<blockquote>
+<p>Recyler负责管理ViewHolder，它可以回收起已经不被展示的ViewHolder，并在恰当的时候</p>
+<p>复用这些ViewHolder。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h3><p><img src="C:\Blogs\source_posts\RecyclerView.assets\image-20220217131330247.png" srcset="/img/loading3.gif" lazyload alt="image-20220217131330247"></p>
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                  </div>
                 
               </div>
               
@@ -300,9 +325,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/16/%E8%A7%A3%E7%A0%81-Base64-%E5%9B%BE%E7%89%87/">
+                      <a href="/2022/02/17/Android%E9%80%9A%E7%9F%A5/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">解码 Base64 图片</span>
+                        <span class="hidden-mobile">Android通知</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -310,8 +335,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/10/%E9%9D%A2%E8%AF%95%E9%A2%98Android/">
-                        <span class="hidden-mobile"></span>
+                      <a href="/2022/02/16/inflate%E6%80%BB%E7%BB%93/">
+                        <span class="hidden-mobile">LayoutInflater</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
