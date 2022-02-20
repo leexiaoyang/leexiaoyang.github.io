@@ -1,0 +1,577 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Lottie是Airbnb开源的一个面向 iOS、Android、React Native 的动画库。能分析 Adobe After  Effects 导出的动画。最低支持 API 16。可以看到Lottie把json描述的动画数据映射到Drawable 之后，实现动画时用到了ValueAnimator  123dependencies &amp;#123;    compile &amp;#x27;com.a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lottie">
+<meta property="og:url" content="http://example.com/2022/02/16/Lottie/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Lottie是Airbnb开源的一个面向 iOS、Android、React Native 的动画库。能分析 Adobe After  Effects 导出的动画。最低支持 API 16。可以看到Lottie把json描述的动画数据映射到Drawable 之后，实现动画时用到了ValueAnimator  123dependencies &amp;#123;    compile &amp;#x27;com.a">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source_posts/Lottie.assets/image-20220219214235778.png">
+<meta property="article:published_time" content="2022-02-16T13:40:21.000Z">
+<meta property="article:modified_time" content="2022-02-16T13:40:21.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/Lottie.assets/image-20220219214235778.png">
+  
+  
+  <title>Lottie - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading3.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alexander Lee</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Lottie">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-16 21:40" pubdate>
+        2022年2月16日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      62 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Lottie</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>Lottie是Airbnb开源的一个面向 iOS、Android、React Native 的动画库。能分析 Adobe After </p>
+<p>Effects 导出的动画。最低支持 API 16。可以看到Lottie把json描述的动画数据映射到Drawable</p>
+<p>之后，实现动画时用到了<code>ValueAnimator</code></p>
+</blockquote>
+<figure class="highlight gradle"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">dependencies</span> &#123;  <br>  <span class="hljs-keyword">compile</span> <span class="hljs-string">&#x27;com.airbnb.android:lottie:1.5.3&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="json结构"><a href="#json结构" class="headerlink" title="json结构"></a>json结构</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">&#123;<br>    <span class="hljs-string">&quot;v&quot;</span>: <span class="hljs-string">&quot;4.6.0&quot;</span>,               <span class="hljs-comment">//bodymovin的版本</span><br>    <span class="hljs-string">&quot;fr&quot;</span>: <span class="hljs-number">29.9700012207031</span>,     <span class="hljs-comment">//帧率</span><br>    <span class="hljs-string">&quot;ip&quot;</span>: <span class="hljs-number">0</span>,                    <span class="hljs-comment">//起始关键帧</span><br>    <span class="hljs-string">&quot;op&quot;</span>: <span class="hljs-number">141.000005743048</span>,     <span class="hljs-comment">//结束关键帧</span><br>    <span class="hljs-string">&quot;w&quot;</span>: <span class="hljs-number">800</span>,                   <span class="hljs-comment">//动画宽度</span><br>    <span class="hljs-string">&quot;h&quot;</span>: <span class="hljs-number">800</span>,                   <span class="hljs-comment">//动画高度</span><br>    <span class="hljs-string">&quot;ddd&quot;</span>: <span class="hljs-number">0</span>, <br>    <span class="hljs-string">&quot;assets&quot;</span>: [...]             <span class="hljs-comment">//资源信息</span><br>    <span class="hljs-string">&quot;layers&quot;</span>: [...]             <span class="hljs-comment">//图层信息</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>初始化LottieAnimationView</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;com.airbnb.lottie.LottieAnimationView<br>        android:id=<span class="hljs-string">&quot;@+id/animation_view&quot;</span><br>        android:layout_width=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        app:lottie_fileName=<span class="hljs-string">&quot;hello-world.json&quot;</span><br>        app:lottie_loop=<span class="hljs-string">&quot;true&quot;</span><br>        app:lottie_autoPlay=<span class="hljs-string">&quot;true&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);<br>animationView.setAnimation(<span class="hljs-string">&quot;hello-world.json&quot;</span>, CacheStrategy.NONE);<br>animationView.loop(<span class="hljs-keyword">true</span>);<br></code></pre></td></tr></table></figure>
+
+<p>其中String是fileName，是在assets目录下的文件，CacheStrategy表示缓存策略。默认为None</p>
+<p>即不存储，而使用时会优先从内存缓存中命中读取，从而减小IO开销。</p>
+</li>
+</ul>
+<ul>
+<li><p>使用LottieComposition</p>
+<p>在LottieComposition中提供了三种from方法，可以接受assets文件名、json对象、流对象三种参</p>
+<p>数，Sync表示同步，但是却是包可见方法，并不能被外部调用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">LottieComposition.fromJson(getResources(), jsonObject, <span class="hljs-keyword">new</span> LottieComposition.OnCompositionLoadedListener() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCompositionLoaded</span><span class="hljs-params">(LottieComposition composition)</span> </span>&#123;<br>        animationView.setComposition(composition);<br>        animationView.playAnimation();<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>外部调用时只提供异步方法，使用AsyncTask进行异步调用，将JsonObject的解析处理过程放在</p>
+<p>异步线程处理，并将解析生成的LottieComposition对象回调主线程，因为这个json对象可能有上</p>
+<p>百k之大，所以整个处理过程的复杂度和耗时还是很高的，所以不要在ui线程中解析处理。</p>
+</li>
+</ul>
+<h4 id="获取资源"><a href="#获取资源" class="headerlink" title="获取资源"></a>获取资源</h4><ul>
+<li><p>采用动态下发 json 文件进行动画播放</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">try</span> &#123;<br>    JSONObject jsonObject = <span class="hljs-keyword">new</span> JSONObject(FileUtils.readFileForString(json));<br>    <span class="hljs-comment">// 设置 json  文件，这个文件是通过网络下载的</span><br>    fullScreenLottie.setAnimation(jsonObject);<br>    <span class="hljs-comment">// 因为这个动画需要图片资源进行配合，所以服务端还下发了图片素材，这里必须要进行动态匹配。这里的 lottieImageAsset 很重要，他是一个 Lottie 文件的映射，在json 文件中已经制定了 assets 资源的名称以及相对位置，但是资源在网络，此时需要做一个转换，具体转换规则就要看具体业务场景，这里根据自己的需求，进行了如下处理，可以通过 lottieImageAsset 拿到 json 文件中 assets 资源的属性，然后进行操作。</span><br>    fullScreenLottie.setImageAssetDelegate(<span class="hljs-keyword">new</span> ImageAssetDelegate() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> Bitmap <span class="hljs-title">fetchBitmap</span><span class="hljs-params">(LottieImageAsset lottieImageAsset)</span> </span>&#123;<br>            File imageFile = <span class="hljs-keyword">new</span> File(images,lottieImageAsset.getFileName());<br>            <span class="hljs-keyword">if</span>(imageFile.exists())&#123;<br>                <span class="hljs-keyword">return</span> BitmapFactory.decodeFile(imageFile.getAbsolutePath());<br>            &#125;<span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>            &#125;<br>        &#125;<br>    &#125;);<br>&#125; <span class="hljs-keyword">catch</span> (JSONException e) &#123;<br>    e.printStackTrace();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果是本地动画图片资源，为了让 Lottie 找到图片资源需要如下的配置</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">animationView.setImageAssetsFolder(<span class="hljs-string">&quot;/images/&quot;</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>Url 服务器上的压缩包(包含images和json文件)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">lottieAnimationView.setAnimationFromUrl(url); <span class="hljs-comment">// 通过url直接加载</span><br>lottieAnimationView.playAnimation();<br></code></pre></td></tr></table></figure></li>
+<li><p>下载到本地解压后指定文件夹代理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 资源zip</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> File LOTTIE_FILES = <span class="hljs-keyword">new</span> File(Environment.getExternalStorageDirectory()+<span class="hljs-string">&quot;/ctclient/lottie/lottie.zip&quot;</span>);<br><span class="hljs-comment">// 动效图片资源</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> File IMAGES_FILES = <span class="hljs-keyword">new</span> File(Environment.getExternalStorageDirectory()+<span class="hljs-string">&quot;/ctclient/lottie/images&quot;</span>);<br><span class="hljs-comment">// data.json路径</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> File JSON_FILE = <span class="hljs-keyword">new</span> File(Environment.getExternalStorageDirectory()+<span class="hljs-string">&quot;/ctclient/lottie/data.json&quot;</span>);<br><br>FileInputStream fis = <span class="hljs-keyword">null</span>;<br><span class="hljs-keyword">if</span> (JSON_FILE.exists()) &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        fis = <span class="hljs-keyword">new</span> FileInputStream(JSON_FILE);<br>    &#125; <span class="hljs-keyword">catch</span> (FileNotFoundException e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>&#125;<br><span class="hljs-keyword">if</span> (fis == <span class="hljs-keyword">null</span> || !IMAGES_FILES.exists()) &#123;<br>    Log.i(<span class="hljs-string">&quot;huangssh&quot;</span>, <span class="hljs-string">&quot;动画资源不存在&quot;</span>);<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br><span class="hljs-keyword">final</span> String absolutePath = IMAGES_FILES.getAbsolutePath();<br><span class="hljs-comment">// 开启硬件加速</span><br>lottieAnimationView.useHardwareAcceleration(<span class="hljs-keyword">true</span>);<br><span class="hljs-comment">// 设置动画文件夹代理类</span><br>lottieAnimationView.setImageAssetDelegate(<span class="hljs-keyword">new</span> ImageAssetDelegate() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Bitmap <span class="hljs-title">fetchBitmap</span><span class="hljs-params">(LottieImageAsset asset)</span> </span>&#123;<br>        BitmapFactory.Options opts = <span class="hljs-keyword">new</span> BitmapFactory.Options();<br>        opts.inScaled = <span class="hljs-keyword">true</span>;<br>        opts.inDensity = UtilPhoneParam.densityDpi;<br>        Bitmap bitmap = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            bitmap = BitmapFactory.decodeFile(absolutePath + File.separator + asset.getFileName(), opts);<br>        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<br>            e.printStackTrace();<br>        &#125;<br>        <span class="hljs-keyword">return</span> bitmap;<br>    &#125;<br>&#125;);<br><br><span class="hljs-comment">// 设置动画</span><br>LottieComposition.Factory.fromInputStream(fis, <span class="hljs-keyword">new</span> OnCompositionLoadedListener() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCompositionLoaded</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> LottieComposition composition)</span> </span>&#123;<br>        lottieAnimationView.setComposition(composition);<br>        lottieAnimationView.playAnimation();<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>加载SDCard字体</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">lottieAnimationView.setFontAssetDelegate(<span class="hljs-keyword">new</span> FontAssetDelegate()&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Typeface <span class="hljs-title">fetchFont</span><span class="hljs-params">(String fontFamily)</span> </span>&#123;<br>        Typeface customFont = Typeface.createFromFile(FONT_PATH + fontFamily);<br>        <span class="hljs-keyword">return</span> customFont;<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="监听动画进度"><a href="#监听动画进度" class="headerlink" title="监听动画进度"></a>监听动画进度</h4><ul>
+<li><p>监听动画进度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java">lottieAnimationView.addAnimatorUpdateListener(<span class="hljs-keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAnimationUpdate</span><span class="hljs-params">(ValueAnimator valueAnimator)</span> </span>&#123;<br>        <span class="hljs-comment">// 判断动画加载结束</span><br>        <span class="hljs-keyword">if</span> (valueAnimator.getAnimatedFraction() == <span class="hljs-number">1f</span>) &#123;<br>            <span class="hljs-keyword">if</span> (dialog.isShowing() &amp;&amp; getActivity() != <span class="hljs-keyword">null</span>)<br>                dialog.dismiss();<br>        &#125;<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p><img src="C:\Blogs\source_posts\Lottie.assets\image-20220219214235778.png" srcset="/img/loading3.gif" lazyload alt="image-20220219214235778"></p>
+<ul>
+<li><p>读取动画文件</p>
+</li>
+<li><p>将对应的图层动画信息解析并分类存储</p>
+</li>
+<li><p>属性变换层解析，转换成我们端侧需要的属性数据</p>
+</li>
+<li><p>将关键帧信息转换成属性数据组</p>
+</li>
+<li><p>AE输出的单位是帧索引，将帧索引转换成时间单位毫秒</p>
+</li>
+<li><p>根据帧数组新，封装成动画列表</p>
+</li>
+<li><p>获取封装好的动画列表进行播放（<em>AnimatorSet</em>）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 获取AnimatorSet列表</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> target</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> animation</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> List&lt;AnimatorSet&gt;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;AnimatorSetWrapper&gt; <span class="hljs-title">getAnimatorSetList</span><span class="hljs-params">(<span class="hljs-keyword">final</span> View target, <span class="hljs-keyword">final</span> String animation)</span> </span>&#123;<br><br>  AttributeTransform transform = attributeAnimationInfoMap.get(animation);<br>  <span class="hljs-keyword">if</span> (transform == <span class="hljs-keyword">null</span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>  &#125;<br>  List&lt;AnimatorSetWrapper&gt; animatorSets = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>  <span class="hljs-comment">//解析缩放变换</span><br>  AnimatorSetParserHelper.parseScale(target, animatorSets, transform);<br><br>  <span class="hljs-comment">//解析旋转变换</span><br>  AnimatorSetParserHelper.parseRotation(target, animatorSets, transform);<br><br>  <span class="hljs-comment">//解析透明度变换</span><br>  AnimatorSetParserHelper.parseAlpha(target, animatorSets, transform);<br><br>  <span class="hljs-comment">//解析平移变换</span><br>  AnimatorSetParserHelper.parseTranslation(target, animatorSets, transform);<br><br>  <span class="hljs-comment">//按动画时间排序</span><br>  Collections.sort(animatorSets, <span class="hljs-keyword">new</span> Comparator&lt;AnimatorSetWrapper&gt;() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(AnimatorSetWrapper o1, AnimatorSetWrapper o2)</span> </span>&#123;<br>      <span class="hljs-keyword">return</span> o2.getDuration() - o1.getDuration();<br>    &#125;<br>  &#125;);<br>  <span class="hljs-keyword">return</span> animatorSets;<br>&#125;<br><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 开始动画</span><br><span class="hljs-comment"> */</span>  <br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">startAnimation</span><span class="hljs-params">()</span> </span>&#123;<br>  <span class="hljs-keyword">for</span> (AnimatorSetWrapper setWrapper : animatorSetList) &#123;<br>    AnimatorSet animatorSet = setWrapper.getAnimatorSet();<br>    <span class="hljs-keyword">if</span> (setWrapper.getAnimatorSet().isRunning()) &#123;<br>      animatorSet.cancel();<br>    &#125;<br>    animatorSet.start();<br>  &#125;<br>&#125;<br><br>作者：快手电商无线团队<br>链接：https:<span class="hljs-comment">//juejin.cn/post/6989155042192261150</span><br>来源：稀土掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>如果没有mask和mattes，那么性能和内存非常好，没有bitmap创建，大部分操作都是简单的cavas绘制。</li>
+<li>如果存在mattes，将会创建2～3个bitmap。bitmap在动画加载到window时被创建，被window删除时回收。所以不宜在RecyclerView中使用包涵mattes或者mask的动画，否则会引起bitmap抖动。除了内存抖动，mattes和mask中必要的bitmap.eraseColor()和canvas.drawBitmap()也会降低动画性能。对于简单的动画，在实际使用时性能不太明显。</li>
+<li>如果在列表中使用动画，推荐使用缓存LottieAnimationView.setAnimation(String, CacheStrategy) 。</li>
+</ul>
+<p>​    </p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>在已设置Animation的情况下，使用setAnimation()方法再次设置动画并执行playAnimation()时，Lottie控件上的动画会出现<strong>短暂的闪白屏现象</strong>。这个问题目前无解，折中的方案是将多个动画放在同一个JSON文件中，通过setProgress()的方式执行某部分的动画。</li>
+</ul>
+<ul>
+<li><p><strong>当Activity被后台杀死重建时，Lottie会通过onSaveInstanceState()的方法保存销毁前的状态</strong>。在下次创建的时候重新恢复之前的状态onRestoreInstanceState()。但是对于Activity来说，已经重新创建，对应的Lottie的动画状态也要改变。所以不需要Lottie恢复到销毁前的状态。只需要重写Lottie的onSaveInstanceState()方法并返回为空即可。</p>
+</li>
+<li><p>Lottie在初始化的时候会<strong>使用多个Task任务去加载Compisition并转化为Drawable填充在Lottie控件中</strong>。假如Lottie不能抢到主线程的Task（主线程的工作形容为饭堂，如果Lottie排不上队，吃不上中午饭，只能等到吃晚饭），就会出现Lottie动画跳帧的问题，就是动画前面的部分不执行，直接调到后面的动画。将其PlayAnimation()方法放在UI线程中执行。</p>
+</li>
+</ul>
+<p>转载</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7044402969118244894">支持点击交互的Lottie-Android篇</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6989155042192261150">移动端属性动画低代码方案</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0882ea3b59e3">lottie-android 框架使用及源码解析</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6962119997376495630">Lottie动画资源放到服务器预下载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/282d098cf928">Lottie - 让复杂动画如此简单</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/81be1bf9600c">从json文件到炫酷动画-Lottie实现思路和源码分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6989155042192261150">移动端属性动画低代码方案</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/17/RecyclerView/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">RecyclerView 和 ListView</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/16/inflate%E6%80%BB%E7%BB%93/">
+                        <span class="hidden-mobile">LayoutInflater</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'leexiaoyang/leexiaoyang.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

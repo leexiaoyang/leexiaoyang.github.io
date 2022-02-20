@@ -18,12 +18,12 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="转载 ：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7046282271237603341#heading-27">
+    <meta name="description" content="实现监听三步曲 创建一个类，继承NotificationListenerService 123456789101112131415@RequiresApi(api &#x3D; Build.VERSION_CODES.JELLY_BEAN_MR2)public class NotificationListener extends NotificationListenerService &amp;#123;    &#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android通知">
 <meta property="og:url" content="http://example.com/2022/02/17/Android%E9%80%9A%E7%9F%A5/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="转载 ：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7046282271237603341#heading-27">
+<meta property="og:description" content="实现监听三步曲 创建一个类，继承NotificationListenerService 123456789101112131415@RequiresApi(api &#x3D; Build.VERSION_CODES.JELLY_BEAN_MR2)public class NotificationListener extends NotificationListenerService &amp;#123;    &#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-02-17T05:56:52.000Z">
 <meta property="article:modified_time" content="2022-02-17T05:56:52.000Z">
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      56 字
+      2k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      18 分钟
     </span>
   
 
@@ -240,7 +240,106 @@
             <h1 style="display: none">Android通知</h1>
             
             <div class="markdown-body">
-              <p>转载 ：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7046282271237603341#heading-27">https://juejin.cn/post/7046282271237603341#heading-27</a></p>
+              <h3 id="实现监听三步曲"><a href="#实现监听三步曲" class="headerlink" title="实现监听三步曲"></a>实现监听三步曲</h3><ul>
+<li><p>创建一个类，继承NotificationListenerService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NotificationListener</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NotificationListenerService</span> </span>&#123;<br>  <br>  <span class="hljs-comment">//当系统收到新的通知后出发回调</span><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNotificationPosted</span><span class="hljs-params">(StatusBarNotification sbn)</span> </span>&#123;<br>    <span class="hljs-keyword">super</span>.onNotificationPosted(sbn);<br>  &#125;<br>	<br>  <span class="hljs-comment">//当系统通知被删掉后出发回调</span><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNotificationRemoved</span><span class="hljs-params">(StatusBarNotification sbn)</span> </span>&#123;<br>    <span class="hljs-keyword">super</span>.onNotificationRemoved(sbn);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>在AndroidManifest.xml中注册Service并声明相关权限</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;service<br>            android:name=<span class="hljs-string">&quot;.NotificationListener&quot;</span><br>            android:permission=<span class="hljs-string">&quot;android.permission.BIND_NOTIFICATION_LISTENER_SERVICE&quot;</span><br>            android:exported=<span class="hljs-string">&quot;false&quot;</span>&gt;<br>            &lt;intent-filter&gt;<br>                &lt;action android:name=<span class="hljs-string">&quot;android.service.notification.NotificationListenerService&quot;</span> /&gt;<br>            &lt;/intent-filter&gt;<br>        &lt;/service&gt;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>在系统“通知使用权”页面勾选app</p>
+<p>完成上面两步设置，在app安装到手机上之后，还需要在“通知使用权”页面勾选app，这个路径在</p>
+<p>原生系统上是“设置-&gt;隐私-&gt;通知使用权”，通过以下代码跳转过去。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">jumpNotificationAccessSetting</span><span class="hljs-params">(Context context)</span> </span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>      Intent intent = <span class="hljs-keyword">new</span> Intent(<span class="hljs-string">&quot;android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS&quot;</span>);<br>      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);<br>      context.startActivity(intent);<br>    &#125; <span class="hljs-keyword">catch</span>(Exception e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>NotificationListenerService</code>相关接口可以参考附录。</p>
+</li>
+</ul>
+<ul>
+<li></li>
+</ul>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><p><code>NotificationListenerService</code>主要提供了监听系统通知发送（<code>onNotificationPosted</code>）和取消（<code>cancelNotification</code>）的能力，而且开放了一些操作通知的接口。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>getActiveNotifications()</td>
+<td>获取当前通知栏所有通知组</td>
+</tr>
+<tr>
+<td>cancelAllNotifications()</td>
+<td>删除系统中所有可被清除的通知（不能清除常驻通知）</td>
+</tr>
+<tr>
+<td>cancelNotification(String key)</td>
+<td>删除某一个通知</td>
+</tr>
+<tr>
+<td>snoozeNotification(String key, long durationMs)</td>
+<td>休眠通知，可清除通知栏上常驻通知</td>
+</tr>
+<tr>
+<td>onNotificationPosted(StatusBarNotification sbn)</td>
+<td>通知发送时回调</td>
+</tr>
+<tr>
+<td>onNotificationRemoved(StatusBarNotification sbn)</td>
+<td>通知移除时回调</td>
+</tr>
+<tr>
+<td>onNotificationRankingUpdate(RankingMap rankingMap)</td>
+<td>通知排序发生变化时回调</td>
+</tr>
+</tbody></table>
+<p><code>StatusBarNotification</code>是我们在<code>NotificationListenerService#onNotificationPosted()</code>接</p>
+<p>口里面获取到的通知实例，它主要有以下重要方法。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>getId()</td>
+<td>通知的id</td>
+</tr>
+<tr>
+<td>getTag()</td>
+<td>通知的Tag，如果没有设置返回null</td>
+</tr>
+<tr>
+<td>getKey()</td>
+<td>通知的key，唯一标志。可以用来指定删除某条通知</td>
+</tr>
+<tr>
+<td>getPostTime()</td>
+<td>通知发送的时间</td>
+</tr>
+<tr>
+<td>getPackageName()</td>
+<td>通知对应的包名</td>
+</tr>
+<tr>
+<td>isClearable()</td>
+<td>通知是否可被清除，FLAG_ONGOING_EVENT、FLAG_NO_CLEAR</td>
+</tr>
+<tr>
+<td>getNotification()</td>
+<td>获取通知对象</td>
+</tr>
+</tbody></table>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7046282271237603341#heading-27">Android通知还能这么玩？</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/WHD597312/NLservice/blob/master/app/src/main/java/com/xinri/MainActivity.java">NLservice</a></li>
+<li></li>
+</ul>
 
             </div>
             <hr>
@@ -269,9 +368,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/17/Lottie/">
+                      <a href="/2022/02/17/%E5%80%92%E8%AE%A1%E6%97%B6%E7%BB%84%E4%BB%B6/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Lottie</span>
+                        <span class="hidden-mobile">倒计时组件</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

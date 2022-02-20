@@ -1,0 +1,715 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Android广播是一种基于binder实现的消息通信机制，用来实现app内部、不同app之间的消息 通信。  实现原理      观察者模式  三个角色：广播接收者、广播发送者、消息中心  BroadcastReceiver 本质是一个全局监听器，用于监听系统全局的广播消息，方便实现系统中 不同组件间的通信。广播接收器也是运行在主线程（ 不超过 10s ），否则将会产生 ANR 问 题。onR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android广播">
+<meta property="og:url" content="http://example.com/2022/02/20/Android%E5%B9%BF%E6%92%AD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Android广播是一种基于binder实现的消息通信机制，用来实现app内部、不同app之间的消息 通信。  实现原理      观察者模式  三个角色：广播接收者、广播发送者、消息中心  BroadcastReceiver 本质是一个全局监听器，用于监听系统全局的广播消息，方便实现系统中 不同组件间的通信。广播接收器也是运行在主线程（ 不超过 10s ），否则将会产生 ANR 问 题。onR">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source/_posts/Android广播.assets/image-20220220150122957.png">
+<meta property="article:published_time" content="2022-02-20T06:50:51.000Z">
+<meta property="article:modified_time" content="2022-02-20T06:50:51.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source/_posts/Android广播.assets/image-20220220150122957.png">
+  
+  
+  <title>Android广播 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading3.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alexander Lee</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Android广播">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-20 14:50" pubdate>
+        2022年2月20日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      32 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android广播</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>Android广播是一种基于binder实现的消息通信机制，用来实现app内部、不同app之间的消息</p>
+<p>通信。</p>
+</blockquote>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><img src="C:\Blogs\source\_posts\Android广播.assets\image-20220220150122957.png" srcset="/img/loading3.gif" lazyload alt="image-20220220150122957" style="zoom:67%;" /> 
+
+
+
+<ul>
+<li><p>观察者模式</p>
+</li>
+<li><p>三个角色：广播接收者、广播发送者、消息中心</p>
+<ul>
+<li><p>BroadcastReceiver 本质是一个全局监听器，用于监听系统全局的广播消息，方便实现系统中</p>
+<p>不同组件间的通信。广播接收器也是运行在主线程（ 不超过 <code>10s</code> ），否则将会产生 <code>ANR</code> 问</p>
+<p>题。<code>onReceiver()</code> 方法中涉及与其他组件之间的交互时，可以使用<strong>发送 <code>Notification</code></strong> 、</p>
+<p>启动 <code>Service</code> 等方式，最好不要启动 <code>Activity</code>。</p>
+</li>
+</ul>
+</li>
+<li><p>描述：</p>
+<ul>
+<li><p>广播接收者通过binder机制向AMS注册</p>
+</li>
+<li><p>广播发送者通过binder机制发送广播</p>
+</li>
+<li><p>AMS根据广播发送者要求，在已经注册广播列表中寻找合适的广播接收者（Intent Filter、</p>
+<p>Permission）</p>
+</li>
+<li><p>AMS将符合条件的广播发送给广播接收者相应的消息循环队列中</p>
+</li>
+<li><p>广播接收者通过消息循环拿到此广播，并回调onReceive()</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="广播的分类"><a href="#广播的分类" class="headerlink" title="广播的分类"></a>广播的分类</h3><ul>
+<li><p>有序广播</p>
+<blockquote>
+<p>同步执行的广播。</p>
+</blockquote>
+<ul>
+<li><p>在广播发出之后，同一时刻只有一个广播接收器能够收到这条广播消息，当其逻辑执行完后该</p>
+<p>广播接收器才会继续传递。消息传递效率高。</p>
+</li>
+<li><p>发送广播（SendOrderedBroadcast()）</p>
+</li>
+<li><p>拦截广播（abortBroadcast()）</p>
+</li>
+<li><p>设置优先级（intent-filter标签中设置 android:priority / intentFilter.setPriority(20)、未设置时按照注册的顺序接收广播）</p>
+</li>
+<li><p>判断广播是否是有序广播（isOrderedBroadcast() ）</p>
+</li>
+<li><p>传递数据（当前广播也可以使用 <code>setResultData</code> 方法将数据传给下一个接收器）</p>
+</li>
+<li><p>获取广播的原始数据（getStringExtra)</p>
+</li>
+<li><p>取得上个广播接收器自己添加的数据（getResultData）</p>
+</li>
+<li><p>指定最终的广播接收者（Context.sendOrderedBroadcast ( intent , receiverPermission , </p>
+<p><strong>resultReceiver</strong> , scheduler , initialCode , initialData , initialExtras )），如果比他优先级高</p>
+<p>的接受者不终止广播, 那么他的 <code>onReceive</code> 会执行两次。如果优先级高的那个终止广播, 那么</p>
+<p>他还是会收到一次最终的广播。</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>标准广播</p>
+<blockquote>
+<p>最常见的广播，异步执行的广播。</p>
+</blockquote>
+<ul>
+<li>广播发出之后，所有广播接收器几乎都会在同一时刻接收到这条广播消息，没有先后顺序</li>
+<li>不能将处理结果交给下一个接受者, 且无法终止广播。</li>
+<li>注册广播</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs java">broadcastReceiver = <span class="hljs-keyword">new</span> TestBroadcastReceiver();<br><span class="hljs-comment">// 指定Action，这里使用系统广播Action，也可以使用自定义</span><br>IntentFilter intentFilter = <span class="hljs-keyword">new</span> IntentFilter();<br>intentFilter.addAction(android.content.Intent.ACTION_AIRPLANE_MODE_CHANGED);<br>registerReceiver(broadcastReceiver, intentFilter);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>子线程创建</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 广播注册</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> receiver 广播接收器</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> filter 接受广播的条件过滤</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> broadcastPermission 接受广播的权限，只能接受相应权限的广播发送器发送的广播</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> scheduler 默认为主线程，也可使用其他线程创建的handler</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Intent <span class="hljs-title">registerReceiver</span><span class="hljs-params">(BroadcastReceiver receiver, IntentFilter filter, String broadcastPermission, Handler scheduler)</span></span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>静态注册广播。使用<receiver>标签进行声明，并在标签内，使用<inter-filter>标签</p>
+<p>设置过滤器。exported设置该广播能否接受其他应用的广播消息。默认只接受当前应用的广</p>
+<p>播，其他应用发出的广播不接受</p>
+</li>
+<li><p><strong>android:permission</strong> 广播权限设置</p>
+</li>
+<li><p><strong>android:process</strong> 设置广播运行所处的进程</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;receiver<br>    android:name=<span class="hljs-string">&quot;com.jd.test.receiver.TestBroadcastReceiver&quot;</span><br>    android:enabled=<span class="hljs-string">&quot;true&quot;</span> <br>    android:exported=<span class="hljs-string">&quot;true&quot;</span>&gt;<br>   &lt;intent-filter&gt;<br>       &lt;action android:name=<span class="hljs-string">&quot;android.intent.action.ACTION_AIRPLANE_MODE_CHANGED&quot;</span> /&gt;<br>   &lt;/intent-filter&gt;<br>&lt;/receiver&gt;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>如果依次注册了三个广播接收者A/B/C,那么接受顺序是C/B/A，即后注册的先收到消息</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>本地广播</p>
+<blockquote>
+<p>局部广播，广播的发送者和接收者都同属于一个App。安全性高 &amp; 效率高。</p>
+</blockquote>
+<p><code>Android v4</code> 包中提供了 <code>LocalBroadcastManager</code> 类，用于统一处理 APP 局部广播。</p>
+<ul>
+<li>使用LocalBroadcastManager发送广播</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">Intent intent = <span class="hljs-keyword">new</span> Intent();<br>intent.setAction(TEST_ACTION);<br>intent.setPackage() <span class="hljs-comment">// 指定包名</span><br>LocalBroadcastManager.getInstance(<span class="hljs-keyword">this</span>).sendBroadcast(intent);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>LocalBroadcastManager注册接收器。指定Action使用系统广播Action。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">IntentFilter intentFilter = <span class="hljs-keyword">new</span> IntentFilter();<br>intentFilter.addAction(TEST_ACTION);<br>broadcastReceiver = <span class="hljs-keyword">new</span> TestBroadcastReceiver();<br>LocalBroadcastManager.getInstance(<span class="hljs-keyword">this</span>).registerReceiver(broadcastReceiver, intentFilter);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注销广播</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (broadcastReceiver != <span class="hljs-keyword">null</span>) &#123; 	 <br>    LocalBroadcastManager.getInstance(<span class="hljs-keyword">this</span>).unregisterReceiver(broadcastReceiver);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>静态注册，则为ReceiverRestrictedContext。如果需要启动Activity，需要添加Flag—— </p>
+<p><strong>Intent.FLAG_ACTIVITY_NEW_TASK</strong></p>
+</li>
+<li><p>如果依次注册了三个广播接收者A/B/C,那么接受顺序是A/B/C，即先注册的先收到消息</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>系统广播</p>
+<blockquote>
+<p>涉及到手机的操作（如开机、网络状态变化、拍照等等），都会发出相应的广播。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">系统操作</th>
+<th align="left">action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">监听网络变化</td>
+<td align="left">android.net.conn.CONNECTIVITY_CHANGE</td>
+</tr>
+<tr>
+<td align="left">关闭或打开飞行模式</td>
+<td align="left">Intent.ACTION_AIRPLANE_MODE_CHANGED</td>
+</tr>
+<tr>
+<td align="left">充电时或电量发生变化</td>
+<td align="left">Intent.ACTION_BATTERY_CHANGED</td>
+</tr>
+<tr>
+<td align="left">电池电量低</td>
+<td align="left">Intent.ACTION_BATTERY_LOW</td>
+</tr>
+<tr>
+<td align="left">电池电量充足（即从电量低变化到饱满时会发出广播</td>
+<td align="left">Intent.ACTION_BATTERY_OKAY</td>
+</tr>
+<tr>
+<td align="left">系统启动完成后(仅广播一次)</td>
+<td align="left">Intent.ACTION_BOOT_COMPLETED</td>
+</tr>
+<tr>
+<td align="left">按下照相时的拍照按键(硬件按键)时</td>
+<td align="left">Intent.ACTION_CAMERA_BUTTON</td>
+</tr>
+<tr>
+<td align="left">屏幕锁屏</td>
+<td align="left">Intent.ACTION_CLOSE_SYSTEM_DIALOGS</td>
+</tr>
+<tr>
+<td align="left">设备当前设置被改变时(界面语言、设备方向等)</td>
+<td align="left">Intent.ACTION_CONFIGURATION_CHANGED</td>
+</tr>
+<tr>
+<td align="left">插入耳机时</td>
+<td align="left">Intent.ACTION_HEADSET_PLUG</td>
+</tr>
+<tr>
+<td align="left">未正确移除SD卡但已取出来时(正确移除方法:设置–SD卡和设备内存–卸载SD卡)</td>
+<td align="left">Intent.ACTION_MEDIA_BAD_REMOVAL</td>
+</tr>
+<tr>
+<td align="left">插入外部储存装置（如SD卡）</td>
+<td align="left">Intent.ACTION_MEDIA_CHECKING</td>
+</tr>
+<tr>
+<td align="left">成功安装APK</td>
+<td align="left">Intent.ACTION_PACKAGE_ADDED</td>
+</tr>
+<tr>
+<td align="left">成功删除APK</td>
+<td align="left">Intent.ACTION_PACKAGE_REMOVED</td>
+</tr>
+<tr>
+<td align="left">重启设备</td>
+<td align="left">Intent.ACTION_REBOOT</td>
+</tr>
+<tr>
+<td align="left">屏幕被关闭</td>
+<td align="left">Intent.ACTION_SCREEN_OFF</td>
+</tr>
+<tr>
+<td align="left">屏幕被打开</td>
+<td align="left">Intent.ACTION_SCREEN_ON</td>
+</tr>
+<tr>
+<td align="left">关闭系统时</td>
+<td align="left">Intent.ACTION_SHUTDOWN</td>
+</tr>
+<tr>
+<td align="left">重启设备</td>
+<td align="left">Intent.ACTION_REBOOT</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<ul>
+<li><p>粘性广播</p>
+<blockquote>
+<p>调用SendStickyBroadcast()方法发送，需要android.Manifest.permission.BROADCAST_STICKT</p>
+<p>权限。注册者可以接受到注册广播前发送者发送的最后一次广播</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1602389">Android高频面试专题 - 基础篇（四）BroadcastReceiver</a></li>
+<li><a target="_blank" rel="noopener" href="https://wujingchao.github.io/2016/02/17/art-of-android-development-notes-registereceiver/">registerReceiver注册广播原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1394213">Android：BroadcastRecevicer广播类型汇总</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/20/ANR/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ANR</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/19/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+                        <span class="hidden-mobile">技术博客</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'leexiaoyang/leexiaoyang.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

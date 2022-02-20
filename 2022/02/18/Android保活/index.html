@@ -18,21 +18,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="转载：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7044402969118244894 LottieAnimation众所周知是Airbnb出的一个实现复杂动画的一个框架，可以在Android，IOS等平台 使用。使用的步骤也非常简单。但本文不是讲解它的使用。Lottie虽然好用，但也不是万能的，在使 用过程中就遇到不少的问题。 在已设置Animation的情况下，使用setAnimatio">
+    <meta name="description" content="转载 ：https:&#x2F;&#x2F;weishu.me&#x2F;2020&#x2F;01&#x2F;16&#x2F;a-keep-alive-method-on-android&#x2F;  保活就是在用户主动杀进程，或者系统基于当前内存不足状态而触发清理进程后，该进程设法让 自己免于被杀的命运或者被杀后能立刻重生的手段。   提升进程优先级，降低被杀概率  比如监听SCREEN_ON&#x2F;OFF广播 启动一像素的透明Activity。 启动空通知，提升fg-">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Lottie">
-<meta property="og:url" content="http://example.com/2022/02/17/Lottie/index.html">
+<meta property="og:title" content="Android保活">
+<meta property="og:url" content="http://example.com/2022/02/18/Android%E4%BF%9D%E6%B4%BB/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="转载：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7044402969118244894 LottieAnimation众所周知是Airbnb出的一个实现复杂动画的一个框架，可以在Android，IOS等平台 使用。使用的步骤也非常简单。但本文不是讲解它的使用。Lottie虽然好用，但也不是万能的，在使 用过程中就遇到不少的问题。 在已设置Animation的情况下，使用setAnimatio">
+<meta property="og:description" content="转载 ：https:&#x2F;&#x2F;weishu.me&#x2F;2020&#x2F;01&#x2F;16&#x2F;a-keep-alive-method-on-android&#x2F;  保活就是在用户主动杀进程，或者系统基于当前内存不足状态而触发清理进程后，该进程设法让 自己免于被杀的命运或者被杀后能立刻重生的手段。   提升进程优先级，降低被杀概率  比如监听SCREEN_ON&#x2F;OFF广播 启动一像素的透明Activity。 启动空通知，提升fg-">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-17T07:16:43.000Z">
-<meta property="article:modified_time" content="2022-02-17T07:16:43.000Z">
+<meta property="article:published_time" content="2022-02-18T11:28:55.000Z">
+<meta property="article:modified_time" content="2022-02-18T11:28:55.000Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>Lottie - Hexo</title>
+  <title>Android保活 - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +178,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Lottie">
+            <span class="h2" id="subtitle" title="Android保活">
               
             </span>
 
@@ -188,8 +188,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-17 15:16" pubdate>
-        2022年2月17日 下午
+      <time datetime="2022-02-18 19:28" pubdate>
+        2022年2月18日 晚上
       </time>
     </span>
   
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      715 字
+      307 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6 分钟
+      3 分钟
     </span>
   
 
@@ -237,24 +237,31 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Lottie</h1>
+            <h1 style="display: none">Android保活</h1>
             
             <div class="markdown-body">
-              <p> 转载：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7044402969118244894">https://juejin.cn/post/7044402969118244894</a></p>
-<p>LottieAnimation众所周知是Airbnb出的一个实现复杂动画的一个框架，可以在Android，IOS等平台</p>
-<p>使用。使用的步骤也非常简单。但本文不是讲解它的使用。Lottie虽然好用，但也不是万能的，在使</p>
-<p>用过程中就遇到不少的问题。</p>
-<p>在已设置Animation的情况下，使用setAnimation()方法再次设置动画并执行playAnimation()时，</p>
-<p>Lottie控件上的动画会出现短暂的闪白屏现象。这个问题目前无解，折中的方案是将多个动画放在同</p>
-<p>一个JSON文件中，通过setProgress()的方式执行某部分的动画。</p>
-<p>当Activity被后台杀死重建时，Lottie会通过onSaveInstanceState()的方法保存销毁前的状态，在下次</p>
-<p>创建的时候重新恢复之前的状态onRestoreInstanceState()。但是对于Activity来说，已经重新创建，</p>
-<p>对应的Lottie的动画状态也要改变。所以不需要Lottie恢复到销毁前的状态。只需要重写Lottie的</p>
-<p>onSaveInstanceState()方法并返回为空即可。</p>
-<p>Lottie在初始化的时候会使用多个Task任务去加载Compisition并转化为Drawable填充在Lottie控件</p>
-<p>中。假如Lottie不能抢到主线程的Task（主线程的工作形容为饭堂，如果Lottie排不上队，吃不上中午</p>
-<p>饭，只能等到吃晚饭），就会出现Lottie动画跳帧的问题，就是动画前面的部分不执行，直接调到后</p>
-<p>面的动画。解决，将其PlayAnimation()方法放在UI线程中执行。</p>
+              <p>转载 ：<a target="_blank" rel="noopener" href="https://weishu.me/2020/01/16/a-keep-alive-method-on-android/">https://weishu.me/2020/01/16/a-keep-alive-method-on-android/</a></p>
+<blockquote>
+<p>保活就是在用户主动杀进程，或者系统基于当前内存不足状态而触发清理进程后，该进程设法让</p>
+<p>自己免于被杀的命运或者被杀后能立刻重生的手段。</p>
+</blockquote>
+<ul>
+<li><p>提升进程优先级，降低被杀概率</p>
+<ul>
+<li>比如监听SCREEN_ON/OFF广播 启动一像素的透明Activity。</li>
+<li>启动空通知，提升fg-service。</li>
+</ul>
+</li>
+<li><p>进程被杀后，重新拉起进程</p>
+<ul>
+<li><p>监听系统或者第3方广播拉起进程。目前安全中心/Whetstone已拦截</p>
+</li>
+<li><p>Native fork进程相互监听，监听到父进程被杀，则通过am命令启动进程。force-stop会杀整</p>
+<p>个进程组，几乎很难生效。</p>
+</li>
+</ul>
+</li>
+</ul>
 
             </div>
             <hr>
@@ -283,12 +290,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2022/02/19/Image%E7%9A%84scaletype/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Image的scaletype</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/17/Android%E9%80%9A%E7%9F%A5/">
-                        <span class="hidden-mobile">Android通知</span>
+                      <a href="/2022/02/18/%E5%87%A0%E7%A7%8D%E5%86%85%E9%83%A8%E7%B1%BB/">
+                        <span class="hidden-mobile">几种内部类</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
