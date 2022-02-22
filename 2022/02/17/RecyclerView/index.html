@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      1.8k 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11 分钟
+      16 分钟
     </span>
   
 
@@ -259,12 +259,34 @@
 <p>个View对象进行展示。</p>
 </li>
 </ul>
-<h4 id="三-四级缓存"><a href="#三-四级缓存" class="headerlink" title="三/四级缓存"></a>三/四级缓存</h4><ul>
-<li><code>mAttachedScrap</code>：LayoutManager每次<code>layout</code>子View之前，那些已经添加到RecyclerView中的Item以及被删除的Item的临时存放地。使用场景就是RecyclerView滚动时、还有在可见范围内删除Item后用<code>notifyItemRemoved</code>方法通知更新时；</li>
-<li><code>mChangedScrap</code>：作用：存放可见范围内有更新的Item。使用场景：可见范围内的Item有更新，并且使用<code>notifyItemChanged</code>方法通知更新时；就是临时缓存局部更新，用于播放动画，动画播放完viewholder还是会给 recyclerpool</li>
-<li><code>mCachedViews</code>：作用：存放滚动过程中没有被重新使用且状态无变化的那些旧Item。场景：滚动，<em>prefetch</em>；</li>
-<li><code>RecycledViewPool</code>：作用：缓存Item的最终站，用于保存那些<em>Removed</em>、<em>Changed</em>、以及<em>mCachedViews</em>满了之后更旧的Item。场景：Item被移除、Item有更新、滚动过程；</li>
+<h4 id="与ListView区别"><a href="#与ListView区别" class="headerlink" title="与ListView区别"></a>与ListView区别</h4><ul>
+<li><code>Recycleview布局效果更多</code>，增加了表格，瀑布流等效果</li>
+<li><code>Recycleview去掉了设置头部底部item的功能</code>，专向通过viewholder的不同type实现</li>
+<li><code>Recycleview实现了一些局部刷新</code>，比如notifyitemchanged</li>
+<li><code>Recycleview自带了一些布局变化的动画效果</code>，也可以通过自定义ItemAnimator类实现自定义动画效果</li>
+<li><code>Recycleview缓存机制更全面</code>，增加两级缓存，还支持自定义缓存逻辑</li>
 </ul>
+<h4 id="四级缓存"><a href="#四级缓存" class="headerlink" title="四级缓存"></a>四级缓存</h4><ul>
+<li><p><code>mAttachedScrap(屏幕内)</code>，用于屏幕内itemview快速重用，不需要重新createView和</p>
+<p>bindView。</p>
+</li>
+<li><p><code>mCacheViews(屏幕外)</code>，保存最近移出屏幕的ViewHolder，包含数据和position信息，复用时必</p>
+<p>须是相同位置的ViewHolder才能复用，应用场景在那些需要来回滑动的列表中，当往回滑动时，</p>
+<p>能直接复用ViewHolder数据，不需要重新bindView。</p>
+</li>
+<li><p><code>mViewCacheExtension(自定义缓存)</code>，不直接使用，需要用户自定义实现，默认不实现。</p>
+</li>
+<li><p><code>mRecyclerPool(缓存池)</code>，当cacheView满了后或者adapter被更换，将cacheView中移出的</p>
+<p>ViewHolder放到Pool中，放之前会把ViewHolder数据清除掉，所以复用时需要重新bindView。</p>
+</li>
+</ul>
+<h4 id="保存缓存流程"><a href="#保存缓存流程" class="headerlink" title="保存缓存流程"></a>保存缓存流程</h4><ul>
+<li><p>插入或是删除<code>itemView</code>时，先把屏幕内的ViewHolder保存至<code>AttachedScrap</code>中</p>
+</li>
+<li><p>滑动屏幕的时候，先消失的itemview会保存到<code>CacheView</code>，CacheView大小默认是2，超过数量的话按照先入先出原则，移出头部的itemview保存到<code>RecyclerPool缓存池</code>（如果有自定义缓存就会保存到自定义缓存里），RecyclerPool缓存池会按照itemview的<code>itemtype</code>进行保存，每个itemTyep缓存个数为5个，超过就会被回收。</p>
+</li>
+</ul>
+<h4 id="获取缓存流程"><a href="#获取缓存流程" class="headerlink" title="获取缓存流程"></a>获取缓存流程</h4><p>AttachedScrap中获取，通过pos匹配holder——&gt;获取失败，从<code>CacheView</code>中获取，也是通过pos获取holder缓存 ——&gt;获取失败，从<code>自定义缓存</code>中获取缓存——&gt;获取失败，从<code>mRecyclerPool</code>中获取 ——&gt;获取失败，重新创建<code>viewholder</code>——createViewHolder并bindview。</p>
 <h4 id="相关类"><a href="#相关类" class="headerlink" title="相关类"></a>相关类</h4><ul>
 <li><p>ViewHolder</p>
 <blockquote>
@@ -297,6 +319,10 @@
 </li>
 </ul>
 <h3 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h3><p><img src="C:\Blogs\source_posts\RecyclerView.assets\image-20220217131330247.png" srcset="/img/loading3.gif" lazyload alt="image-20220217131330247"></p>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7044797219878223909">自定义 LayoutManager，让 RecyclerView 效果起飞</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1799783">RecycleView连环三问</a></li>
+</ul>
 
             </div>
             <hr>

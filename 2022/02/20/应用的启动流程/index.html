@@ -1,0 +1,537 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ActivityManagerService在启动一个应用程序组件时，如果发现该组件所需的应用程序进程还 为创建，则会请求Zygote进程将该应用程序进程启动起来。  流程 Launcher被调用点击事件，转到Instrumentation类的startActivity方法，Launcher.java继承自 Activity  Instrumentation是用来监控应用程序和系统之间的交互操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应用的启动流程">
+<meta property="og:url" content="http://example.com/2022/02/20/%E5%BA%94%E7%94%A8%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="ActivityManagerService在启动一个应用程序组件时，如果发现该组件所需的应用程序进程还 为创建，则会请求Zygote进程将该应用程序进程启动起来。  流程 Launcher被调用点击事件，转到Instrumentation类的startActivity方法，Launcher.java继承自 Activity  Instrumentation是用来监控应用程序和系统之间的交互操作">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-20T15:32:56.000Z">
+<meta property="article:modified_time" content="2022-02-20T15:32:56.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>应用的启动流程 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading3.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alexander Lee</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="应用的启动流程">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-20 23:32" pubdate>
+        2022年2月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">应用的启动流程</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>ActivityManagerService在启动一个应用程序组件时，如果发现该组件所需的应用程序进程还</p>
+<p>为创建，则会请求Zygote进程将该应用程序进程启动起来。</p>
+</blockquote>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ul>
+<li><p><code>Launcher</code>被调用点击事件，转到Instrumentation类的startActivity方法，Launcher.java继承自</p>
+<p>Activity</p>
+</li>
+<li><p>Instrumentation是用来监控应用程序和系统之间的交互操作。启动Activity是应用程序和系统之</p>
+<p>间的交互操作。调用startActivity通知AMS启动新的Activity组件</p>
+</li>
+<li><p><code>AMS</code>反馈Launcher，让Launcher进入Paused状态</p>
+</li>
+<li><p><code>Launcher</code>进入Paused状态，AMS转到ZygoteProcess类，并通过socket与Zygote通信，告知</p>
+<p>Zygote需要新建进程</p>
+</li>
+<li><p><code>Zygote</code> fork进程，并调用ActivityThread的main方法，也就是app的入口</p>
+</li>
+<li><p><code>ActivityThread</code>的main方法新建了ActivityThread实例，并新建了Looper实例，开始loop循</p>
+<p>环</p>
+</li>
+<li><p>同时<code>ActivityThread</code>也告知AMS，进程创建完毕，开始创建Application，Provider，并调用Applicaiton的attach，onCreate方法。</p>
+</li>
+<li><p>最后就是创建上下文，通过类加载器加载Activity，调用Activity的<code>onCreate</code>方法。</p>
+</li>
+</ul>
+<h3 id="重要的成员"><a href="#重要的成员" class="headerlink" title="重要的成员"></a>重要的成员</h3><ul>
+<li><p><code>init进程</code>，Android系统启动后，Zygote并不是第一个进程，而是linux的根进程init进程，然后</p>
+<p>init进程才会启动Zygote进程。</p>
+</li>
+<li><p><code>Zygote进程</code>，所有android进程的父进程，当然也包括SystemServer进程</p>
+</li>
+<li><p><code>SystemServer进程</code>，正如名字一样，系统服务进程，负责系统中大大小小的事物，为此也是启动</p>
+<p>了三员大将（ActivityManagerService，PackageManagerService，WindowManagerService）</p>
+<p>以及binder线程池。</p>
+</li>
+<li><p><code>ActivityManagerService</code>，主要负责系统中四大组件的启动、切换、调度及应用进程的管理和</p>
+<p>调度等工作，对于一些进程的启动，都会通过Binder通信机制传递给AMS，再处理给Zygote。</p>
+</li>
+<li><p><code>PackageManagerService</code>，主要负责应用包的一些操作，比如安装，卸载，解析</p>
+<p>AndroidManifest.xml，扫描文件信息等等。</p>
+</li>
+<li><p><code>WindowManagerService</code>，主要负责窗口相关的一些服务，比如窗口的启动，添加，删除等。</p>
+</li>
+<li><p><code>Launcher</code>，桌面应用，也是属于应用，也有自己的Activity，一开机就会默认启动，通过设置</p>
+<p>Intent.CATEGORY_HOME的Category隐式启动。</p>
+</li>
+</ul>
+<h3 id="优化启动速度"><a href="#优化启动速度" class="headerlink" title="优化启动速度"></a>优化启动速度</h3><ul>
+<li><code>Application的attach方法</code>，MultiDexApplication会在方法里面会去执行MultiDex逻辑。所以这里可以进行MultiDex优化，比如今日头条方案就是单独启动一个进程的activity去加载MultiDex。</li>
+<li><code>Application的onCreate方法</code>，大量三方库的初始化都在这里进行，所以我们可以开启线程池，懒加载等等。把每个启动任务进行区分，哪些可以子线程运行，哪些有先后顺序。</li>
+<li><code>Activity的onCreate方法</code>，同样进行线程处理，懒加载。或者预创建Activity，提前类加载等等。</li>
+<li>又比如插件化，通过了解启动流程可以知道哪些地方可以用来<code>hook</code>，从而完成我们侵入代码，替换Activity的工作</li>
+<li>Activity显示View的过程，我们才知道什么时候进行<code>DecorView</code>的加载，什么时候进行view绘制等等</li>
+</ul>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://yuhanchen5027.github.io/article/2021/01/13/Android-app-process-analysis/">Android应用程序进程的启动过程</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1799783">App启动流程</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/21/Intent%E5%92%8CBundle/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Intent和Bundle</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/20/ANR/">
+                        <span class="hidden-mobile">ANR</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'leexiaoyang/leexiaoyang.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

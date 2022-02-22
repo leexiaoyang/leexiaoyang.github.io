@@ -27,7 +27,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Blogs/source/_posts/RecyclerView.assets/image-20220110112958969.png">
 <meta property="article:published_time" content="2022-01-04T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-02-10T07:18:22.733Z">
+<meta property="article:modified_time" content="2022-02-21T09:32:41.425Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="四大组件">
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      126 分钟
+      122 分钟
     </span>
   
 
@@ -357,14 +357,6 @@
 </li>
 <li><p>本地广播</p>
 <p>效率更高。发送的广播不会离开我们的应用，不会泄露关键数据。其他程序无法将广播发送到我们程序内部，不会有安全漏洞。现在 BroadcastReceiver 也不推荐使用静态注册了，8.0 之后限制了绝大部分广播只能使用动态注册。</p>
-</li>
-</ul>
-<h4 id="requestLayout-、invalidate-与postInvalidate-有什么区别？"><a href="#requestLayout-、invalidate-与postInvalidate-有什么区别？" class="headerlink" title="requestLayout()、invalidate()与postInvalidate()有什么区别？"></a>requestLayout()、invalidate()与postInvalidate()有什么区别？</h4><ul>
-<li><p>requestLayout()：该方法会递归调用父窗口的requestLayout()方法，直到触发ViewRootImpl的performTraversals()方法，此时mLayoutRequestede为true，会触发onMesaure()与onLayout()方法，不一定会触发onDraw()方法。</p>
-</li>
-<li><p>invalidate()：该方法递归调用父View的invalidateChildInParent()方法，直到调用ViewRootImpl的invalidateChildInParent()方法，最终触发ViewRootImpl的performTraversals()方法，此时mLayoutRequestede为false，不会触发onMesaure()与onLayout()方法，当时会触发onDraw()方法。</p>
-</li>
-<li><p>postInvalidate()：该方法功能和invalidate()一样，只是它可以在非UI线程中调用。</p>
 </li>
 </ul>
 <h4 id="View的绘制原理"><a href="#View的绘制原理" class="headerlink" title="View的绘制原理"></a>View的绘制原理</h4><p>View的绘制流程主要分为三步：</p>
