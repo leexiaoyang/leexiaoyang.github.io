@@ -18,21 +18,22 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="匿名内部类">
+    <meta name="description" content="面试题 16.25. LRU 缓存设计和构建一个“最近最少使用”缓存，该缓存会删除最近最少使用的项目。缓存应该从键映射到值(允许你插入和检索特定键对应的值)，并在初始化时指定最大容量。当缓存被填满时，它应该删除最近最少使用的项目。 它应该支持以下操作： 获取数据 get 和 写入数据 put 。 获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返">
 <meta property="og:type" content="article">
-<meta property="og:title" content="几种内部类">
-<meta property="og:url" content="http://example.com/2022/02/18/%E5%87%A0%E7%A7%8D%E5%86%85%E9%83%A8%E7%B1%BB/index.html">
+<meta property="og:title" content="设计题">
+<meta property="og:url" content="http://example.com/2022/03/03/%E8%AE%BE%E8%AE%A1%E9%A2%98/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="匿名内部类">
+<meta property="og:description" content="面试题 16.25. LRU 缓存设计和构建一个“最近最少使用”缓存，该缓存会删除最近最少使用的项目。缓存应该从键映射到值(允许你插入和检索特定键对应的值)，并在初始化时指定最大容量。当缓存被填满时，它应该删除最近最少使用的项目。 它应该支持以下操作： 获取数据 get 和 写入数据 put 。 获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-18T10:36:01.000Z">
-<meta property="article:modified_time" content="2022-02-18T10:36:01.000Z">
+<meta property="article:published_time" content="2022-03-03T03:20:45.000Z">
+<meta property="article:modified_time" content="2022-03-03T03:20:45.000Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Java">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="设计题">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>几种内部类 - Hexo</title>
+  <title>设计题 - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="几种内部类">
+            <span class="h2" id="subtitle" title="设计题">
               
             </span>
 
@@ -188,8 +189,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-18 18:36" pubdate>
-        2022年2月18日 晚上
+      <time datetime="2022-03-03 11:20" pubdate>
+        2022年3月3日 上午
       </time>
     </span>
   
@@ -199,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5 字
+      1.8k 字
     </span>
   
 
@@ -208,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      15 分钟
     </span>
   
 
@@ -237,11 +238,19 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">几种内部类</h1>
+            <h1 style="display: none">设计题</h1>
             
             <div class="markdown-body">
-              <h4 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h4><blockquote>
-</blockquote>
+              <h4 id="面试题-16-25-LRU-缓存"><a href="#面试题-16-25-LRU-缓存" class="headerlink" title="面试题 16.25. LRU 缓存"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/lru-cache-lcci/">面试题 16.25. LRU 缓存</a></h4><p>设计和构建一个“最近最少使用”缓存，该缓存会删除最近最少使用的项目。缓存应该从键映射到值(允许你插入和检索特定键对应的值)，并在初始化时指定最大容量。当缓存被填满时，它应该删除最近最少使用的项目。</p>
+<p>它应该支持以下操作： 获取数据 <code>get</code> 和 写入数据 <code>put</code> 。</p>
+<p>获取数据 <code>get(key)</code> - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。<br>写入数据 <code>put(key, value)</code> - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。</p>
+<p><strong>示例:</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">LRUCache</span> cache = new LRUCache( <span class="hljs-number">2</span> /* 缓存容量 */ );<br><br><span class="hljs-attribute">cache</span>.put(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);<br><span class="hljs-attribute">cache</span>.put(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>);<br><span class="hljs-attribute">cache</span>.get(<span class="hljs-number">1</span>);       // 返回  <span class="hljs-number">1</span><br><span class="hljs-attribute">cache</span>.put(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);    // 该操作会使得密钥 <span class="hljs-number">2</span> 作废<br><span class="hljs-attribute">cache</span>.get(<span class="hljs-number">2</span>);       // 返回 -<span class="hljs-number">1</span> (未找到)<br><span class="hljs-attribute">cache</span>.put(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>);    // 该操作会使得密钥 <span class="hljs-number">1</span> 作废<br><span class="hljs-attribute">cache</span>.get(<span class="hljs-number">1</span>);       // 返回 -<span class="hljs-number">1</span> (未找到)<br><span class="hljs-attribute">cache</span>.get(<span class="hljs-number">3</span>);       // 返回  <span class="hljs-number">3</span><br><span class="hljs-attribute">cache</span>.get(<span class="hljs-number">4</span>);       // 返回  <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LRUCache</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">    新数据插入到链表头部；</span><br><span class="hljs-comment">    每当缓存命中（即缓存数据被访问），则将数据移到链表头部；</span><br><span class="hljs-comment">    当链表满的时候，将链表尾部的数据丢弃。</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListNode</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> key;<br>        <span class="hljs-keyword">int</span> val;<br>        ListNode pre;<br>        ListNode next;<br>        ListNode(<span class="hljs-keyword">int</span> k, <span class="hljs-keyword">int</span> v) &#123;<br>            key = k;<br>            val = v;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">int</span> capacity;<br>    ListNode head;<br>    ListNode tail;<br>    Map&lt;Integer, ListNode&gt; map;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">LRUCache</span><span class="hljs-params">(<span class="hljs-keyword">int</span> capacity)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.capacity = capacity;<br>        map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>        head = <span class="hljs-keyword">new</span> ListNode(-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>);<br>        tail = <span class="hljs-keyword">new</span> ListNode(-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>);<br>        head.next = tail;<br>        tail.pre = head;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">get</span><span class="hljs-params">(<span class="hljs-keyword">int</span> key)</span> </span>&#123;<br>        ListNode node = map.get(key);<br>        <span class="hljs-keyword">if</span> (node == <span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>        removeNode(node);<br>        insertHead(node);<br>        <span class="hljs-keyword">return</span> node.val;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">put</span><span class="hljs-params">(<span class="hljs-keyword">int</span> key, <span class="hljs-keyword">int</span> val)</span> </span>&#123;<br>        ListNode node = map.get(key);<br>        <span class="hljs-keyword">if</span> (node == <span class="hljs-keyword">null</span>) &#123;<br>            ListNode insertNode = <span class="hljs-keyword">new</span> ListNode(key, val);<br>            <span class="hljs-keyword">if</span> (map.size() &lt; capacity) &#123;<br>                insertHead(insertNode);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                removeNode(tail.pre);<br>                insertHead(insertNode);<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            node.val = val;<br>            removeNode(node);<br>            insertHead(node);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">removeNode</span><span class="hljs-params">(ListNode node)</span> </span>&#123;<br>        map.remove(node.key);<br>        node.pre.next = node.next;<br>        node.next.pre = node.pre;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insertHead</span><span class="hljs-params">(ListNode node)</span> </span>&#123;<br>        map.put(node.key, node);<br>        node.next = head.next;<br>        head.next = node;<br>        node.next.pre = node;<br>        node.pre = head;<br>    &#125;<br><br><br>   <br>&#125;<br></code></pre></td></tr></table></figure>
+
 
             </div>
             <hr>
@@ -251,7 +260,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
                     
                   </div>
                 
@@ -259,7 +268,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BE%E8%AE%A1%E9%A2%98/">设计题</a>
                     
                   </div>
                 
@@ -270,9 +281,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/18/Android%E4%BF%9D%E6%B4%BB/">
+                      <a href="/2022/03/03/%E6%B5%B7%E9%87%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Android保活</span>
+                        <span class="hidden-mobile">海量数据处理</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -280,8 +291,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/18/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%9C%BA%E6%99%AF/">
-                        <span class="hidden-mobile">Android内存泄漏场景</span>
+                      <a href="/2022/03/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                        <span class="hidden-mobile">Java多线程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

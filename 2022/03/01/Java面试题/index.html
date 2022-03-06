@@ -1,0 +1,573 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="面向对象编程三大特性面向对象说到底就是一种思想，任何事物都可以看作是一个对象。 封装 把描述一个对象的属性和行为的代码封装在一个类中，属性用变量定义，行为用方法进行定义。 继承 子类继承父类的特征和行为。子类可以有父类非私有的方法，属性。子类也可以对父类进行扩展，也可以重写父类的方法。缺点就是提高代码之间的耦合性。 多态（编译看左边，运行看右边） 多态性是指在父类中定义的属性或方法被子类继承之后，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java面试题">
+<meta property="og:url" content="http://example.com/2022/03/01/Java%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="面向对象编程三大特性面向对象说到底就是一种思想，任何事物都可以看作是一个对象。 封装 把描述一个对象的属性和行为的代码封装在一个类中，属性用变量定义，行为用方法进行定义。 继承 子类继承父类的特征和行为。子类可以有父类非私有的方法，属性。子类也可以对父类进行扩展，也可以重写父类的方法。缺点就是提高代码之间的耦合性。 多态（编译看左边，运行看右边） 多态性是指在父类中定义的属性或方法被子类继承之后，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source/_posts/Java面试题.assets/image-20220301165217271.png">
+<meta property="article:published_time" content="2022-03-01T06:27:18.000Z">
+<meta property="article:modified_time" content="2022-03-01T06:27:18.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source/_posts/Java面试题.assets/image-20220301165217271.png">
+  
+  
+  <title>Java面试题 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading3.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alexander Lee</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java面试题">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-01 14:27" pubdate>
+        2022年3月1日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      26 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java面试题</h1>
+            
+            <div class="markdown-body">
+              <h3 id="面向对象编程三大特性"><a href="#面向对象编程三大特性" class="headerlink" title="面向对象编程三大特性"></a>面向对象编程三大特性</h3><p>面向对象说到底就是一种思想，任何事物都可以看作是一个对象。</p>
+<p><strong>封装</strong></p>
+<p>把描述一个对象的属性和行为的代码封装在一个类中，属性用变量定义，行为用方法进行定义。</p>
+<p><strong>继承</strong></p>
+<p>子类继承父类的特征和行为。子类可以有父类非私有的方法，属性。子类也可以对父类进行扩展，也可以重写父类的方法。缺点就是提高代码之间的耦合性。</p>
+<p><strong>多态</strong>（<strong>编译看左边，运行看右边</strong>）</p>
+<p>多态性是指在父类中定义的属性或方法被子类继承之后，可以表现出不同的行为。</p>
+<p>Java的多态性体现在两个方面：由方法重载实现的静态多态性（编译时多态）和方法重写实现的动态多态性（运行时多态）。</p>
+<ul>
+<li>编译时多态：在编译阶段，具体调用哪个被重载的方法，编译器会根据参数的不同来静态确定调用相应的方法。</li>
+<li>运行时多态：在编译时，仅仅依据对象所属的类，系统无法确定到底应该执行那个类的方法，只有运行时才能确定。由于子类继承了父类所有的属性（私有的除外），所以使用父类对象的地方，可以用子类对象来代替。一个对象可以通过引用子类的实例来调用子类的方法。</li>
+</ul>
+<p><strong>优点</strong>：</p>
+<ol>
+<li>提高了代码的维护性（由继承保证）</li>
+<li>提高代码复用性（由继承保证）</li>
+<li>提高了代码的扩展性：新增加的子类不影响已存在类的多态性、继承性以及其他特性</li>
+<li>安全性：向上转型将子类类型隐藏了起来</li>
+</ol>
+<p><strong>缺点</strong>：</p>
+<ol>
+<li>无法使用子类特有的功能（如要使用就要使用向下转型强制类型转换）</li>
+</ol>
+<h3 id="向上转型和向下转型"><a href="#向上转型和向下转型" class="headerlink" title="向上转型和向下转型"></a>向上转型和向下转型</h3><p><strong>向上转型</strong></p>
+<ul>
+<li>当子类对象赋值给一个父类引用时，即向上转型（多态本身就是向上转型的过程）</li>
+<li>格式：父类类型 变量名 = new 子类类型（）；</li>
+</ul>
+<p><strong>向下转型</strong></p>
+<ul>
+<li>通过强制类型转换格式，将父类引用转为子类格式</li>
+<li>格式：子类类型 变量名 = （子类类型）父类类型的变量；</li>
+</ul>
+<h3 id="equals与-的区别"><a href="#equals与-的区别" class="headerlink" title="equals与 == 的区别"></a>equals与 == 的区别</h3><p>==</p>
+<ul>
+<li>基本类型：比较的是值是否相同；（byte,short,char,int,long,float,double,boolean等基本类型）</li>
+<li>引用类型：比较的是在内存中的存放地址是否相同；</li>
+</ul>
+<p>equals</p>
+<ul>
+<li>引用类型：默认情况下，比较的是内存地址值。</li>
+<li>只不过 String 和 Integer 等重写了 equals 方法，把它变成了值比较。</li>
+<li>String类中被复写的equals()方法其实是比较两个字符串的内容。</li>
+</ul>
+<h3 id="什么时候需要重写equals与-hashcode"><a href="#什么时候需要重写equals与-hashcode" class="headerlink" title="什么时候需要重写equals与 hashcode"></a>什么时候需要重写equals与 hashcode</h3><p>hashcode：元素的地址转换成一个整数返回</p>
+<p>只有当类需要作为key放在HashTable和HashMap等这些具有Hash结构的集合中才需要重写hashcode。因为 hash结构的集合存储的是不重复的对象，依据 hashCode 和 equals 进行判断，所以 hash结构的集合存储的对象必须重写 hashCode 和 equals。</p>
+<h3 id="为什么equals相等hashcode必相等"><a href="#为什么equals相等hashcode必相等" class="headerlink" title="为什么equals相等hashcode必相等"></a>为什么equals相等hashcode必相等</h3><p>如果只重写了 equals 方法，两个对象 equals 返回了true，集合是不允许出现重复元素的，只能插入一个。此时如果没有重写 hashCode 方法，那么就无法定位到同一个位置，集合还是会插入元素。这样集合中就出现了重复元素了。那么重写的equals方法就没有意义了。</p>
+<h3 id="抽象类必须要有抽象方法吗"><a href="#抽象类必须要有抽象方法吗" class="headerlink" title="抽象类必须要有抽象方法吗"></a>抽象类必须要有抽象方法吗</h3><p>不需要，抽象类不一定非要有抽象方法</p>
+<h3 id="StringBuffer-和-StringBuilder-的区别是什么"><a href="#StringBuffer-和-StringBuilder-的区别是什么" class="headerlink" title="StringBuffer 和 StringBuilder 的区别是什么"></a>StringBuffer 和 StringBuilder 的区别是什么</h3><p><code>StringBuilder</code>是线程不安全的，效率较高；而<code>StringBuffer</code>是线程安全的，效率较低。</p>
+<p><code>StringBuffer</code>和<code>StringBuilder</code>的值是可变的，底层使用的是可变字符数组：<code>char[] value</code></p>
+<p>String 类内部是用 char 数组来保存字符串的值, 并且 char[] 是 final 的。</p>
+<h3 id="抽象类能使用-final-修饰吗"><a href="#抽象类能使用-final-修饰吗" class="headerlink" title="抽象类能使用 final 修饰吗"></a>抽象类能使用 final 修饰吗</h3><p>不能，定义抽象类就是让其他类继承的，如果定义为 final 该类就不能被继承，这样彼此就会产生矛盾，所以 final 不能修饰抽象类</p>
+<h3 id="接口和抽象类有什么区别"><a href="#接口和抽象类有什么区别" class="headerlink" title="接口和抽象类有什么区别"></a><strong>接口和抽象类有什么区别</strong></h3><img src="C:\Blogs\source\_posts\Java面试题.assets\image-20220301165217271.png" srcset="/img/loading3.gif" lazyload alt="image-20220301165217271" sty le="zoom:50%;" style="zoom:50%;" /> 
+
+<ul>
+<li>接口中没有构造方法，而抽象类中可以有。</li>
+<li>接口中的方法修饰符默认是public abstract，抽象类可以是任意访问修饰符。</li>
+<li>抽象类有的变量默认是 public static final 修饰，而抽象类中的变量无限制。</li>
+<li>接口中不能含有静态方法（java8取消限制）以及静态代码块，而抽象类可以有。</li>
+<li>接口可以多实现 implement， 抽象类只能单继承 extends ，一个类如果继承抽象类，要么实现它的抽象方法，要么也定义为一个抽象类。</li>
+<li>接口是不可以被实例化，抽象类也不可以被实例化。</li>
+</ul>
+<ul>
+<li><p>default 方法 （实现类可以选择重写，也可以不重写）</p>
+</li>
+<li><p>static 方法 （接口名.static方法名调用，切记实现类不能继承static方法）</p>
+</li>
+</ul>
+<h3 id="final、finally、finalize-有什么区别"><a href="#final、finally、finalize-有什么区别" class="headerlink" title="final、finally、finalize 有什么区别"></a>final、finally、finalize 有什么区别</h3><ul>
+<li>final可以修饰类、变量、方法，修饰类表示该类不能被继承、修饰方法表示该方法不能被重写、修饰变量表示该变量是一个常量不能被重新赋值。</li>
+<li>finally一般作用在处理异常的try-catch代码块后，表示不管是否出现异常，该代码块都会执行，一般用来存放一些关闭资源的代码。</li>
+<li>finalize是Object类的一个方法，而Object类是所有类的父类，该方法一般由垃圾回收器来调用，当我们调用System的gc()方法的时候，垃圾回收器会调用finalize()。一般用来堆那些即将被垃圾回收器标记的对象重新赋值，从而达到逃生的目的。</li>
+</ul>
+<h3 id="四种访问修饰符"><a href="#四种访问修饰符" class="headerlink" title="四种访问修饰符"></a>四种访问修饰符</h3><ul>
+<li>private：类中限定为private的成员，只能被这个类本身访问。如果一个类的构造方法声明为private,则其它类不能生成该类的一个实例。</li>
+<li>default：类中不加任何访问权限限定的成员属于缺省的（default）访问状态，可以被这个类本身和同一个包中的类所访问。</li>
+<li>protected：类中限定为protected的成员，可以被这个类本身、它的子类（包括同一个包中以及不同包中的子类）和同一个包中的所有其他的类访问。</li>
+<li>public：类中限定为public的成员，可以被所有的类访问。</li>
+</ul>
+<h3 id="反射破坏单例及其解决方案"><a href="#反射破坏单例及其解决方案" class="headerlink" title="反射破坏单例及其解决方案"></a>反射破坏单例及其解决方案</h3><p>Java 反射机制是在运行状态中，对于任意一个类，都能够知道这个类中的所有属性和方法，对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为 Java 语言的反射机制。</p>
+<ul>
+<li>先得到class对象（类名、类本身、类的对象）</li>
+<li>通过class对象的对应方法得到构造器、属性、方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><pre><code class="hljs java">Singleton s1 = Singleton.getInstance();<br> <br>Constructor&lt;Singleton&gt; constructor = Singleton.class.getDeclaredConstructor();<br>constructor.setAccessible(<span class="hljs-keyword">true</span>);<br>Singleton s2 = constructor.newInstance();<br> <br>System.out.println(s1.hashCode());<br>System.out.println(s2.hashCode());<br></code></pre></td></tr></table></figure>
+
+<p>由于该构造函数是private的，通过setAccessible(true)指示反射的对象在使用时应该取消 <a target="_blank" rel="noopener" href="http://lib.csdn.net/base/javase">Java</a> 语言访问检查,使得私有的构造函数能够被访问，这样使得单例模式失效。如果要抵御这种攻击，要防止构造函数被成功调用两次。需要在构造函数中对实例化次数进行统计，大于一次就抛出异常。</p>
+<h4 id="URI-和-URL-有什么区别？"><a href="#URI-和-URL-有什么区别？" class="headerlink" title="URI 和 URL 有什么区别？"></a>URI 和 URL 有什么区别？</h4><p>URI 在于I(Identifier)是统一资源标示符，可以唯一标识一个资源。</p>
+<p>URL在于Locater，一般来说（URL）统一资源定位符，可以提供找到该资源的路径，</p>
+<p>URL又是URI，因为它可以标识一个资源，所以URL又是URI的子集。</p>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java多线程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/28/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%B1%BB%E5%88%AB/">
+                        <span class="hidden-mobile">线程安全类别</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'leexiaoyang/leexiaoyang.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

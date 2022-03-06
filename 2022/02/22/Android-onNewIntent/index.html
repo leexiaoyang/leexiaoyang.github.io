@@ -18,21 +18,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="转载 ：https:&#x2F;&#x2F;tech.meituan.com&#x2F;2017&#x2F;04&#x2F;14&#x2F;oom-analysis.html [Android]生成heap dump文件(.hprof) MAT分析：http:&#x2F;&#x2F;liuwangshu.cn&#x2F;application&#x2F;performance&#x2F;ram-5-mat.html 下载地址：https:&#x2F;&#x2F;www.eclipse.org&#x2F;mat&#x2F;downloads.ph">
+    <meta name="description" content="调用时机 只要该Activity实例在栈中存在，每次复用Activity的时候，都会调用onNewIntent，而不会重新创建Activity实例。  转载 2019-09-02：Activity中onNewIntent方法的调用时机和使用场景？ onNewIntent()方法介绍">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OOM分析">
-<meta property="og:url" content="http://example.com/2022/02/18/OOM%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="Android onNewIntent">
+<meta property="og:url" content="http://example.com/2022/02/22/Android-onNewIntent/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="转载 ：https:&#x2F;&#x2F;tech.meituan.com&#x2F;2017&#x2F;04&#x2F;14&#x2F;oom-analysis.html [Android]生成heap dump文件(.hprof) MAT分析：http:&#x2F;&#x2F;liuwangshu.cn&#x2F;application&#x2F;performance&#x2F;ram-5-mat.html 下载地址：https:&#x2F;&#x2F;www.eclipse.org&#x2F;mat&#x2F;downloads.ph">
+<meta property="og:description" content="调用时机 只要该Activity实例在栈中存在，每次复用Activity的时候，都会调用onNewIntent，而不会重新创建Activity实例。  转载 2019-09-02：Activity中onNewIntent方法的调用时机和使用场景？ onNewIntent()方法介绍">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-18T04:14:10.000Z">
-<meta property="article:modified_time" content="2022-02-18T04:14:10.000Z">
+<meta property="article:published_time" content="2022-02-22T07:33:19.000Z">
+<meta property="article:modified_time" content="2022-02-22T07:33:19.000Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>OOM分析 - Hexo</title>
+  <title>Android onNewIntent - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +178,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="OOM分析">
+            <span class="h2" id="subtitle" title="Android onNewIntent">
               
             </span>
 
@@ -188,8 +188,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-18 12:14" pubdate>
-        2022年2月18日 中午
+      <time datetime="2022-02-22 15:33" pubdate>
+        2022年2月22日 下午
       </time>
     </span>
   
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      332 字
+      136 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3 分钟
+      2 分钟
     </span>
   
 
@@ -237,19 +237,16 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">OOM分析</h1>
+            <h1 style="display: none">Android onNewIntent</h1>
             
             <div class="markdown-body">
-              <p>转载 ：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2017/04/14/oom-analysis.html">https://tech.meituan.com/2017/04/14/oom-analysis.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sodino/article/details/38512473?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164516540016780269814268%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=164516540016780269814268&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-38512473.nonecase&utm_term=dump&spm=1018.2226.3001.4450">[Android]生成heap dump文件(.hprof)</a></p>
-<p>MAT分析：<a target="_blank" rel="noopener" href="http://liuwangshu.cn/application/performance/ram-5-mat.html">http://liuwangshu.cn/application/performance/ram-5-mat.html</a></p>
-<p>下载地址：<a target="_blank" rel="noopener" href="https://www.eclipse.org/mat/downloads.php">https://www.eclipse.org/mat/downloads.php</a></p>
-<figure class="highlight awk"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs awk">adb shell am  dumpheap com.alexander.app <span class="hljs-regexp">/data/</span>local<span class="hljs-regexp">/tmp/</span>heap.hprof<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">adb pull <span class="hljs-regexp">/data/</span>local<span class="hljs-regexp">/tmp/</span>heap.hprof C:\xxx<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript">hprof-conv C:<span class="hljs-symbol">\x</span>xx<span class="hljs-symbol">\h</span>eap.hprof C:<span class="hljs-symbol">\x</span>xx<br></code></pre></td></tr></table></figure>
-
+              <h3 id="调用时机"><a href="#调用时机" class="headerlink" title="调用时机"></a>调用时机</h3><blockquote>
+<p>只要该Activity实例在栈中存在，<strong>每次复用Activity的时候</strong>，都会调用onNewIntent，而不会重新创建Activity实例。</p>
+</blockquote>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Moosphan/Android-Daily-Interview/issues/138#">2019-09-02：Activity中onNewIntent方法的调用时机和使用场景？</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904007085850631">onNewIntent()方法介绍</a></li>
+</ul>
 
             </div>
             <hr>
@@ -278,9 +275,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/18/%E5%9B%9B%E5%A4%A7%E5%BC%95%E7%94%A8/">
+                      <a href="/2022/02/22/Android%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92%E6%9C%BA%E5%88%B6/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">四大引用</span>
+                        <span class="hidden-mobile">Android触摸事件传递机制</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -288,8 +285,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/18/%E5%B0%81%E8%A3%85Toast/">
-                        <span class="hidden-mobile">封装Toast</span>
+                      <a href="/2022/02/22/Activity%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+                        <span class="hidden-mobile">Activity生命周期</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

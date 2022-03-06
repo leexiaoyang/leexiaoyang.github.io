@@ -25,10 +25,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="面试流程：hr沟通-&gt;电面-&gt;4轮技术面-&gt;大老板面电面：项目简单沟通；C++相关：虚指针、智能指针；算法题：leetcode739 每日温度、   leetcode261 判断图是否是二叉树技术面1：反转链表、每隔k个反转链表技术面2：stringtodouble 实现技术面3：系统设计题：京东优惠券，大致思路，关键数据结构设计，数据存储等等技术面4：组内leader，n个球内">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source_posts/面经.assets/6CF9E8DD67D444C410C19E67AFF4FF93.png">
+<meta property="og:image" content="https://uploadfiles.nowcoder.com/images/20220225/293904508_1645764143493/7B0C132FE87AE4F198566CBB8B6A1D0F">
 <meta property="article:published_time" content="2022-01-19T15:43:06.326Z">
-<meta property="article:modified_time" content="2022-01-19T16:12:11.836Z">
+<meta property="article:modified_time" content="2022-03-03T13:58:43.047Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/面经.assets/6CF9E8DD67D444C410C19E67AFF4FF93.png">
   
   
   <title>Hexo</title>
@@ -198,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.1k 字
+      17k 字
     </span>
   
 
@@ -207,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      27 分钟
+      138 分钟
     </span>
   
 
@@ -292,6 +295,433 @@
 <li>不含有重复字符的最长子串的长度 lc3。<br>此外还面了一些国内的公司(美团，腾讯)，但都是对coding要求都不高，基本背上前300道题都可以秒杀。基础知识/八股文要求其实也不高(阿里系除外)，主要是system design加介绍项目。面下来感觉除非想面试阿里，其实不太用背什么八股文(个人看法)。<br>目前找了个1065不加班的国内公司，我的找工旅途暂时告一段落。以后会每天刷题，打周赛，隔几个月投微软练练手，争取把coding技能点满。写了这么多，求加米！！！救救孩子吧，看不到帖子了。<br>补充内容 (2021-12-31 15:38 +8:00):<br>补充一下，微软有两面问过很多八股文的问题：1. 线程进程，2. https的密钥交换 3. 如何在没有ca的情况下做加密。<br>. From 1point 3acres bbs<br>再补充一下微软还面了道1569。这道题没写出来，因为组合数的递推公式忘了。面试官给提示还提示错了，写出来结果不对。后来想了一下，大概面试官以为除法取mod运算符合分配律。<br>补充内容 (2021-12-31 15:39 +8:00):<br>微软八股还有：随机森林的剪枝。<br>. From 1point 3acres bbs<br>补充内容 (2021-12-31 15:43 +8:00):</li>
 </ol>
 <p>本帖最后由 kjreen 于 2021-12-29 11:12 编辑<br>其实我面了2次。第一次 面了4轮。挂了 。过了1周。又面了一次 ，过了 我尽量写的详细。大家看心情打赏下吧。<br>A1店面 链表判断有没有环<br>A2VO 复制复杂链表（random pointer)，follow up 判断 复杂链表a 是不是 b 的 深拷贝 ，判断的时候，需要用一个map。我想简单了 。但最后改对了，还是没给过<br>A3VO 强盗tree的那个版本，代码写对了，被挑了一些小毛病。没给过<br>A4VO 全英文 自创题应该<br>oprs:<br>    + -<br>    &gt; &lt;<br>    . print<br>input: ++.&gt;+..[ ++[–].. ]<br>output: 2 1 1<br>题目是这个 。大概就是，遇到+就把当前index（初始0）+1，遇到&gt;跳到下一个 index，follow up 是[],如果遇到括号。好像是，直到当前index 上的值是0.不然 重复[]里面的操作。<br>面试官人特别好，就是那种特别典型的 好的面试官。<br>B1店面 小姐姐也是人特别好，典型的特别好 ，英文简历，问了一个 rotate 链表的题。然后问了一个 开放式 设计的题。答的不好 ，但还是给过了<br>B2VO 1-26 对应 a-z，给一个 数字 比如 1212 输入所有 字母组合<br>B3VO 给一个array ，找到最长 subarray 和为k，不知道怎么，这个题，竟然懵了。其实就是前缀和。但我可能刷题 刷杂了 。当陌生题。自己一点点做的。所以。写的有点多余 。比如 前缀和 那个数组 其实不需要。之类的 （面试官 挺好）<br>B4VO 这轮特别煎熬，一上来了 如果你做个项目，input 有很多 错误，或者 不全丢失，我有点懵。然后接着问我 。如果让我管微软所有的log，那么在少花钱，多办事的原则下，让我给出我能想到的方案，我吭哧半天，说了4，5个吧，花了20分钟了吧。然后他说 。这个很简单。10个算及格。15个算可以 ，20个算优秀。（压力测试？）但我也没当回事，反正能说啥 说啥吧。甚至，最后都说了。买点 便宜的 服务器和硬盘这种，，，。。反正最后说了10个，但只剩下 20分钟了。竟然还是出了个题。最长回文substring，他不让我说思路，就是让写。然后提醒我 时间不多了 。弄的我很紧张。本来很简单的题，写了bug，然后紧张的 花了挺久才 debug成功，最终，超过15分钟吧，然后，他还不满意，继续问，你的test case 写的 全吗，我想了想。感觉还行啊，憋了半天。他说。test case里面怎么没有中文，，OMG，我彻底奔溃了 ，，，，我说。。好吧。我没想到这么周全，他继续问 ，那如果是中文，你的代码还能使用吗，我说，我不确定。然后我说 ，可能不行，他说 。你发邮件给我，为什么你觉得不行。然后结束了<br>（最后发现是可以的）<br>B5VO bq 问了一大堆。答的还行吧。比较真实，没有特意准备，最后问了一个 ，给一个 int year int month int day，问你这个 当年的第几天。代码功力全是不行，这么个简单题，第一版 让我写的挺复杂。。重复代码比较多 。你们别嘲笑，比如。我写了一个 前缀和数组。。这样，我在知道第几个月的时候，我就知道，这个月之前有多少天。之类的，然后 闰年和非闰年，还是分开写的。。。。总之 ，她很不满意，让我改。不过也没花多久时间。改到了 她满意的版本。<br>大概就这样吧，因为是组招，可能还需要面对 那些曾经“难为”过你的人。。。。  </p>
+<p>作者：牛客567762004号<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/688776?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646292965132">https://www.nowcoder.com/discuss/688776?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646292965132</a><br>来源：牛客网</p>
+<p>八股文： </p>
+<p>  1、了解锁吗？互斥锁、自旋锁等 </p>
+<p>  2、介绍一下内核态和用户态？ </p>
+<p>  3、用户态怎么切换为内核态？ </p>
+<p>  4、讲一下 用户态切换为内核态方式中的中断方式怎么执行的？ </p>
+<p>  5、了解HTTP吗？和HTTPS的区别？ </p>
+<p>  6、加密过程？ </p>
+<p>  7、服务器将公钥发给客户端过程中有没有加密？这个过程中如果被黑客窃取了怎么办？ </p>
+<p>  8、定义指针为NULL后，有时系统会抛出异常，怎么回事？（NULL在C++里其实是0，使用nullptr） </p>
+<p>  9、讲一下Tcp的拥塞控制，常用的<a href="">算法</a>，怎么个慢开始？要多慢 </p>
+<p>  10、讲一下滑动窗口，窗口大小如何控制？ </p>
+<p>  11、如果发生了拥塞，怎么办？ </p>
+<p>  12、介绍一下快速<a href="">排序</a><a href="">算法</a>，存在的弊端（如果待<a href="">排序</a>子列部分有序，快排会打乱这部分有序的）， </p>
+<p>  针对这个弊端有没有好的解决方法？</p>
+<p>作者：毕业马上失业的不合格小码农<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/510462?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646292965132">https://www.nowcoder.com/discuss/510462?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646292965132</a><br>来源：牛客网</p>
+<p>  做<a href="">算法题</a>：<a href="">leetcode</a>原题判断IP地址 </p>
+<p>  两个IP地址压缩成int </p>
+<p>  内部类和静态内部内区别 </p>
+<p>  普通内部类里面能有静态方法吗？ </p>
+<p>  == 和 equals 的区别，int和Integer的比较问题 </p>
+<p>  泛型了解吗？List list=new ArrarList<Integer>()能编译通过吗？ </p>
+<p>  说一下volatile关键字？如果记录程序执行行数能用volatile吗？ </p>
+<p>  为什么线程上下文切换要消耗资源 </p>
+<p>  知道哪些线程池 </p>
+<p>  线程个进程区别 </p>
+<p>  进程间通信方式 </p>
+<p>  什么是弱引用 </p>
+<p>  一次URL过程</p>
+<p>作者：Justfeel<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/502332?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646292965132">https://www.nowcoder.com/discuss/502332?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646292965132</a><br>来源：牛客网</p>
+<p>一面：50min </p>
+<p>   1、套公式的自我介绍  </p>
+<p>   2、说一下你对hashmap的理解？hashmap线程安全吗？  </p>
+<p>   3、说一下快排的最好和最坏的时间复杂度？稳定吗？  </p>
+<p>   4、mysql事务说一说？隔离级别？事务的回滚怎么实现的？  </p>
+<p>   5、说一下乐观锁和悲观锁？乐观锁如何实现悲观锁的？  </p>
+<p>   6、如何通过语句对一行进行加锁？ 你是如何用事务的？怎么用的？  </p>
+<p>   7、数据库如何实现事务的  </p>
+<p>   8、说一下https？ SSL握手流程？为什么要用对称秘钥？  </p>
+<p>   9、TCP连接？三次握手？序列号？  </p>
+<p>   10、三次握手最后一次ACK丢失？ 服务器如何处理之前的数据包？  </p>
+<p>   11、进程的状态？socket sin方法？？  </p>
+<p>   12、场景题：何如缩短32为的用户的id？放到URL中（开始猜测。。。）  </p>
+<p>   13、查看端口命令？ linux常用命令？tcpdump是干啥的？什么场景用？  </p>
+<p>   14、手撕：给定<a href="">排序</a>数组和指定元素，第一个大于等于当前元素的的位置？ 二分。。  </p>
+<p>   看错题了，写了两遍。。。。   </p>
+<p>   反问：手撕代码只A了90%有关系吗？ 没有  </p>
+<p>   有什么建议给我吗？ 没有。。  </p>
+<p>   好吧，那就结束吧！和一面小哥聊得还挺开心的，可惜手撕代码看错了，这么简单的题。。。哎！  </p>
+<p>   面完一面感觉凉凉。。。  </p>
+<p>   二面：45min  </p>
+<p>​    1、自我介绍、主要研究方向   </p>
+<p>​    2、项目具体做了什么？大致介绍？主要负责的模块？   </p>
+<p>​    3、系统管理后台的主要功能？主要模块？   </p>
+<p>​    4、<a href="">二叉树</a>、B树和B+树介绍一下？ B树和B+树的查询效率更高？ 为什么索引用B+？   </p>
+<p> 5、<a href="">判断链表成环</a>？ 快慢指针之外还有别的方式吗？ <a href="">哈希表</a>？ 那么应该对什么值进行哈希？ </p>
+<p>​    6、<a href="">红黑树</a>了解吗？<a href="">红黑树</a>怎么实现平衡的？<a href="">红黑树</a>的优点？   </p>
+<p>​    7、索引在什么时候会失效？   </p>
+<p>​    8、mysql的主从同步？ 同步的流程？ 发生异常比如binlog断了怎么办？   </p>
+<p>​    9、介绍一下http、https？https端口能改吗？   </p>
+<p>​    10、SSL握手流程？为什么要使用对称秘钥？   </p>
+<p>​    11、 数字签名怎么进行验证？(面完想起来 摘要哈希，私钥加密，根公钥解密)   </p>
+<p>​    12、虚拟IP有了解吗？（不知道）   </p>
+<p>​    13、说一下<a href="">keep</a>-alive？ tcp的<a href="">keep</a>_alive?   </p>
+<p>​    14、tcp和udp的区别？tcp如何实现可靠传输？   </p>
+<p>​    15、说一下虚拟内存？如何进行换入换出的操作？替换<a href="">算法</a>   </p>
+<p>​    16、说一下用户态和内存态？用户态和内核态怎么进行切换？   </p>
+<p>​    17、查看端口占用情况？netstat -anp 参数什么意思？   </p>
+<p>​    18、java如何编译成字节码？   </p>
+<p>​    19、JDK和JRE的区别？  JDK里边多了什么东西？JRE是存java源码吗？   </p>
+<p>​    20、如何查看内存占用情况？   </p>
+<p>​    21、说一下java的内存模型？  内存分区和JMM都说了一下？   </p>
+<p>​    22、如何设置java内存的大小？哪些可以设置大小   </p>
+<p>​    23、python装饰器？？？？ 不懂原理？ 那你用python做了什么？   </p>
+<p>​    24、<a href="">redis</a>了解吗？ Redis的持久化？两种方式？   </p>
+<p>​    25、<a href="">redis</a>断电会发生数据丢失吗？ <a href="">redis</a>单线程还是多线程？为什么单线程还那么快？   </p>
+<p>​    26、10G内存，那么<a href="">redis</a>能存超过10G的数据吗？ <a href="">redis</a>会把数据都加载进内存吗？·   </p>
+<p>​    27、<a href="">redis</a>会把数据都加载进内存吗？<a href="">redis</a>加载哪些数据？从磁盘加载？   </p>
+<p>​    28、分布式事务了解吗？（不造）   </p>
+<p>​    29、你在项目中遇到的问题？   </p>
+<p>​    30、职业规划？打算做架构吗？聊天。。。   </p>
+<p>​    31、反问？（两面的面试官都说对我没有建议？？？？）   </p>
+<p>​    32、最后来一句？你目前有offer吗？（？？？？这是透露着什么吗？？？）</p>
+<p>作者：luckyun（Shopee内推）<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/494232?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646286877833">https://www.nowcoder.com/discuss/494232?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646286877833</a><br>来源：牛客网</p>
+<p>回馈<a href="">牛客</a>，开始写<a href="">面经</a> </p>
+<p>  8.31一面 45min </p>
+<p>  1.Activity的生命周期及启动模式介绍。常见活动切换情境下的生命周期变化，SingleTop模式下启动当前栈顶的活动回调哪个方法 </p>
+<p> 2.安卓四大组件介绍及具体描述自己的使用情景，内容提供器什么时候初始化<br> 3.你最掌握哪些安卓基础知识,能形成知识闭环的。（害怕，感觉要针对某一点开始深问…） </p>
+<p>  4.View的绘制过程、View的事件分发机制，责任链模式 </p>
+<p>  5.Okhttp有哪些拦截器，Okhttp有哪些优点；glide、picasso。 </p>
+<p> 6.设计模式了解哪些，详细解释单例模式的使用场景及优点 </p>
+<p>  7.手撕单例（静态内部类实现）和（双检锁实现），并分别根据代码分析该模式的实现原理及优缺点。 </p>
+<p>  8.双检锁为什么第二个if判断的意义，Volatile的意义。 </p>
+<p>  9.synchronized和volatile区别 </p>
+<p>  10.一定能保证单例吗？ 不一定 反射怎么破坏单例？</p>
+<p>作者：STE、<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/655698?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646279171045">https://www.nowcoder.com/discuss/655698?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646279171045</a><br>来源：牛客网</p>
+<p>问题不分先后 </p>
+<p>  1、自我介绍 </p>
+<p>  2、深挖安卓项目 </p>
+<p>  3、TCP、UDP </p>
+<p>  4、拥塞避免策略、慢开始、快开始等 </p>
+<p>  5、死锁相关 </p>
+<p>  6、hashmap、linkedhashmap、treemap </p>
+<p>  7、数据库相关 </p>
+<p>  8、稳定<a href="">排序</a><a href="">算法</a>和不稳定<a href="">排序</a><a href="">算法</a> </p>
+<p>  9、根堆<a href="">排序</a>原理过程 </p>
+<p>  10、四大组件相关 </p>
+<p>  11、打开新的活动生命周期，点击home后再返回原活动生命周期 </p>
+<p>  12、LRU相关 </p>
+<p>  13、Handler机制相关 </p>
+<p>  14、Binder机制相关（binder的好处……） </p>
+<p>  15、进程线程协程区别 </p>
+<p>  16、僵尸进程是什么 </p>
+<p>  17、内存泄漏的情况 </p>
+<p>  有几道记不清了 </p>
+<p>  手撕：找缺失的数字</p>
+<p>作者：MeteorChen<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/498921?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646279171045">https://www.nowcoder.com/discuss/498921?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646279171045</a><br>来源：牛客网</p>
+<h3 id="1-一面（2020-08-03）"><a href="#1-一面（2020-08-03）" class="headerlink" title="1.一面（2020.08.03）"></a>1.一面（2020.08.03）</h3><ul>
+<li><p>首先做9道选择题，包含<a href="">排序</a>、计算机网络、操作系统 </p>
+</li>
+<li><p>冒泡<a href="">排序</a>原理，最优时间复杂度；快排原理，最优时间复杂度（最优是O(log(2n)+1)，没说出来），最坏时间复杂度 </p>
+</li>
+<li><p>计算机网络五层模型、七层模型，哪个是TCP/IP协议簇的 </p>
+</li>
+<li><p>http协议状态码、为什么四次挥手 </p>
+</li>
+<li><p>http1.0和1.1相比有哪些改变，2.0呢？（答的出来的很少）  </p>
+<ul>
+<li><p>1.0和1.1的区别</p>
+<p>：    </p>
+<ul>
+<li>长连接 </li>
+<li>节约带宽 </li>
+<li>缓存处理 </li>
+<li>host域 </li>
+</ul>
+</li>
+<li><p>2.0的特点</p>
+<ul>
+<li>多路复用 </li>
+<li>头部压缩 </li>
+<li>服务器推送 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>http状态码 </p>
+</li>
+<li><p>http是有状态的吗？为什么要设计成无状态的 </p>
+</li>
+<li><p>https原理，什么是中间人攻击，怎么攻击的，加密<a href="">算法</a>有哪些（没答出来） </p>
+</li>
+<li><p>一个安卓问题，按下home键，activity的生命周期，再点开呢？ </p>
+</li>
+<li><p><a href="">算法题</a>，比较简单，一个数组中，找到最大的连续子数组的和 </p>
+</li>
+</ul>
+<h3 id="2-二面（2020-08-07）"><a href="#2-二面（2020-08-07）" class="headerlink" title="2.二面（2020.08.07）"></a>2.二面（2020.08.07）</h3><ul>
+<li>View的绘制流程 </li>
+<li>详细介绍项目中的自定义比例尺View是如何设计和实现的 </li>
+<li>让你设计一个进度条View怎么设计 </li>
+<li>进程和线程的区别、多线程的实现方式，Java中的线程池 </li>
+<li>Fragment的生命周期 </li>
+<li>Java内存泄漏的场景 </li>
+<li>了解什么安卓最前沿的技术 </li>
+</ul>
+<h3 id="3-Hr面"><a href="#3-Hr面" class="headerlink" title="3.Hr面"></a>3.Hr面</h3><p>作者：一只野指针<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/740902?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646292965132">https://www.nowcoder.com/discuss/740902?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646292965132</a><br>来源：牛客网</p>
+<p><strong>无语了，shopee应该是没hc了吧，昨晚十一点多</strong> <strong>收到感谢信，大周末还在刷人真的辛苦了。</strong> </p>
+<p>  发发<a href="">面经</a>祝大家好运 </p>
+<p>  -————————————————————————- </p>
+<p>  <strong>8.30 一面视频面 50mins</strong> </p>
+<p> 首先自我介绍<br> 首先事C++基础知识：<br> static 修饰变量和修饰函数 </p>
+<p> 操作系统：<br> a = 100 是否是原子操作？不是的话原因是什么？<br> 死锁的概念，四个条件以及解决办法 </p>
+<p> 网络的问了很多<br> send recv accept三个函数是干什么的<br> 什么是阻塞的什么是非阻塞的<br> socket通信中哪些函数是阻塞的<br> 了解多路复用吗？讲一下select poll epoll<br> DNS解析的过程<br> https获取数字证书的过程，以及进行加密通信的流程，问的比较详细 </p>
+<p> mysql:<br> 主键索引和唯一索引和复合索引<br> 为什么不是所有字段都加索引 </p>
+<p> <a href="">算法</a>：<br> 没有手撕代码<br> 问了快排的思路和平均时间复杂度，最差时间复杂度<br> 还问了归并<a href="">排序</a>的思路和时间复杂度以及是否是稳定的。</p>
+<p>  问了LRU </p>
+<p>  让讲一下思路以及设计的过程中那些部门是需要考虑多线程安全的 </p>
+<p>  （没让手撕代码太爽了） </p>
+<p>  问的挺多的，可能有个别不记得了。面试官很好（虽然戴口罩了，但是感觉挺帅的） </p>
+<p>  -————————————————————————————————————— </p>
+<p>  <strong>9.12 二面视频面 40+mins</strong><br> 等了一周多才等来的二面<br> 首先自我介绍，听到我说主要用的C++<br> 就问了用98还是11比较多，我说都用，他就问11新特性用过哪些<br> 我答lambda表达式，范围for，auto关键字，智能指针<br> 让讲一下智能指针的原理，我blabla<br> 提到了构造析构，什么时候会析构？blabla<br> 然后问了一段代码编译的整个过程<br> 讲完问我如果有两个函数：if() 调用函数A else 调用函数B<br> 在编译的整个过程中怎么判断B被调用了<br> 他自己举例子把打印的方法说了，让我再想个方法<br> 我答了链接阶段的（不太会，瞎蒙）<br> 问了我知道哪些抓包工具，我就答了一个<br> 然后问我一个URL到网页渲染的整个过程（老八股了）<br> 然后问我整个过程中有哪些地方是不安全的（八股变股）<br> 我答了DNS劫持和DDos攻击，问我怎样防范（我给忘了贼尴尬）<br> 后面问了linux平常会怎样检查程序的错误啥的（不太会，说我做的是网络相关的）<br> 就问了HTTP/2.0的优势，我答他问还有吗，问到没有为止（我已经一头汗了）<br> 然后问多线程了解吗<br> 讲一下进程线程<br> 问线程同步的方式，方式的适用场景<br> 然后又问了进程间通信的方式，共享映射区是怎么共享的<br> 大概40min,结束了，让我反问<br> 面试官很幽默，聊的挺好，就是给我问一头汗 </p>
+<p>  基本就是八股深挖或者延伸出一些问题，不知道为啥一句项目也没问，是觉得太LOW了吗哈哈哈哈 </p>
+<p>  -———————————————————————————————————- </p>
+<p>  目前虾皮和<a href="">网易</a>面试体验并列第一，<a href="">美团</a>面试也比较专业，虽然可能答不出来，但是态度好让人没那么紧张，而且不会很难受 </p>
+<p>  <strong>大家加油，我撤退了</strong></p>
+<p>作者：牛客428991590号<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/707970?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646294649931">https://www.nowcoder.com/discuss/707970?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646294649931</a><br>来源：牛客网</p>
+<h1 id="7-18-虾皮一面40min"><a href="#7-18-虾皮一面40min" class="headerlink" title="7.18 虾皮一面40min"></a>7.18 虾皮一面40min</h1><ol>
+<li> == equal 区别 </li>
+<li> 线程池如何创建，7大参数；线程有几种状态，分别什么含义 </li>
+<li> 说下java垃圾回收机制 </li>
+<li> java object有哪些方法，各有什么用 </li>
+<li> 说下volatile </li>
+<li> hashmap实现原理 </li>
+<li> 接口和抽象类区别 </li>
+<li> sleep和wait </li>
+<li> gc机制，怎么避免内存碎片 </li>
+<li> 两个线程 一个线程oom，另一个能不能正常运行 </li>
+<li> select epoll区别？epoll的触发方式 </li>
+<li> 流量控制，拥塞避免 </li>
+<li> tcp三次握手，4次挥手，为什么有2msl，大量timewaited怎么解决 </li>
+<li> 数组<a href="">链表</a>区别？ </li>
+<li> <a href="">redis</a>几种数据结构，底层的实现形式各是什么 </li>
+<li> mysql索引怎么实现的，b+树实现原理说一下，b树和b+树区别 </li>
+<li> 常见<a href="">排序</a><a href="">算法</a>几种？时间空间复杂度怎样？ </li>
+<li> <a href="">机器学习</a><a href="">算法</a>了解吗 </li>
+<li> <a href="">算法</a>：<a href="">剑指offer</a>03 </li>
+<li> 周末平时干嘛 </li>
+<li>​    智能平台研发部，做广告推荐，主要用go   </li>
+</ol>
+<h1 id="7-25-虾皮二面-50min"><a href="#7-25-虾皮二面-50min" class="headerlink" title="7.25 虾皮二面 50min"></a>7.25 虾皮二面 50min</h1><ol>
+<li> 讲一下实习做过什么 </li>
+<li> <a href="">redis</a> mysql update时数据一致性 </li>
+<li> mysql mvcc </li>
+<li> mysql 持久化机制，redo log </li>
+<li> b树和b+树的区别 </li>
+<li> kafka consumer group </li>
+<li> kafka consumer重启之后会不会重复消费 </li>
+<li> 三次握手，第一次握手有没有数据 </li>
+<li> tcp sack </li>
+<li> 打点监控如何实现 </li>
+<li> linux 网络状态查看指令 </li>
+<li> git rebase 和git merge什么时候用 </li>
+<li> <a href="">算法题</a>：z字形打印<a href="">二叉树</a></li>
+</ol>
+<p>作者：小菜鸡11111<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/762350?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646294649931">https://www.nowcoder.com/discuss/762350?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646294649931</a><br>来源：牛客网</p>
+<h2 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h2><p>  1.数据库三大范式 </p>
+<p>  2.数据库事务特性 </p>
+<p>  3.悲观锁、乐观锁区别 </p>
+<p>  4.悲观锁优缺点 </p>
+<p>  5.悲观锁、乐观锁使用场景 </p>
+<p>  6.乐观锁怎么实现 </p>
+<p>  7.CAS有哪些问题 </p>
+<p>  8.常见http状态码，401 </p>
+<p>  9.http和https区别， 对称加密和非对称加密分别做了什么事情 </p>
+<p>  10.给数字证书的第三方机构叫什么 </p>
+<p>  11.对称加密和非对称加密常用<a href="">算法</a>，RSA对称还是非对称 </p>
+<p>  12.tcp和udp区别 </p>
+<p>  13.tcp为什么要三次握手 </p>
+<p>  14.手撕冒泡<a href="">排序</a> </p>
+<p>  15.<a href="">排序</a><a href="">算法</a>稳定性，如何判断是否稳定 </p>
+<p>  16.<a href="">红黑树</a>特点 </p>
+<p>  17.int转byte，byte转int，byte表示范围，byte有符号还是无符号 </p>
+<p>  18.string，stringbuffer，stringbuilder区别 </p>
+<p>  19.<a href="">redis</a>常见数据结构，分别用在哪些场景 </p>
+<p>  20.进程线程区别，线程之间通信 </p>
+<h2 id="二面"><a href="#二面" class="headerlink" title="二面"></a>二面</h2><p>一面8.31下午17：30 </p>
+<p>  面试体感相当不错，面试官人很nice，遇到不理解的会慢慢引导，甚至举例子给你解释！ </p>
+<p>  \1. JVM内存机制说一下 </p>
+<p>  \2. JVM的垃圾处理说一下、垃圾收集器了解哪些，介绍一下 </p>
+<p>  \3. 进程和线程的区别、进程间如何通信 </p>
+<p>  \4. 并发包用过什么、CurrentHashMap用过没说一下 </p>
+<p>  \5. 线程池介绍一下，池和阻塞队列都满了，对于新来的线程任务如何处理 </p>
+<p>  \6. TCP/IP流量控制和拥塞控制说一下 </p>
+<p>  \7. 数据库引擎了解哪些，介绍一下InnoDB和MyISAM的区别 </p>
+<p>  \8. 聚簇索引和非聚簇索引的区别 </p>
+<p>  \9. 什么时候联合索引失效（什么场景下） </p>
+<p>  10.开始问项目了，用到什么技术，<a href="">redis</a>、RabbitMQ </p>
+<p>  \11. 你使用<a href="">redis</a>都存储什么东西，<a href="">redis</a>支持什么存储格式、RabbitMQ了解什么。 </p>
+<p>  其他的细节忘了，主要是这些知识点。面了50+分钟，过程还算轻松愉快，最后还聊了聊专业。 </p>
+<p>  攒一波人品，面试官给个二面吧，秋梨膏！！！ </p>
+<p>  更新：第二天下午收到了二面通知，感谢面试官给机会，先来还愿 😊 </p>
+<p>  更新二面 9.4 16：30  50+min  </p>
+<p>​       二面<a href="">面经</a>：           1.   对着项目问所使用的技术，RabbitMQ应用在那些场景      2.   TCP和UDP的区别，<strong>TCP****的连接状态</strong>，TIME_WAIT，UDP应用场景      3.   http报文格式（详细），状态码了解哪些，请求头部里面有哪些字段，cookie和session的区别      4.   数据库聚簇索引和非聚簇索引，B+树的优势，<strong>什么时候需要建立索引</strong>，为什么要使用联合索引，数据库默认隔离级别，如何解决幻读，<strong>解释一下间隙锁的原理</strong>。      5.   Linux懂吗？      6.   撕代码，双栈实现队列      7.   职业规划，对虾皮有什么了解？      8.   反问  记不太清楚了，大概就是这些，想不到二面还问那么多基础，我以为都是项目呢。答的不太好，但还是厚颜无耻地攒一波人品求一波HR面！人呐，总是贪得无厌不是吗 😈<br>​          更新：9.7下午收到HR面通知，感谢二面面试官给机会，还愿还愿，祝自己HR面顺利！！！          我看好多人是9.8的HR面，我收到的是9.15的，隔这么久会不会是因为比较菜优先级低   😓    </p>
+<p>  9.15日，上午刚面完虾皮HR面。 </p>
+<p>  主要就是聊聊个人信息； </p>
+<p>  对工作有什么要求，看重哪些方面？ </p>
+<p>  注重待遇吗，期望薪资多少？ </p>
+<p>  为什么选择虾皮，从哪里了解虾皮的，了解虾皮的什么？ </p>
+<p>  家庭几口人？ </p>
+<p>  全程下来，HR小姐姐人很不错！我自己脑子抽风问了个问题。。。 </p>
+<p>  问：HR小姐姐是从别的公司过来的吗？那在shoppee工作跟在其他公司有什么不一样的感觉吗？（毕竟对shoppee的了解都是作为外部人员，想多了解一些内部人外的看法） </p>
+<p>  HR小姐姐：都挺不错的，主要就是外企氛围吧。 </p>
+<p>  突然脑子抽了，我开玩笑说：哈哈，是指不加班文化吗？😆 </p>
+<p>  HR小姐姐：你是不是对外企氛围有误解。 </p>
+<p>  emmmmm…这块我回去再了解了解… </p>
+<p>  感觉以后面试还是老老实实，面试就应该有面试的样子😶， 要虾皮，不要瞎皮！ </p>
+<p>  最后，真诚地求一波shoppee的offer，哪怕技术还不够，经验尚不足，但我会好好改造的！！！秋梨膏！！！</p>
+<p>作者：后海大鲨鱼啊<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/379375?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295026057">https://www.nowcoder.com/discuss/379375?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295026057</a><br>来源：牛客网</p>
+<p>多发<a href="">面经</a>攒人品哦<br> 下面开始正题:<br> 主要分几块。<br> 数据结构，数据库，操作系统，网络，<a href="">算法</a><br> 数据结构:<a href="">链表</a>和数组区别<br> 场景题:两千万数据，取最大的一千个。<br> 主键跟索引的区别<br> 索引的特点<br> TCP，udp区别<br> URL输入后，整套流程<br> 进程线程区别<br> 进程通信方式<br> MySQL的innodb和myisam区别<br> <a href="">算法</a>：是找最大不重复子串长度<br> 最后 跟我说了感谢面试虾皮，我一听凉凉了。<br> 给大家建议：<a href="">算法</a>的时候一定要准确说出思路。<br> 特别重视<a href="">算法</a>。</p>
+<p>作者：卷我屋上三重茅<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/413273?type=post&amp;order=recall&amp;pos=&amp;page=2&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295026057">https://www.nowcoder.com/discuss/413273?type=post&amp;order=recall&amp;pos=&amp;page=2&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295026057</a><br>来源：牛客网</p>
+<p>虾皮真的是压倒我的最后一根稻草，因为好朋友在深圳所以一直特别想去。 </p>
+<p>  <strong>一面（45min）</strong> </p>
+<p>  面试官是一个特别温柔的小哥哥 </p>
+<p>  先是计算机网络基础 </p>
+<p>  TCP和UDP的区别 </p>
+<p>  http和https的区别 </p>
+<p>  三握四挥 </p>
+<p>  滑动窗口，拥塞控制 </p>
+<p>  cookie和session </p>
+<p>  知道哪些http常用头部 </p>
+<p>  长链接短链接 </p>
+<p>  还有几个记不清了 </p>
+<p>  然后linux基础 </p>
+<p>  线程进程区别 </p>
+<p>  进程之间通信方式 </p>
+<p>  还有几个也记不清了（这个记忆力水平好像为我二面挂做了铺垫） </p>
+<p>  数据库基础 </p>
+<p>  删除表的方式 </p>
+<p>  几个sql语句 </p>
+<p>  聚簇索引和非聚簇索引 </p>
+<p>  乐观锁，悲观锁 </p>
+<p>  数据库特性 </p>
+<p>  数据结构基础 </p>
+<p>  队列和栈的区别 </p>
+<p>  删除元素的时间复杂度 </p>
+<p>  手撕代码： </p>
+<p>  回文串 </p>
+<p>  测试理论： </p>
+<p>  测试方法 </p>
+<p>  以前有没有对自己的项目进行过测试（我说一般都是功能性测试） </p>
+<p>  性能测试 </p>
+<p>  如何测一个登陆界面（面试官最后引导我补充了几个点，然后他一直点头说okok，给我很大信心） </p>
+<p>  总体来说虾皮的一面体验真的很nice，小哥哥特别帅，然后每次回答完问题他都会点头说okok给一定的回应这样让我完全可以放下紧张的心态发挥出更好的自己 </p>
+<p>  几天之后收来了二面的通知，当时真的特别激动，感觉离自己的梦想只有一步之遥了，开始和朋友展望同居生活hhhhh </p>
+<p>  我以为二面会着重问项目，然后那几天真的没日没夜在看Android 仿佛自己在面试移动开发，基础知识早就抛在脑后 </p>
+<p>  然后看了虾皮测试所有的二面<a href="">面经</a>，各种智力题 </p>
+<p>  **<br>**  </p>
+<p>  <strong>二面（25min）</strong> </p>
+<p>  自我介绍 </p>
+<p>  挑一个项目讲讲（这个时候我还抱着一种稳了的心态） </p>
+<p>  然后面试官就说好了我们还是以基础知识为主（我去那我不是凉了？这时候才过去十几分钟） </p>
+<p>  计算机网络和一面问的差不多都答上来了 </p>
+<p>  数据库和linux答得都很惨，问的问题大概有指令，僵尸进程，事务，索引，为什么用B+树快 </p>
+<p>  然后问我擅长什么语言（我哪里敢说Java我怕被怼死，然后说了个c语言） </p>
+<p>  面试官感到很无语问了一个<a href="">算法题</a>就结束了 </p>
+<p>  我当时的感觉就是凉了 </p>
+<p>  反问问了对我的建议，他说这个问题很敏感不能回答 </p>
+<p>  我说那您给我介绍一下shopee的业务吧 </p>
+<p>  然后面试官讲了大概五六分钟就道谢结束了 </p>
+<p>  结束之后我开始打电话给朋友开始哭然后说我们不能一起去深圳的呜呜呜，朋友安慰我说没事万一把你捞起来了呢 </p>
+<p>  其实人都是这样，没有明确的结果时候总抱着一丝希望，我开始天天盯着手机，等一个奇迹hr电话，眼看和我那一批的小伙伴都收到了我已经知道自己凉了 </p>
+<p>  几天之后喜提感谢信 </p>
+<p>  我真的是坐在床上就开始哭，身边的朋友不是考研上岸就是签到了理想的公司要么就是保研我真的觉得自己很失败，深深怀疑自己 </p>
+<p>  或许自己多看看基础知识就能过了吧？或许当时问问面试官为什么不问我项目问题我还能捞一把自己吧？ </p>
+<p>   当然没有或许，shopee是我第一个走到二面的公司我真的有点接受不了，开始把所有的关键词邮件都删掉了，完全逃避这个事实  </p>
+<p>   那个时候已经4月14号了，我又打开各大公司的网站看看有没有补招  </p>
+<p>   但是适合自己的实在是太少了  </p>
+<p>   然后就一直郁郁寡欢，每天坐在电脑前也不想学习，一直很痛苦  </p>
+<p>   这几天稍微能走出来点了，觉得工作是不太可能了，我开始着手找调剂了，但是调剂发的邮件也没有回应  </p>
+<p>   哎我真的不想去b区二本，现在b区的学校张口就要211/985优质生源，我真的不配，不行的话我只能选择去二战，但是二战没有实习经验没有工作经验又不是应届生如果失败了那就彻底完了  </p>
+<p>   长大真的太难了😔  </p>
+<p>   吐槽完毕还是总结一波吧也算是给自己给大家的经验</p>
+<p>作者：offerstudy<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/725368?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295459323">https://www.nowcoder.com/discuss/725368?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295459323</a><br>来源：牛客网</p>
+<p><strong>提问：</strong> </p>
+<p>  1.挑一个比较有挑战或者收获很大的项目讲一讲 </p>
+<p>  2.项目背景，数据来源 </p>
+<p>  3.xss和csrf的区别 </p>
+<p>  4.使用cookie如何防范csrf攻击 </p>
+<p>  5.Java泛型的原理 </p>
+<p>  6.<a href="">c++</a>泛型和java的区别 </p>
+<p>  7.使用过哪些设计模式 </p>
+<p>  8.单例如何保证线程安全，双重校验具体过程， 其他方法？饿汉法 </p>
+<p>  9.Java的GC讲一讲 </p>
+<p>  10.Tcp，使用过Socket编程吗 </p>
+<p>  11.Tcp如何保证可靠传输 </p>
+<p>  12.Socket服务端创建的最大Tcp连接数受哪些影响，怎么增大？（聊了挺久，进程的文件描述符配置可修改、可用端口号、线程的限制、IO多路复用、内存的限制、CPU的限制） </p>
+<p>  13.进程和线程的区别，内存空间。 </p>
+<p>  14.操作系统会给进程分配哪些资源 </p>
+<p>  15.MySQL里InnoDB的锁有哪些，什么情况会触发什么锁 </p>
+<p>  16.什么时候加间隙锁，具体语句 </p>
+<p>  17.悲观锁和乐观锁，CAS，乐观锁方式的具体sql语句 </p>
+<p>  18.最左匹配原则，什么情况联合索引会失效，什么情况的查询索引会失效 </p>
+<p>  19.讲一下http协议</p>
+<p>作者：MeteorChen<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/466008?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295459323">https://www.nowcoder.com/discuss/466008?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295459323</a><br>来源：牛客网</p>
+<p>虾皮问了好多好多计算机网络的知识，有90%是计算机网络。具体的内容如下： </p>
+<ul>
+<li>​    首先做9道选择题，包含<a href="">排序</a>、计算机网络、操作系统（感觉是因为报了SP专场，免笔试的原因）   </li>
+<li> 冒泡<a href="">排序</a>原理，最优时间复杂度；快排原理，最优时间复杂度（最优是O(log(2n)+1)，没说出来），最坏时间复杂度 </li>
+<li> 计算机网络五层模型、七层模型，哪个是TCP/IP协议簇的 </li>
+<li> http协议状态码、为什么四次挥手 </li>
+<li> http1.0和1.1相比有哪些改变，2.0呢？（答的出来的很少） </li>
+<li> <strong>1.0和1.1的区别</strong>：     -  长连接     -  节约带宽     -  缓存处理     -  host域 </li>
+<li> <strong>2.0的特点</strong>     -  多路复用     -  头部压缩     -  服务器推送 </li>
+<li> http状态码 </li>
+<li> http是有状态的吗？为什么要设计成无状态的 </li>
+<li> https原理，什么是中间人攻击，怎么攻击的，加密<a href="">算法</a>有哪些（没答出来） </li>
+<li> 一个安卓问题，按下home键，activity的生命周期，再点开呢？ </li>
+<li>​    <a href="">算法题</a>，比较简单，一个数组中，找到最大的连续子数组的和</li>
+</ul>
+<p>作者：求求给个offer吧吧吧<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/688186?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295641836">https://www.nowcoder.com/discuss/688186?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295641836</a><br>来源：牛客网</p>
+<p>北京后端<br> 自我介绍<br> 没问项目（可能比较嫌弃是学校项目）<br> 进程线程协程（问得很深）<br> 线程切换（背的忘记了没答上来）<br> 计网五层的作用和对应的协议<br> ping原理<br> 三次握手四次挥手<br> http<br> 拥塞避免<br> acdi以及MySQL怎么保证<br> 隔离级别<br> 乐观锁悲观锁<br> hashmap（这个也很深啊，<a href="">红黑树</a>之后问，如果很大很大呢，求大佬解答）<br> <a href="">算法</a>（字符串a和字符串b是否对应那个题） </p>
+<p>已经感谢信了，我分析原因，我觉得我实践太少，项目都是学校项目，没有实习，他不是很感兴趣，可能感觉我只是个背书郎</p>
+<p>作者：求求给个offer吧吧吧<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/688186?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295641836">https://www.nowcoder.com/discuss/688186?type=post&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_post_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646295641836</a><br>来源：牛客网</p>
+<p>北京后端<br> 自我介绍<br> 没问项目（可能比较嫌弃是学校项目）<br> 进程线程协程（问得很深）<br> 线程切换（背的忘记了没答上来）<br> 计网五层的作用和对应的协议<br> ping原理<br> 三次握手四次挥手<br> http<br> 拥塞避免<br> acdi以及MySQL怎么保证<br> 隔离级别<br> 乐观锁悲观锁<br> hashmap（这个也很深啊，<a href="">红黑树</a>之后问，如果很大很大呢，求大佬解答）<br> <a href="">算法</a>（字符串a和字符串b是否对应那个题） </p>
+<p>已经感谢信了，我分析原因，我觉得我实践太少，项目都是学校项目，没有实习，他不是很感兴趣，可能感觉我只是个背书郎</p>
+<h1 id="微策略"><a href="#微策略" class="headerlink" title="微策略"></a>微策略</h1><p>作者：小气鬼谭谭<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/126922?type=all&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_all_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646296275136">https://www.nowcoder.com/discuss/126922?type=all&amp;order=recall&amp;pos=&amp;page=1&amp;ncTraceId=&amp;channel=-1&amp;source_id=search_all_nctrack&amp;gio_id=9BBF1C911E82B90FED7BE13416B4D400-1646296275136</a><br>来源：牛客网</p>
+<p>视频面（软件开发）面试官和好，看起来很可爱，哈哈，编程题一步一步引导，体验不错。<br> 1.自我介绍<br> 2.问了项目一个问题，项目太简单就没再问了<br> 3.多态<br> 4.死锁<br> 4.单例模式<br> 5.其他的设计模式，又问了适配器模式<br> 6.解释LSTM<br>   7.编写代码求股票最大利润（假如一个数组中存储了一个股票，第i个元素表示第i天的股票价格，只允许一次买入和一次卖出，请提供一个<a href="">算法</a>，计算出通过卖出和买入可以得到的最大利润）  </p>
+<p>   其他的不记得了。。。</p>
+<p> 1.英文交流： </p>
+<ul>
+<li> 自我介绍 </li>
+<li> 实习情况咨询，认为自己有什么需要掌握的技能，实习过程中谁对你有比较大的帮助 </li>
+<li> 。。。 </li>
+</ul>
+<p> 2.<a href="">算法</a>： </p>
+<ul>
+<li> 一维<a href="">二分查找</a>，手写代码 </li>
+<li> 二维<a href="">二分查找</a>，讲解思路，计算时间复杂度，如何将时间复杂度将到O(n) </li>
+</ul>
+<p> 3.操作系统 </p>
+<ul>
+<li> 进程和线程的区别 </li>
+</ul>
+<p> 4.计算机网络： </p>
+<ul>
+<li> 访问一个网页的具体流程 </li>
+</ul>
+<p> 5.Java知识 </p>
+<ul>
+<li> 如何处理网页的大量请求 </li>
+<li> 如何处理并发造成的数据不一致问题，加锁，锁的类型有哪些 </li>
+<li> 如何不采用加锁处理并发问题 </li>
+</ul>
+<p> 6.数据库查询语句 </p>
+<ul>
+<li> 如何查找一个同学的课程平均成绩并<a href="">排序</a>，每个同学选择的课程可能不一样，不使用冗余字段 </li>
+<li> 如果课程成绩具有权重，如何设计表，如何进行平均成绩<a href="">排序</a> </li>
+</ul>
+<p> 7.系统设计 </p>
+<ul>
+<li> 如何设计一个OJ系统 </li>
+<li> 就刚才设计的OJ系统，设计出对应数据库表的关系 </li>
+<li> 如何处理高并发情况下，用户提交代码造成系统卡死问题 </li>
+</ul>
+<p>  8.疑问解答环节</p>
+<p><img src="C:\Blogs\source_posts\面经.assets\6CF9E8DD67D444C410C19E67AFF4FF93.png" srcset="/img/loading3.gif" lazyload alt="img"><img src="https://uploadfiles.nowcoder.com/images/20220225/293904508_1645764143493/7B0C132FE87AE4F198566CBB8B6A1D0F" srcset="/img/loading3.gif" lazyload alt="img"></p>
 
             </div>
             <hr>

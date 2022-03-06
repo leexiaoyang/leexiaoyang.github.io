@@ -26,7 +26,7 @@
 <meta property="og:description" content="191. 位1的个数编写一个函数，输入是一个无符号整数（以二进制串的形式），返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。 提示：  请注意，在某些语言（如 Java）中，没有无符号整数类型。在这种情况下，输入和输出都将被指定为有符号整数类型，并且不应影响您的实现，因为无论整数是有符号的还是无符号的，其内部的二进制表示形式都是相同的。 在 Java 中，编译器使用二进制补码记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T17:20:17.361Z">
+<meta property="article:modified_time" content="2022-03-03T07:56:16.570Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="位运算">
@@ -200,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.6k 字
+      4.3k 字
     </span>
   
 
@@ -209,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      22 分钟
+      36 分钟
     </span>
   
 
@@ -285,6 +285,38 @@
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">wordCount</span><span class="hljs-params">(String[] startWords, String[] targetWords)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br>        Set&lt;Integer&gt; set = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (String s : startWords) &#123;<br>            <span class="hljs-keyword">int</span> num = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">char</span> ch : s.toCharArray()) &#123;<br>                num |= <span class="hljs-number">1</span> &lt;&lt; (ch - <span class="hljs-string">&#x27;a&#x27;</span>);<br>            &#125;<br>            set.add(num);<br>        &#125;<br>        <span class="hljs-keyword">for</span> (String s : targetWords) &#123;<br>            <span class="hljs-keyword">int</span> num = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">char</span> ch : s.toCharArray()) &#123;<br>                num |= <span class="hljs-number">1</span> &lt;&lt; (ch - <span class="hljs-string">&#x27;a&#x27;</span>);<br>            &#125;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">char</span> ch : s.toCharArray()) &#123;<br>                <span class="hljs-keyword">if</span> (set.contains(num ^ (<span class="hljs-number">1</span> &lt;&lt; (ch - <span class="hljs-string">&#x27;a&#x27;</span>)))) &#123;<br>                    ans++;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
+
+
+
+
+<h4 id="137-只出现一次的数字-II"><a href="#137-只出现一次的数字-II" class="headerlink" title="137. 只出现一次的数字 II"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/single-number-ii/">137. 只出现一次的数字 II</a></h4><p>给你一个整数数组 <code>nums</code> ，除某个元素仅出现 <strong>一次</strong> 外，其余每个元素都恰出现 <strong>三次 。</strong>请你找出并返回那个只出现了一次的元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">singleNumber</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i++) &#123;<br>            <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> num : nums) &#123;<br>                sum += (num &gt;&gt; i) &amp; <span class="hljs-number">1</span>;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (sum % <span class="hljs-number">3</span> == <span class="hljs-number">1</span>) &#123;<br>                ans += (sum % <span class="hljs-number">3</span>) &lt;&lt; i;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h4 id="260-只出现一次的数字-III"><a href="#260-只出现一次的数字-III" class="headerlink" title="260. 只出现一次的数字 III"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/single-number-iii/">260. 只出现一次的数字 III</a></h4><p>给定一个整数数组 <code>nums</code>，其中恰好有两个元素只出现一次，其余所有元素均出现两次。 找出只出现一次的那两个元素。你可以按 <strong>任意顺序</strong> 返回答案。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span>[] singleNumber(<span class="hljs-keyword">int</span>[] nums) &#123;<br>        <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> num : nums) &#123;<br>            x ^= num;<br>        &#125;<br>        <span class="hljs-keyword">int</span> bit = x &amp; (-x);<br>        <span class="hljs-keyword">int</span> num1 = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">int</span> num2 = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> num : nums) &#123;<br>            <span class="hljs-keyword">if</span> ((bit &amp; num) == <span class="hljs-number">0</span>) &#123;<br>                num1 ^= num;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                num2 ^= num;<br>            &#125;<br>        &#125; <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]&#123;num1, num2&#125;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><h4 id="1、原码："><a href="#1、原码：" class="headerlink" title="1、原码："></a>1、原码：</h4><p>一个正数，按照绝对值大小转换成的二进制数；一个负数按照绝对值大小转换成的二进制数，然后最高位补1，称为原码。<br>比如 00000000 00000000 00000000 00000101 是 5的 原码。<br>   10000000 00000000 00000000 00000101 是 -5的 原码。</p>
+<p>  备注：<br>  比如byte类型,用2^8来表示无符号整数的话,是0 - 255了；如果有符号， 最高位表示符号,0为正,1为负,那么,正常的理解就是 -127 至 +127 了.这就是原码了,值得一提的是,原码的弱点,有2个0,即+0和-0（10000000和00000000）；还有就是,进行异号相加或同号相减时,比较笨蛋,先要判断2个数的绝对值大小,然后进行加减操作,最后运算结果的符号还要与大的符号相同；于是,反码产生了。</p>
+<h4 id="2、反码"><a href="#2、反码" class="headerlink" title="2、反码"></a>2、反码</h4><p>正数的反码与原码相同，负数的反码为对该数的原码除符号位外各位取反[每一位取反(除符号位)]。<br>取反操作指：原为1，得0；原为0，得1。（1变0; 0变1）<br>比如：正数00000000 00000000 00000000 00000101 的反码还是 00000000 00000000 00000000 00000101<br>   负数10000000 00000000 00000000 00000101 的反码则是 11111111 11111111 11111111 11111010。</p>
+<p>反码是相互的，所以也可称：10000000 00000000 00000000 00000101 和 11111111 11111111 11111111 11111010互为反码。</p>
+<p>备注：还是有+0和-0,没过多久，反码就成为了过滤产物,也就是,后来补码出现了。</p>
+<h4 id="3、补码"><a href="#3、补码" class="headerlink" title="3、补码"></a>3、补码</h4><p>正数的补码与原码相同，负数的补码为对该数的原码除符号位外各位取反，然后在最后一位加1.<br>比如：10000000 00000000 00000000 00000101 的补码是：11111111 11111111 11111111 11111010。<br>那么，补码为：<br>11111111 11111111 11111111 11111010 + 1 = 11111111 11111111 11111111 11111011</p>
+<p>备注：1、从补码求原码的方法跟原码求补码是一样的 ，也可以通过完全逆运算来做，先减一，再取反。<br>   2、补码却规定0没有正负之分</p>
+<p>所以，-5 在计算机中表达为：11111111 11111111 11111111 11111011。转换为十六进制：0xFFFFFFFB。</p>
 
             </div>
             <hr>

@@ -25,12 +25,15 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="堆排序1167. 连接棒材的最低费用为了装修新房，你需要加工一些长度为正整数的棒材 。棒材以数组 sticks 的形式给出，其中 sticks[i] 是第 i 根棒材的长度。 如果要将长度分别为 x 和 y 的两根棒材连接在一起，你需要支付 x + y 的费用。 由于施工需要，你必须将所有棒材连接成一根。 返回你把所有棒材 sticks 连成一根所需要的最低费用。注意你可以任意选择棒材连接的顺序。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source_posts/排序.assets/quickSort.gif">
+<meta property="og:image" content="c:/Blogs/source/_posts/排序.assets/image-20220303120749643.png">
 <meta property="article:published_time" content="2022-01-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-19T14:07:24.260Z">
+<meta property="article:modified_time" content="2022-03-03T04:07:51.668Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="排序">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/排序.assets/quickSort.gif">
   
   
   <title>排序 - Hexo</title>
@@ -200,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2k 字
+      3.1k 字
     </span>
   
 
@@ -209,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17 分钟
+      26 分钟
     </span>
   
 
@@ -281,6 +284,125 @@
 <figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nix">输入：<span class="hljs-attr">nums</span> = [<span class="hljs-number">10</span>]<br>输出：<span class="hljs-string">&quot;10&quot;</span><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">largestNumber</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>&#123;<br>        String[] arr = <span class="hljs-keyword">new</span> String[nums.length];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) &#123;<br>            arr[i] = String.valueOf(nums[i]);<br>        &#125;<br>        Arrays.sort(arr, (a, b) -&gt; &#123;<br>            String s1 = a + b;<br>            String s2 = b + a;<br>            <span class="hljs-keyword">return</span> s2.compareTo(s1);<br>        &#125;);<br>        StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();<br>        <span class="hljs-keyword">for</span> (String s : arr) &#123;<br>            <span class="hljs-keyword">if</span> (sb.length() == <span class="hljs-number">0</span> &amp;&amp; s.equals(<span class="hljs-string">&quot;0&quot;</span>)) <span class="hljs-keyword">continue</span>;<br>            sb.append(s);<br>        &#125;<br>        <span class="hljs-keyword">return</span> sb.length() == <span class="hljs-number">0</span> ? <span class="hljs-string">&quot;0&quot;</span> : sb.toString();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p><strong>算法步骤</strong></p>
+<ul>
+<li>从数列中挑出一个元素，称为 “基准”（pivot）;</li>
+<li>重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作；</li>
+<li>递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序；</li>
+</ul>
+<p> <strong>动图演示</strong></p>
+<p><img src="C:\Blogs\source_posts\排序.assets\quickSort.gif" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<img src="C:\Blogs\source\_posts\排序.assets\image-20220303120749643.png" srcset="/img/loading3.gif" lazyload alt="image-20220303120749643" style="zoom:50%;" />
+
+
+
+
+
+<h4 id="215-数组中的第K个最大元素"><a href="#215-数组中的第K个最大元素" class="headerlink" title="215. 数组中的第K个最大元素"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/">215. 数组中的第K个最大元素</a></h4><p>给定整数数组 <code>nums</code> 和整数 <code>k</code>，请返回数组中第 <code>k</code> 个最大的元素。</p>
+<p>请注意，你需要找的是数组排序后的第 <code>k</code> 个最大的元素，而不是第 <code>k</code> 个不同的元素。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">输入: [3,2,1,5,6,4] 和 k = 2</span><br><span class="hljs-section">输出: 5</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dns">输入: [<span class="hljs-number">3,2,3,1</span>,<span class="hljs-number">2,4,5,5</span>,<span class="hljs-number">6</span>] 和 k = <span class="hljs-number">4</span><br>输出: <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= k &lt;= nums.length &lt;= 104</code></li>
+<li><code>-104 &lt;= nums[i] &lt;= 104</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs JAVA"><span class="hljs-keyword">int</span> ans;<br><span class="hljs-keyword">int</span> target;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">findKLargest</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> k)</span> </span>&#123;<br>    <span class="hljs-keyword">this</span>.target = k;<br>    quickSort(nums, <span class="hljs-number">0</span>, nums.length - <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> j)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (i &gt; j) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-keyword">int</span> pivotIndex = depart(nums, i, j);<br>    <span class="hljs-keyword">if</span> (target == pivotIndex) &#123;<br>        ans = nums[target];<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (target &lt; pivotIndex) &#123;<br>        quickSoet(nums, i, pivotIndex - <span class="hljs-number">1</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        quickSort(nums, pivotIndex + <span class="hljs-number">1</span>, j);<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">depart</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> j)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> pivot = nums[i];<br>    <span class="hljs-keyword">while</span> (i &lt; j) &#123;<br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[i] &gt;= nums[j]) &#123;<br>            j--;<br>        &#125;<br>        nums[i] = nums[j];<br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[i] &lt;= nums[j]) &#123;<br>            i++;<br>        &#125;<br>        nums[j] = nums[i];<br>    &#125;<br>    nums[i] = pivot;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             </div>

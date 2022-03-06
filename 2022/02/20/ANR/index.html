@@ -18,12 +18,12 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="应用无响应，Android系统对于一些事件需要在一定的时间范围内完成，如果超过预定时间能未 能得到有效响应或者响应时间过长，都会造成ANR。  ANR出现场景 Service Timeout：前台服务在20s内未执行完成，后台服务200s 1234&#x2F;&#x2F; How long we wait for a service to finish executing.static final int SERV">
+    <meta name="description" content="应用无响应，Android系统对于一些事件需要在一定的时间范围内完成，如果超过预定时间能未能得到有效响应或者响应时间过长，都会造成ANR。  ANR出现场景 Service Timeout：前台服务在20s内未执行完成，后台服务200s 123&#x2F;&#x2F; How long we wait for a service to finish executing.static final int SERVIC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ANR">
 <meta property="og:url" content="http://example.com/2022/02/20/ANR/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="应用无响应，Android系统对于一些事件需要在一定的时间范围内完成，如果超过预定时间能未 能得到有效响应或者响应时间过长，都会造成ANR。  ANR出现场景 Service Timeout：前台服务在20s内未执行完成，后台服务200s 1234&#x2F;&#x2F; How long we wait for a service to finish executing.static final int SERV">
+<meta property="og:description" content="应用无响应，Android系统对于一些事件需要在一定的时间范围内完成，如果超过预定时间能未能得到有效响应或者响应时间过长，都会造成ANR。  ANR出现场景 Service Timeout：前台服务在20s内未执行完成，后台服务200s 123&#x2F;&#x2F; How long we wait for a service to finish executing.static final int SERVIC">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-02-20T15:06:24.000Z">
 <meta property="article:modified_time" content="2022-02-20T15:06:24.000Z">
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      1.5k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12 分钟
+      13 分钟
     </span>
   
 
@@ -241,12 +241,11 @@
             
             <div class="markdown-body">
               <blockquote>
-<p>应用无响应，Android系统对于一些事件需要在一定的时间范围内完成，如果超过预定时间能未</p>
-<p>能得到有效响应或者响应时间过长，都会造成ANR。</p>
+<p>应用无响应，Android系统对于一些事件需要在一定的时间范围内完成，如果超过预定时间能未能得到有效响应或者响应时间过长，都会造成ANR。</p>
 </blockquote>
 <h3 id="ANR出现场景"><a href="#ANR出现场景" class="headerlink" title="ANR出现场景"></a>ANR出现场景</h3><ul>
 <li><p>Service Timeout：前台服务在20s内未执行完成，后台服务200s</p>
-<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-comment">// How long we wait for a service to finish executing.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERVICE_TIMEOUT = <span class="hljs-number">20</span>*<span class="hljs-number">1000</span>; <span class="hljs-comment">// 前台    // How long we wait for a service to finish executing.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERVICE_BACKGROUND_TIMEOUT = SERVICE_TIMEOUT * <span class="hljs-number">10</span>; <span class="hljs-comment">// 后台</span><br></code></pre></td></tr></table></figure></li>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we wait for a service to finish executing.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERVICE_TIMEOUT = <span class="hljs-number">20</span>*<span class="hljs-number">1000</span>; <span class="hljs-comment">// 前台    // How long we wait for a service to finish executing.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERVICE_BACKGROUND_TIMEOUT = SERVICE_TIMEOUT * <span class="hljs-number">10</span>; <span class="hljs-comment">// 后台</span><br></code></pre></td></tr></table></figure></li>
 <li><p>BroadcastQueue Timeout：前台广播在10s内未执行完成，后台广播60s</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we allow a receiver to run before giving up on it.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> BROADCAST_FG_TIMEOUT = <span class="hljs-number">10</span>*<span class="hljs-number">1000</span>;  <span class="hljs-comment">// 前台</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> BROADCAST_BG_TIMEOUT = <span class="hljs-number">60</span>*<span class="hljs-number">1000</span>;  <span class="hljs-comment">// 后台</span><br></code></pre></td></tr></table></figure></li>
 <li><p>ContentProvider Timeout：内容提供者执行超时</p>
@@ -254,6 +253,7 @@
 <li><p>InputDispatching Timeout： 输入事件分发超时5s，包括按键分发事件的超时</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we wait for an attached process to publish its content providers</span><br><span class="hljs-comment">// before we decide it must be hung.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> CONTENT_PROVIDER_PUBLISH_TIMEOUT = <span class="hljs-number">10</span>*<span class="hljs-number">1000</span>;<br></code></pre></td></tr></table></figure></li>
 </ul>
+<p>Activity 的生命周期回调的阻塞并不在触发 ANR 的场景里面，所以并不会直接触发 ANR。只不过死循环阻塞了主线程，如果系统再有上述的四种事件发生，就无法在相应的时间内处理从而触发 ANR。</p>
 <h3 id="ANR实现原理"><a href="#ANR实现原理" class="headerlink" title="ANR实现原理"></a>ANR实现原理</h3><blockquote>
 <p>基于Handler消息机制来完成。在一个事件执行开始时，通过Handler去post一个对应时间的延迟</p>
 <p>消息，如果事件在规定事件内执行完成，就remove掉这个message，否则，Handler就会收到这</p>

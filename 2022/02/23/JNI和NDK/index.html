@@ -1,0 +1,658 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="概念CMake 允许开发者编写一种平台无关的 CMakeList.txt 文件来定制整个编译流程，然后再根据目标用户的平台进一步生成所需的本地化 Makefile 和工程文件，如 Unix 的 Makefile 或 Windows 的 Visual Studio 工程。从而做到“Write once, run everywhere”。  NDK 提供了一系列的工具，帮助开发者快速开发C（或C++）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNI和NDK">
+<meta property="og:url" content="http://example.com/2022/02/23/JNI%E5%92%8CNDK/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概念CMake 允许开发者编写一种平台无关的 CMakeList.txt 文件来定制整个编译流程，然后再根据目标用户的平台进一步生成所需的本地化 Makefile 和工程文件，如 Unix 的 Makefile 或 Windows 的 Visual Studio 工程。从而做到“Write once, run everywhere”。  NDK 提供了一系列的工具，帮助开发者快速开发C（或C++）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source_posts/JNI和NDK.assets/image-20220224000046174.png">
+<meta property="og:image" content="c:/Blogs/source_posts/JNI和NDK.assets/image-20220224000133251.png">
+<meta property="article:published_time" content="2022-02-23T07:32:31.000Z">
+<meta property="article:modified_time" content="2022-02-23T07:32:31.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/JNI和NDK.assets/image-20220224000046174.png">
+  
+  
+  <title>JNI和NDK - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading3.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alexander Lee</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JNI和NDK">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-23 15:32" pubdate>
+        2022年2月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      69 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JNI和NDK</h1>
+            
+            <div class="markdown-body">
+              <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><h4 id="CMake"><a href="#CMake" class="headerlink" title="CMake"></a>CMake</h4><blockquote>
+<p>允许开发者编写一种平台无关的 CMakeList.txt 文件来定制整个编译流程，然后再根据目标用户的平台进一步生成所需的本地化 Makefile 和工程文件，如 Unix 的 Makefile 或 Windows 的 Visual Studio 工程。从而做到“Write once, run everywhere”。</p>
+</blockquote>
+<h4 id="NDK"><a href="#NDK" class="headerlink" title="NDK"></a>NDK</h4><blockquote>
+<p>提供了一系列的工具，帮助开发者快速开发C（或C++）的动态库，并能自动将so和java应用一起打包成apk。NDK集成了交叉编译器，并提供了相应的mk文件隔离CPU、平台、ABI等差异，开发人员只需要简单修改mk文件（指出“哪些文件需要编译”、“编译特性要求”等），就可以创建出so。</p>
+</blockquote>
+<h4 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h4><blockquote>
+<p><code>Java</code>平台的一个特性(并不是<code>Android</code>系统特有的)。实现<code>Java</code>代码调用<code>C/C++</code>的代码，<code>C/C++</code>的代码也可以调用<code>Java</code>的代码.</p>
+</blockquote>
+<ul>
+<li>JNI是Java Native Interface的缩写，通过使用 Java本地接口书写程序，可以确保代码在不同的平台上方便移植，JNI属于java。</li>
+<li>NDK 是Native Development Kit，是 Android的一个工具开发包，NDK是属于 Android 的，与Java并无直接关系，可以在androidstudio中。</li>
+</ul>
+<h3 id="支持C-跳转"><a href="#支持C-跳转" class="headerlink" title="支持C++跳转"></a>支持C++跳转</h3><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs java">externalNativeBuild &#123;<br>    ndkBuild &#123;<br>        path <span class="hljs-string">&#x27;src/main/jni/Android.mk&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="JNI开发步骤"><a href="#JNI开发步骤" class="headerlink" title="JNI开发步骤"></a>JNI开发步骤</h3><ul>
+<li><p>NDK安装</p>
+<p>打开Setting =&gt; Appearance &amp; Behavior =&gt; System Settings =&gt; Android SDK =&gt; SDK Tools，选择Show Package Details，安装Android NDK。</p>
+</li>
+<li><p>添加SDK\ndk-bundle 到Path路径</p>
+</li>
+<li><p>main =&gt; new =&gt; Folder =&gt; JNI Folder</p>
+</li>
+<li><p>创建JNIHello.cpp</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">javac JNIHello<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">javah -jni com.alexander.jnidemo.JNIHello<br></code></pre></td></tr></table></figure>
+
+<p>JNIHello.cpp</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java">#include <span class="hljs-string">&quot;JNIHello.h&quot;</span><br><span class="hljs-comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span><br>#include &lt;jni.h&gt;<br><span class="hljs-comment">/* Header for class com_alexander_jnidemo_JNIHello */</span><br><br>#ifndef _Included_com_alexander_jnidemo_JNIHello<br>#define _Included_com_alexander_jnidemo_JNIHello<br>#ifdef __cplusplus<br>extern <span class="hljs-string">&quot;C&quot;</span> &#123;  <span class="hljs-comment">//  C/C++的声明关键字 表明这个jni方法是按照C的语法进行编译的</span><br>#endif<br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * Class:     com_alexander_jnidemo_JNIHello</span><br><span class="hljs-comment"> * Method:    hello</span><br><span class="hljs-comment"> * Signature: ()Ljava/lang/String;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-comment">// JNI native方法的声明。默认参数 env是JNI的运行环境 jobject是调用这个native方法的Java类</span><br><span class="hljs-function">JNIEXPORT jstring JNICALL JNIEXPORT jint JNICALL <span class="hljs-title">Java_com_alexander_jnidemo_JNIHello_hello</span></span><br><span class="hljs-function">        <span class="hljs-params">(JNIEnv *env, jobject)</span> </span>&#123;<br>    jclass clazz = env-&gt;FindClass(<span class="hljs-string">&quot;com/alexander/jnidemo/JNIHello&quot;</span>);<br>    jmethodID jmethod_init_id = env-&gt;GetMethodID(clazz, <span class="hljs-string">&quot;&lt;init&gt;&quot;</span>, <span class="hljs-string">&quot;()V&quot;</span>);<br>    jobject obj = env-&gt;NewObject(clazz, jmethod_init_id);<br>    jmethodID jmethod_set_id = env-&gt;GetMethodID(clazz, <span class="hljs-string">&quot;set&quot;</span>, <span class="hljs-string">&quot;(I)V&quot;</span>);<br>    jmethodID jmethod_get_id = env-&gt;GetMethodID(clazz, <span class="hljs-string">&quot;get&quot;</span>, <span class="hljs-string">&quot;()I&quot;</span>);<br>    env-&gt;CallVoidMethod(obj, jmethod_set_id, <span class="hljs-number">27</span>);<br>    <span class="hljs-keyword">int</span> age = env-&gt;CallIntMethod(obj, jmethod_get_id);<br>    <span class="hljs-keyword">return</span> (jint) age;<br>&#125;<br>#ifdef __cplusplus<br>&#125;<br>#endif<br>#endif<br></code></pre></td></tr></table></figure>
+
+<p>JNIHello.h</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">#ifndef JNIDEMO_JNIHELLO_H<br>#define JNIDEMO_JNIHELLO_H<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JNIHello</span> </span>&#123;<br>&#125;;<br><br>#endif <span class="hljs-comment">//JNIDEMO_JNIHELLO_H</span><br></code></pre></td></tr></table></figure>
+
+<p>JNIHello.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.alexander.jnidemo;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JNIHello</span> </span>&#123;<br>    <span class="hljs-keyword">static</span> &#123;<br>        System.loadLibrary(<span class="hljs-string">&quot;JNIHello&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> String <span class="hljs-title">hello</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>创建Android.mk</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs makefile">LOCAL_PATH := <span class="hljs-variable">$(<span class="hljs-built_in">call</span> my-<span class="hljs-built_in">dir</span>)</span><br><span class="hljs-keyword">include</span> <span class="hljs-variable">$(CLEAR_VARS)</span><br>LOCAL_MODULE := JNIHello<br>LOCAL_SRC_FILES := JNIHello.cpp<br>LOCAL_C_INCLUDES += <span class="hljs-variable">$(LOCAL_PATH)</span><br> <span class="hljs-comment">#LOCAL_LDLIBS := -llog</span><br><span class="hljs-keyword">include</span> <span class="hljs-variable">$(BUILD_SHARED_LIBRARY)</span><br><span class="hljs-comment">#include $(BUILD_STATIC_LIBRARY)</span><br></code></pre></td></tr></table></figure></li>
+<li><p>创建Application.mk</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-comment"># 指定生成哪个架构的 so</span><br>APP_ABI := armeabi-v7a<br><span class="hljs-comment"># 指定 android 系统</span><br>APP_PLATFORM := android-22<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="c-c-调用Java"><a href="#c-c-调用Java" class="headerlink" title="c/c++调用Java"></a>c/c++调用Java</h3><ul>
+<li>FindClass （找到Java层的类）</li>
+<li>GetMethodID / GetFieldID （获取Java类中的方法 / Java类中的属性）</li>
+<li>NewObject （创建Java对象）</li>
+<li>Call<TYPE> Method / [G/S]et<Type> Field （调用方法 / 设置属性）</li>
+</ul>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><h4 id="Java调用c-c"><a href="#Java调用c-c" class="headerlink" title="Java调用c/c++"></a>Java调用c/c++</h4><p>Linux提供了一套API来动态装载库。下面列出了这些API：共享对象通过dlopen动态打开动态库的加载完成后，返回一个句柄，通过dlsym定位到你需要执行的函数指针然后可以在程序中使用。</p>
+<ul>
+<li>dlopen：该函数将打开一个新库，并把它装入内存。该函数主要用来加载库中的符号，这些符号在编译的时候是不知道的。这种机制使得在系统中添加或者删除一个模块时，都不需要重新进行编译。</li>
+<li>dlsym：在打开的动态库中查找符号的值。handle是由dlopen打开动态链接库后返回的指针，symbol就是要求获取的函数的名称，函数返回值是void*,指向函数的地址，供调用使用</li>
+<li>dlclose：关闭动态库。</li>
+<li>dlerror：返回一个描述最后一次调用dlopen、dlsym，或dlclose的错误信息的字符串。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">void</span> *handle;<br><br><span class="hljs-keyword">int</span> i, *iptr;<br><br><span class="hljs-keyword">int</span> (*fptr)(<span class="hljs-keyword">int</span>);<br><br><span class="hljs-comment">// 在dlopen的（）函数以指定模式打开指定的动态连接库文件，并返回一个句柄给调用进程。使用dlclose（）来卸载打开的库。</span><br><br>handle = dlopen(<span class="hljs-string">&quot;/usr/mydir/libx.so&quot;</span>, RTLD_LAZY);<br><br><span class="hljs-comment">/* find address of function and data objects */</span><br><br>fptr = (<span class="hljs-keyword">int</span> (*)(<span class="hljs-keyword">int</span>))dlsym(handle, <span class="hljs-string">&quot;some_function&quot;</span>);<br><br>iptr = (<span class="hljs-keyword">int</span> *)dlsym(handle, <span class="hljs-string">&quot;int_object&quot;</span>);<br><br><span class="hljs-comment">/* invoke function, passing value of integer as a parameter */</span><br><br>i = (*fptr)(*iptr);<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="c-c-调用Java-1"><a href="#c-c-调用Java-1" class="headerlink" title="c/c++调用Java"></a>c/c++调用Java</h4><p>使用JNI提供的反射借口来反射得到Java方法，进行调用。</p>
+<h3 id="类型符号对照表"><a href="#类型符号对照表" class="headerlink" title="类型符号对照表"></a>类型符号对照表</h3><h4 id="基本类型签名"><a href="#基本类型签名" class="headerlink" title="基本类型签名"></a>基本类型签名</h4><p><img src="C:\Blogs\source_posts\JNI和NDK.assets\image-20220224000046174.png" srcset="/img/loading3.gif" lazyload alt="image-20220224000046174"></p>
+<h4 id="引用数据类型的转换"><a href="#引用数据类型的转换" class="headerlink" title="引用数据类型的转换"></a>引用数据类型的转换</h4><p><img src="C:\Blogs\source_posts\JNI和NDK.assets\image-20220224000133251.png" srcset="/img/loading3.gif" lazyload alt="image-20220224000133251"></p>
+<h3 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h3><p>和 Java 的引用类型一样，JNI 也有引用类型，它们分别是本地引用（Local References）、全局引用（Global References）和弱全局引用（Weak Global References）。</p>
+<h4 id="本地引用"><a href="#本地引用" class="headerlink" title="本地引用"></a>本地引用</h4><p>JNIEnv 提供的函数所返回的引用基本上都是本地引用，因此本地引用也是 JNI 中最常见的引用类型。本地引用主要有以下几个特点：</p>
+<ul>
+<li>当 Native 函数返回时，这个本地引用就会被自动释放。</li>
+<li>只在创建它的线程中有效，不能够跨线程使用。</li>
+<li>局部引用是 JVM 负责的引用类型，受 JVM 管理。</li>
+</ul>
+<p>以 android_media_MediaRecorder_native_init 函数举例：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs gradle">frameworks<span class="hljs-regexp">/base/m</span>edia<span class="hljs-regexp">/jni/</span>android_media_MediaRecorder.cpp<br><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span><br>android_media_MediaRecorder_native_init(JNIEnv *env)<br>&#123;<br>  <span class="hljs-comment">// 这里的 clazz 就是本地引用，它会在 android_media_MediaRecorder_native_init 函数调用返回后被自动释放。</span><br>  <span class="hljs-comment">// 也可以使用 JNIEnv 的 DeleteLocalRef 函数来手动删除本地引用，DeleteLocalRef 函数的使用场景主要是在 native 函数返回前占用了大量内存，需要调用 DeleteLocalRef 函数立即删除本地引用。</span><br>    jclass clazz;<br>    clazz = env-&gt;FindClass(<span class="hljs-string">&quot;android/media/MediaRecorder&quot;</span>);<br>    <span class="hljs-keyword">if</span> (clazz == <span class="hljs-keyword">NULL</span>) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="全局引用"><a href="#全局引用" class="headerlink" title="全局引用"></a>全局引用</h4><p>它和本地引用几乎是相反的，它主要有以下特点：</p>
+<ul>
+<li>在 native 函数返回时不会被自动释放，因此全局引用需要手动来进行释放，并且不会被 GC 回收。</li>
+<li>全局引用是可以跨线程使用的。</li>
+<li>全局引用不受到 JVM 管理。</li>
+</ul>
+<p>JNIEnv 的 NewGlobalRef 函数用来创建全局引用，调用 JNIEnv 的 DeleteGlobalRef 函数来释放全局引用。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">frameworks/base/media/jni/android_media_MediaRecorder.cpp<br>JNIMediaRecorderListener::<span class="hljs-constructor">JNIMediaRecorderListener(JNIEnv<span class="hljs-operator">*</span> <span class="hljs-params">env</span>, <span class="hljs-params">jobject</span> <span class="hljs-params">thiz</span>, <span class="hljs-params">jobject</span> <span class="hljs-params">weak_thiz</span>)</span><br>&#123;<br><br>    jclass clazz = env-&gt;<span class="hljs-constructor">GetObjectClass(<span class="hljs-params">thiz</span>)</span>;<br>    <span class="hljs-keyword">if</span> (clazz<span class="hljs-operator"> == </span>NULL) &#123;<br>        <span class="hljs-constructor">ALOGE(<span class="hljs-string">&quot;Can&#x27;t find android/media/MediaRecorder&quot;</span>)</span>;<br>        jni<span class="hljs-constructor">ThrowException(<span class="hljs-params">env</span>, <span class="hljs-string">&quot;java/lang/Exception&quot;</span>, NULL)</span>;<br>        return;<br>    &#125;<br>  <span class="hljs-comment">// 调用 NewGlobalRef 函数将本地引用 clazz 转变为全局引用 mClass。</span><br>    mClass = (jclass)env-&gt;<span class="hljs-constructor">NewGlobalRef(<span class="hljs-params">clazz</span>)</span>;<br><br>    mObject  = env-&gt;<span class="hljs-constructor">NewGlobalRef(<span class="hljs-params">weak_thiz</span>)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>全局引用 mClass 的释放时机，查看 JNIMediaRecorderListener 的析构函数；</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs awk">frameworks<span class="hljs-regexp">/base/m</span>edia<span class="hljs-regexp">/jni/</span>android_media_MediaRecorder.cpp<br><span class="hljs-regexp">//</span> 此析构函数用来释放全局引用<br>JNIMediaRecorderListener::~JNIMediaRecorderListener()<br>&#123;<br>    <span class="hljs-regexp">//</span> remove global references<br>    JNIEnv *env = AndroidRuntime::getJNIEnv(); <br>    env-&gt;DeleteGlobalRef(mObject);<br>    env-&gt;DeleteGlobalRef(mClass); <span class="hljs-regexp">//</span> 释放了全局引用 mClass<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="弱全局引用"><a href="#弱全局引用" class="headerlink" title="弱全局引用"></a>弱全局引用</h4><p>弱全局引用是一种特殊的全局引用，它和全局引用的特点相似，不同的是弱全局引用是可以被 GC 回收的，弱全局引用被 GC 回收之后会指向 NULL。</p>
+<p>JNIEnv 的 NewWeakGlobalRef 函数用来创建弱全局引用，调用 JNIEnv 的 DeleteWeakGlobalRef 函数来释放弱全局引用。</p>
+<p>由于弱全局引用可能被 GC 回收，因此在使用它之前要先判断它是否被回收了，方法就是调用 JNIEnv 的 IsSameObject 函数来判断；</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs autoit">// weakGlobalRef 是一个弱全局引用，使用它之前需要调用 JNIEnv 的 IsSameObject 函数来判断，这个函数会判断传入的两个引用是否相等，如果相等返回 JNI_TRUE，不相等返回 JNI_FALSE。<br><span class="hljs-keyword">if</span>(env-&gt;IsSameObject(weakGlobalRef,<span class="hljs-literal">NULL</span>))&#123;<br>  // 在这里，如果返回 JNI_TRUE 说明 weakGlobalRef 等于 <span class="hljs-literal">NULL</span> 并被 GC 回收了，就会调用 <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span> 不执行后面的代码逻辑。<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span><span class="hljs-comment">;</span><br>&#125;<br>... 使用 weakGlobalRef<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="defaultConfig"><a href="#defaultConfig" class="headerlink" title="defaultConfig"></a>defaultConfig</h3><p>当gradle自动构建<code>so</code>的时候，根据此生成对应平台的<code>so</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java">android &#123;<br>    ...<br>    defaultConfig &#123;<br>        ...<br>        ndk &#123;<br>            moduleName <span class="hljs-string">&quot;xx&quot;</span> <span class="hljs-comment">//生成的so名字</span><br>            abiFilters <span class="hljs-string">&quot;armeabi&quot;</span>, <span class="hljs-string">&quot;armeabi-v7a&quot;</span>, <span class="hljs-string">&quot;x86&quot;</span>  <span class="hljs-comment">//输出指定三种abi体系结构下的so库</span><br>        &#125;<br>    &#125;<br><br>    sourceSets.main &#123;<br>        jniLibs.srcDir([<span class="hljs-string">&#x27;libs&#x27;</span>])<br>        jni.srcDirs = [] <span class="hljs-comment">//disable automatic ndk-build call</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="sourceSets"><a href="#sourceSets" class="headerlink" title="sourceSets"></a>sourceSets</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs gr">// sourceSets用于指定依赖的第三方so库的存放地址。在android节点下添加上述的sourceSets的配置即可。<br>android &#123;<br>    sourceSets &#123;<br>        main &#123;<br>            manifest.srcFile &#x27;AndroidManifest.xml&#x27;<br>            java.srcDirs = [&#x27;src&#x27;]<br>            resources.srcDirs = [&#x27;src&#x27;]<br>            aidl.srcDirs = [&#x27;src&#x27;]<br>            renderscript.srcDirs = [&#x27;src&#x27;]<br>            res.srcDirs = [&#x27;res&#x27;]<br>            assets.srcDirs = [&#x27;assets&#x27;]<br>            jniLibs.srcDirs = [&#x27;libs&#x27;]<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>打包的时候, 不包含某些文件, 可以如下进行设置</p>
+<div class="code-wrapper"><pre><code class="hljs">sourceSets &#123;
+    main &#123;
+        java &#123;
+            exclude &#39;/test/**&#39;  // 不想包含文件的路径
+        &#125;
+        resources &#123;
+            exclude &#39;/resource/**&#39; // 不想包含的资源文件路径
+        &#125;
+        .....
+    &#125;
+&#125;
+</code></pre></div>
+<h3 id="静态库和动态库的区别"><a href="#静态库和动态库的区别" class="headerlink" title="静态库和动态库的区别"></a>静态库和动态库的区别</h3><ul>
+<li><p>Java作为一种天生的动态链接语言，无法支持静态链接。</p>
+</li>
+<li><p>静态库的代码在编译过程中已经被载入可执行程序,因此体积比较大。</p>
+</li>
+<li><p>动态库(共享库)的代码在可执行程序运行时才载入内存，在编译过程中仅简单的引用，因此代码体积比较小。</p>
+</li>
+<li><p>静态库在程序<strong>编译</strong>时会被连接到目标代码中，程序运行时将不再需要该静态库。</p>
+</li>
+<li><p>动态库在程序编译时并不会被连接到目标代码中，而是在程序<strong>运行</strong>是才被载入，因此在程序运行时还需要动态库存在</p>
+</li>
+<li><p>静态库：就完成函数和变量的地址解析工作，并使之成为可执行程序中不可分割的一部分。</p>
+</li>
+<li><p>动态库：与动态库链接的可执行文件只包含它需要的函数方法的引用表，而不是所有的函数代码，只有在程序执行时, 那些需要的函数代码才会被拷贝到内存中。</p>
+</li>
+<li><p>静态库是牺牲了空间效率，换取了时间效率，动态库是牺牲了时间效率换取了空间效率，没有好与坏的区别，只看具体需要了。</p>
+</li>
+<li><p>windows中静态库是以 .lib 为后缀的文件，动态库是以 .dll 为后缀的文件。</p>
+</li>
+</ul>
+<ol start="2">
+<li>linux中静态库是以 .a 为后缀的文件，动态库是以 .so为后缀的文件。</li>
+<li>mac中静态库是以.a为后缀的文件，动态库是以.dylib为后缀的文件，以.framework为后缀的文件可能是静态库，也可能是动态库。</li>
+</ol>
+<h3 id="GCC编译流程"><a href="#GCC编译流程" class="headerlink" title="GCC编译流程"></a>GCC编译流程</h3><ul>
+<li>预处理 Pre-Processing</li>
+<li>编译 Compiling</li>
+<li>汇编 Assembling</li>
+<li>链接 Linking</li>
+</ul>
+<p>g++编译的一些知识：<br>选项 -rdynamic 用来通知链接器将所有符号添加到动态符号表中<br>（目的是能够通过使用 dlopen 来实现向后跟踪）<br>-Wl 是指示GCC将后面n个逗号分割的参数传递给连接器<br>-fpic 编译器就生成位置无关目标码.适用于共享库(shared library).<br>-fPIC 编译器就输出位置无关目标码.适用于动态连接(dynamic linking),即使分支需要大范围转移.<br>Bdynamic表示链接动态库<br>-L库搜锁目录<br>-l加装的库名<br>-I编译头文件搜索路径</p>
+<p>ndk开发build project时候没有问题，但是运行时报错：</p>
+<p>java.lang.UnsatisfiedLinkError: dlopen failed: library “libopencv_java3.so” not found</p>
+<p>找不到依赖库的路径，后面把子模块的配置文件build.gradle中添加上如下就不再报错了。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus">sourceSets &#123;<br>    <span class="hljs-selector-tag">main</span> &#123;<br>        jniLibs<span class="hljs-selector-class">.srcDirs</span> = <span class="hljs-selector-attr">[<span class="hljs-string">&#x27;src/main/cv/jniLibs&#x27;</span>]</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://developer.android.com/studio/projects/install-ndk?hl=zh-cn#groovy">安装 NDK 和 CMake</a></li>
+<li><a target="_blank" rel="noopener" href="https://www3.ntu.edu.sg/home/ehchua/programming/java/JavaNativeInterface.html">Java Programming Tutorial Java Native Interface (JNI)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.nowcoder.net/n/8e07e78a703c413c916d0f830b8ceda7">浅析静态库和动态库的区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://jianghouren.com/archives/dee78ac1.html">https://jianghouren.com/archives/dee78ac1.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mingfeng002/p/6600731.html">https://www.cnblogs.com/mingfeng002/p/6600731.html</a></li>
+<li>JNI常用函数<a target="_blank" rel="noopener" href="https://wenku.baidu.com/view/2853bc262f60ddccda38a00d.html">https://wenku.baidu.com/view/2853bc262f60ddccda38a00d.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/85ab777e14b2">JNI技术规范 - 第四章 JNI函数(3)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/renhui/p/9986271.html">Android JNI 学习(九)：Static Fields Api &amp; Static Methods Api</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.chinaunix.net/uid-26285146-id-3262288.html">dlopen 与dlsym</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/23/Android-Studio/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android Studio</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/23/Android-LaunchMode/">
+                        <span class="hidden-mobile">Android LaunchMode</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'leexiaoyang/leexiaoyang.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

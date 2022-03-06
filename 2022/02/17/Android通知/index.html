@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2k 字
+      2.2k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      19 分钟
     </span>
   
 
@@ -246,7 +246,7 @@
 </ul>
 <ul>
 <li><p>在AndroidManifest.xml中注册Service并声明相关权限</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;service<br>            android:name=<span class="hljs-string">&quot;.NotificationListener&quot;</span><br>            android:permission=<span class="hljs-string">&quot;android.permission.BIND_NOTIFICATION_LISTENER_SERVICE&quot;</span><br>            android:exported=<span class="hljs-string">&quot;false&quot;</span>&gt;<br>            &lt;intent-filter&gt;<br>                &lt;action android:name=<span class="hljs-string">&quot;android.service.notification.NotificationListenerService&quot;</span> /&gt;<br>            &lt;/intent-filter&gt;<br>        &lt;/service&gt;<br></code></pre></td></tr></table></figure></li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;service<br>            android:name=<span class="hljs-string">&quot;.NotificationListener&quot;</span><br>            android:permission=<span class="hljs-string">&quot;android.permission.BIND_NOTIFICATION_LISTENER_SERVICE&quot;</span><br>            android:exported=<span class="hljs-string">&quot;false&quot;</span>&gt;<br>            &lt;intent-filter&gt;<br>                &lt;action android:name=<span class="hljs-string">&quot;android.service.notification.NotificationListenerService&quot;</span> /&gt;<br>            &lt;/intent-filter&gt;<br>&lt;/service&gt;<br></code></pre></td></tr></table></figure></li>
 </ul>
 <ul>
 <li><p>在系统“通知使用权”页面勾选app</p>
@@ -257,9 +257,12 @@
 <p><code>NotificationListenerService</code>相关接口可以参考附录。</p>
 </li>
 </ul>
-<ul>
-<li></li>
-</ul>
+<h3 id="发送通知"><a href="#发送通知" class="headerlink" title="发送通知"></a>发送通知</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><br></code></pre></td></tr></table></figure>
+
+
+
+
+
 <h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><p><code>NotificationListenerService</code>主要提供了监听系统通知发送（<code>onNotificationPosted</code>）和取消（<code>cancelNotification</code>）的能力，而且开放了一些操作通知的接口。</p>
 <table>
 <thead>
@@ -338,7 +341,9 @@
 <h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7046282271237603341#heading-27">Android通知还能这么玩？</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/WHD597312/NLservice/blob/master/app/src/main/java/com/xinri/MainActivity.java">NLservice</a></li>
-<li></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33200967/article/details/77263055">Android的各种通知Notification、Dialog、Toast、Snackbar</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/ui/notifiers/notifications?hl=zh-cn">https://developer.android.com/guide/topics/ui/notifiers/notifications?hl=zh-cn</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904038559907847">下沉式通知的一种实现 | Android悬浮窗Window应用</a></li>
 </ul>
 
             </div>
