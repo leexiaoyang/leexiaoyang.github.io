@@ -193,6 +193,335 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2022/03/12/Android-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" target="_self">
+          Android 进程间通信
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/12/Android-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" target="_self">
+          
+          Android 进程间通信方式   通信方式 优点 缺点 使用场景    Bundle 简单易用 只能传输Bundle支持的数据类型 四大组件间的进程间通信   文件共享 简单易用 不适合高并发场景，并且无法做到即时通信 无并发访问的情况，交换实时性不高的简单数据   Messenger 功能一般，支持一对多串行通信，支持实时通信 不能很好的处理高并发情况，不支持RPC，只能传输Bundle支持的
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-12 22:17" pubdate>
+              2022-03-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/08/Android-%E6%9E%B6%E6%9E%84/" target="_self">
+          Android 架构
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/08/Android-%E6%9E%B6%E6%9E%84/" target="_self">
+          
+          什么是 LiveDataLiveData 是一个可观测的数据持有类。但是不同于通常的被观察者，LiveData 具有生命周期感知能力。  不会发生内存泄漏 观察者会绑定到 Lifecycle对象，并在其关联的生命周期遭到销毁后进行自我清理。  LiveData 怎么感知生命周期感知 调用 observe 方法时，会调用 owner.getLifecycle().addObserver(wrappe
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-08 21:19" pubdate>
+              2022-03-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/07/Serializable%E5%92%8CParcelable%E6%8E%A5%E5%8F%A3/" target="_self">
+          Serializable和Parcelable 接口
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/07/Serializable%E5%92%8CParcelable%E6%8E%A5%E5%8F%A3/" target="_self">
+          
+          什么是序列化把对象转化为可传输的字节序列过程称为序列化。反序列化：把字节序列还原为对象的 过程称为反序列化。进行跨平台存储”和”网络传输”的数据，都需要进行序列化。 Serializable static 属性不能被序列化 。序列化保存的是对象的状态，静态变量属于类的状态，因此序列化并 不保存静态变量。  Transient 属性不会被序列化  transient是针对于对像序列化的。例如，账号密
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-07 16:12" pubdate>
+              2022-03-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/07/Activity-%E5%9F%BA%E7%A1%80/" target="_self">
+          Activity 基础
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/07/Activity-%E5%9F%BA%E7%A1%80/" target="_self">
+          
+          Activity的显示启动和隐示启动显示启动：直接指定要跳转的Activity类名  类名启动Activity 12Intent intent &#x3D; new Intent(this, SecondActivity.class);  startActivity(intent); setComponent(componentName)：包名加类名 1234Component component &#x3D; ne
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-07 15:25" pubdate>
+              2022-03-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/07/Java%E9%9B%86%E5%90%88%E7%B1%BB/" target="_self">
+          Java集合类
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/07/Java%E9%9B%86%E5%90%88%E7%B1%BB/" target="_self">
+          
+          转载
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-07 14:42" pubdate>
+              2022-03-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/07/SurfaceView-TextureView-SurfaceTexture%E7%AD%89%E7%9A%84%E5%8C%BA%E5%88%AB/" target="_self">
+          SurfaceView, TextureView, SurfaceTexture等的区别
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/07/SurfaceView-TextureView-SurfaceTexture%E7%AD%89%E7%9A%84%E5%8C%BA%E5%88%AB/" target="_self">
+          
+          转载
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-07 11:52" pubdate>
+              2022-03-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/06/c++/" target="_self">
+          C++
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/06/c++/" target="_self">
+          
+          C++是怎么去调用C语言代码extern “C”的主要作用就是为了能够正确实现C++代码调用其他C语言代码。加上extern “C”后，会指示编译器这部分代码按C语言（而不是C++）的方式进行编译。由于C++支持函数重载，因此编译器编译函数的过程中会将函数的参数类型也加到编译后的代码中，而不仅仅是函数名；而C语言并不支持函数重载，因此编译C语言代码的函数时不会带上函数的参数类型，一般只包括函数名。
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-06 23:28" pubdate>
+              2022-03-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2022/03/03/Java-JVM/" target="_self">
           Java JVM
         </a>
@@ -201,7 +530,7 @@
       <p class="index-excerpt">
         <a href="/2022/03/03/Java-JVM/" target="_self">
           
-          转载
+          如何配置的垃圾收集器JDK 1.8 中有 Serial、ParNew、Parallel Scavenge、Serial Old、Parallel Old、CMS、G1，默认使用 Parallel Scavenge + Parallel Old。  Serial 系列是单线程垃圾收集器，处理效率很高，适合小内存、客户端场景使用，使用参数 -XX:+UseSerialGC 显式启用。  Paralle
         </a>
       </p>
 
@@ -328,342 +657,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/03/Java%E7%BD%91%E7%BB%9C%E9%A2%98/" target="_self">
-          网络题
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/03/Java%E7%BD%91%E7%BB%9C%E9%A2%98/" target="_self">
-          
-          介绍一下 OSI 介绍一下不对称加密以及对称加密 UDP、拓展到 HTTP&#x2F;3.0 TCP 的拥塞控制、流量控制、滑动窗口，展开讲 路由器的作用 我们的电脑能转发网络吗，原理是什么 tcp三次握手 第三次握手客户端ack包丢失会怎么样（超时重传机制） 怎么判断tcp连接成功（linux命令查看端口占用情况） tcp四次挥手 输入url的过程 http状态码 time-wait的作用 四次挥手是客
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-03 11:48" pubdate>
-              2022-03-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Android/">Android</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">Android</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/03/%E6%B5%B7%E9%87%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" target="_self">
-          海量数据处理
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/03/%E6%B5%B7%E9%87%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" target="_self">
-          
-          海量日志数据，提取出某日访问百度次数最多的那个IPhash映射 + hash统计 + 堆&#x2F;快速&#x2F;归并排序
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-03 11:40" pubdate>
-              2022-03-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Android/">Android</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">Android</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/03/%E8%AE%BE%E8%AE%A1%E9%A2%98/" target="_self">
-          设计题
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/03/%E8%AE%BE%E8%AE%A1%E9%A2%98/" target="_self">
-          
-          面试题 16.25. LRU 缓存设计和构建一个“最近最少使用”缓存，该缓存会删除最近最少使用的项目。缓存应该从键映射到值(允许你插入和检索特定键对应的值)，并在初始化时指定最大容量。当缓存被填满时，它应该删除最近最少使用的项目。 它应该支持以下操作： 获取数据 get 和 写入数据 put 。 获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-03 11:20" pubdate>
-              2022-03-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E9%A2%98/">设计题</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" target="_self">
-          Java多线程
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" target="_self">
-          
-          什么是死锁死锁是指两个或两个以上的进程（线程）在执行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程（线程）称为死锁进程（线程）。 形成死锁的四个必要条件是什么 互斥条件：在一段时间内某资源只由一个进程（线程）占用。如果此时还有其它进程请求资源，就只能等待，直至占有资源的进程用毕释放。
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-02 22:17" pubdate>
-              2022-03-02
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Android/">Android</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">Android</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/01/Java%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          Java面试题
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/01/Java%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          
-          面向对象编程三大特性面向对象说到底就是一种思想，任何事物都可以看作是一个对象。 封装 把描述一个对象的属性和行为的代码封装在一个类中，属性用变量定义，行为用方法进行定义。 继承 子类继承父类的特征和行为。子类可以有父类非私有的方法，属性。子类也可以对父类进行扩展，也可以重写父类的方法。缺点就是提高代码之间的耦合性。 多态（编译看左边，运行看右边） 多态性是指在父类中定义的属性或方法被子类继承之后，
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-01 14:27" pubdate>
-              2022-03-01
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/02/28/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%B1%BB%E5%88%AB/" target="_self">
-          线程安全类别
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/02/28/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%B1%BB%E5%88%AB/" target="_self">
-          
-          互斥同步，也就是你说的Synchronized关键字，还有Lock机制，原理是通过保证在同一个时刻只有当前线程能够对这部分内存进行修改。 CAS同步，这种策略是记录先前的量，然后尝试修改，修改完成，若标志量没有变化，则认为是线程安全的。例如典型的CAS操作。存在ABA问题，假设有一个变量 A ，经修改后变为B，然后又修改为 A，实际已经修改过了，但 CAS 可能无法感知，造成了不合理的值修改操作
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-28 12:34" pubdate>
-              2022-02-28
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Android/">Android</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">Android</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/02/28/Android-%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F/" target="_self">
-          Android 启动方式
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/02/28/Android-%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F/" target="_self">
-          
-          概念 冷启动   如果App启动时，后台没有该应用进程，那么系统会重新创建一个进程分配给该应用，这种启动方式就是冷启动   热启动   如果App启动时，后台有该应用进程，那么系统就是直接使用已有进程  问题 冷启动白屏现象 设置背景windowBackground。 1234567891011121314151617181920212223SplashActivity的清单文件设置   andr
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-28 11:33" pubdate>
-              2022-02-28
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Android/">Android</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">Android</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#board">9</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/#board">10</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

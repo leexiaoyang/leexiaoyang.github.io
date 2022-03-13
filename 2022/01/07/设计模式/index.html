@@ -18,18 +18,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="单例模式 懒汉式[线程不安全，不可用] : 在真正需要使用对象时才去创建该单例类对象  12345678910111213public class Singleton &amp;#123;    private static Singleton singleton;    private Singleton() &amp;#123;&amp;#125;    public static Singleton getInst">
+    <meta name="description" content="混合模式行为型模式策略模式 一个类的行为或其算法可以在运行时更改。实现同一个接口，区分它们的只是他们直接的行为。扩展性良好，但所有策略类都需要对外暴露。 12345678910111213141516public class Context &amp;#123;   private Strategy strategy;    public Context(Strategy strategy)&amp;#123;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式">
 <meta property="og:url" content="http://example.com/2022/01/07/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="单例模式 懒汉式[线程不安全，不可用] : 在真正需要使用对象时才去创建该单例类对象  12345678910111213public class Singleton &amp;#123;    private static Singleton singleton;    private Singleton() &amp;#123;&amp;#125;    public static Singleton getInst">
+<meta property="og:description" content="混合模式行为型模式策略模式 一个类的行为或其算法可以在运行时更改。实现同一个接口，区分它们的只是他们直接的行为。扩展性良好，但所有策略类都需要对外暴露。 12345678910111213141516public class Context &amp;#123;   private Strategy strategy;    public Context(Strategy strategy)&amp;#123;">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source_posts/设计模式.assets/strategy_pattern_uml_diagram.jpg">
+<meta property="og:image" content="c:/Blogs/source_posts/设计模式.assets/AB6B814A-0B09-4863-93D6-1E22D6B07FF8.jpg">
 <meta property="article:published_time" content="2022-01-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-03T06:31:36.843Z">
+<meta property="article:modified_time" content="2022-03-11T08:07:58.900Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/设计模式.assets/strategy_pattern_uml_diagram.jpg">
   
   
   <title>设计模式 - Hexo</title>
@@ -199,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      3.9k 字
     </span>
   
 
@@ -208,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12 分钟
+      33 分钟
     </span>
   
 
@@ -240,10 +243,49 @@
             <h1 style="display: none">设计模式</h1>
             
             <div class="markdown-body">
-              <h4 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h4><ul>
+              <h2 id="混合模式"><a href="#混合模式" class="headerlink" title="混合模式"></a>混合模式</h2><h2 id="行为型模式"><a href="#行为型模式" class="headerlink" title="行为型模式"></a>行为型模式</h2><h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p><img src="C:\Blogs\source_posts\设计模式.assets\strategy_pattern_uml_diagram.jpg" srcset="/img/loading3.gif" lazyload alt="策略模式的 UML 图"></p>
+<p>一个类的行为或其算法可以在运行时更改。实现同一个接口，区分它们的只是他们直接的行为。扩展性良好，但所有策略类都需要对外暴露。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Context</span> &#123;</span><br>   <span class="hljs-keyword">private</span> Strategy strategy;<br> <br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Context</span><span class="hljs-params">(Strategy strategy)</span></span>&#123;<br>      <span class="hljs-keyword">this</span>.strategy = strategy;<br>   &#125;<br> <br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">executeStrategy</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num1, <span class="hljs-keyword">int</span> num2)</span></span>&#123;<br>      <span class="hljs-keyword">return</span> strategy.<span class="hljs-built_in">doOperation</span>(num1, num2);<br>   &#125;<br>   <br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">String</span>[] args)</span> </span>&#123;<br>      context = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Context</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">OperationSubtract</span>());      <br>      context.<span class="hljs-built_in">executeStrategy</span>(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="结构型模式"><a href="#结构型模式" class="headerlink" title="结构型模式"></a>结构型模式</h2><h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Teacher</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">People</span></span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">work</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;教书育人&quot;</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">People</span> </span>&#123;<br>    <span class="hljs-function">String <span class="hljs-title">work</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;<br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WorkHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InvocationHandler</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> Object obj;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WorkHandler</span><span class="hljs-params">()</span> </span>&#123;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WorkHandler</span><span class="hljs-params">(Object obj)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.obj = obj;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;<br>        <span class="hljs-comment">// 在真实的对象执行之前我们可以添加自己的操作</span><br>        <span class="hljs-keyword">return</span> method.invoke(obj, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> : <span class="hljs-title">AppCompatActivity</span>() </span>&#123;<br>    <span class="hljs-function">override fun <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: Bundle?)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_main)<br>        val tv = findViewById&lt;TextView&gt;(R.id.tv)<br>        <span class="hljs-comment">// 要代理的真实对象</span><br>        val people = Teacher()<br>        <span class="hljs-comment">// 代理对象的调用处理程序，我们将要代理的真实对象传入代理对象的调用处理的构造函数中，</span><br>        <span class="hljs-comment">// 最终代理对象的调用处理程序会调用真实对象的方法</span><br>        val handler = WorkHandler(people)<br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 通过Proxy类的newProxyInstance方法创建代理对象，我们来看下方法中的参数</span><br><span class="hljs-comment">         * 第一个参数：people.getClass().getClassLoader()，使用handler对象的classloader对象来加载我们的代理对象</span><br><span class="hljs-comment">         * 第二个参数：people.getClass().getInterfaces()，这里为代理类提供的接口是真实对象实现的接口，这样代理对象就能像真实对象一样调用接口中的所有方法</span><br><span class="hljs-comment">         * 第三个参数：handler，我们将代理对象关联到上面的InvocationHandler对象上</span><br><span class="hljs-comment">         */</span><br>        val proxy = Proxy.newProxyInstance(<br>            handler.javaClass.classLoader,<br>            people.javaClass.interfaces,<br>            handler<br>        ) as People<br>        tv.text = proxy.work()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://cxyzjd.com/article/smile_Running/94984874">Android MVP（三）内存泄漏分析与动态代理_你若盛开，蜜蜂自来-程序员宅基地</a></li>
+</ul>
+<h2 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h2><h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p><img src="C:\Blogs\source_posts\设计模式.assets\AB6B814A-0B09-4863-93D6-1E22D6B07FF8.jpg" srcset="/img/loading3.gif" lazyload alt="工厂模式的 UML 图"></p>
+<p>定义一个创建对象的接口，让其子类自己决定实例化哪一个工厂类，工厂模式使其创建过程延迟到子类进行</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShapeFactory</span> </span>&#123;<br>    <br>   <span class="hljs-comment">//使用 getShape 方法获取形状类型的对象</span><br>   <span class="hljs-keyword">public</span> Shape getShape(<span class="hljs-keyword">String</span> shapeType)&#123;<br>      <span class="hljs-keyword">if</span>(shapeType == <span class="hljs-literal">null</span>)&#123;<br>         <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>      &#125;        <br>      <span class="hljs-keyword">if</span>(shapeType.equalsIgnoreCase(<span class="hljs-string">&quot;CIRCLE&quot;</span>))&#123;<br>         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">Circle</span>();<br>      &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(shapeType.equalsIgnoreCase(<span class="hljs-string">&quot;RECTANGLE&quot;</span>))&#123;<br>         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">Rectangle</span>();<br>      &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(shapeType.equalsIgnoreCase(<span class="hljs-string">&quot;SQUARE&quot;</span>))&#123;<br>         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">Square</span>();<br>      &#125;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>   &#125;<br>   <br>   <br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> void main(<span class="hljs-keyword">String</span>[] args) &#123;<br>      ShapeFactory shapeFactory = <span class="hljs-keyword">new</span> <span class="hljs-type">ShapeFactory</span>();<br>      <span class="hljs-comment">//获取 Circle 的对象，并调用它的 draw 方法</span><br>      Shape shape1 = shapeFactory.getShape(<span class="hljs-string">&quot;CIRCLE&quot;</span>);<br>   &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><ul>
 <li>懒汉式[线程不安全，不可用] : 在<strong>真正需要使用</strong>对象时才去创建该单例类对象</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Singleton singleton;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span> </span>&#123;&#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (singleton == <span class="hljs-keyword">null</span>) &#123;<br>            singleton = <span class="hljs-keyword">new</span> Singleton();<br>        &#125;<br>        <span class="hljs-keyword">return</span> singleton;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Singleton singleton;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span> </span>&#123;&#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (singleton == <span class="hljs-keyword">null</span>) &#123;<br>            singleton = <span class="hljs-keyword">new</span> Singleton();<br>        &#125;<br>        <span class="hljs-keyword">return</span> singleton;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
 
 
@@ -267,6 +309,24 @@
 </li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span> </span>&#123; &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> SingletonHolder.INSTANCE;<br>    &#125;<br>    <span class="hljs-comment">//静态内部类</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SingletonHolder</span></span>&#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Singleton INSTANCE = <span class="hljs-keyword">new</span> Singleton();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

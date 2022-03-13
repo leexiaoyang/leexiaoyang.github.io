@@ -18,17 +18,17 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="堆排序1167. 连接棒材的最低费用为了装修新房，你需要加工一些长度为正整数的棒材 。棒材以数组 sticks 的形式给出，其中 sticks[i] 是第 i 根棒材的长度。 如果要将长度分别为 x 和 y 的两根棒材连接在一起，你需要支付 x + y 的费用。 由于施工需要，你必须将所有棒材连接成一根。 返回你把所有棒材 sticks 连成一根所需要的最低费用。注意你可以任意选择棒材连接的顺序。">
+    <meta name="description" content="堆排序堆是一种非线性结构，通俗来讲堆其实就是**利用完全二叉树的结构来维护的一维数组，但堆并不一定是完全二叉树。  大顶堆：每个结点的值都大于或等于其左右孩子结点的值  小顶堆：每个结点的值都小于或等于其左右孩子结点的值   大顶堆的构建过程就是从最后一个非叶子结点开始从下往上调整。 1167. 连接棒材的最低费用为了装修新房，你需要加工一些长度为正整数的棒材 。棒材以数组 sticks 的形式给">
 <meta property="og:type" content="article">
 <meta property="og:title" content="排序">
 <meta property="og:url" content="http://example.com/2022/01/14/%E6%8E%92%E5%BA%8F/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="堆排序1167. 连接棒材的最低费用为了装修新房，你需要加工一些长度为正整数的棒材 。棒材以数组 sticks 的形式给出，其中 sticks[i] 是第 i 根棒材的长度。 如果要将长度分别为 x 和 y 的两根棒材连接在一起，你需要支付 x + y 的费用。 由于施工需要，你必须将所有棒材连接成一根。 返回你把所有棒材 sticks 连成一根所需要的最低费用。注意你可以任意选择棒材连接的顺序。">
+<meta property="og:description" content="堆排序堆是一种非线性结构，通俗来讲堆其实就是**利用完全二叉树的结构来维护的一维数组，但堆并不一定是完全二叉树。  大顶堆：每个结点的值都大于或等于其左右孩子结点的值  小顶堆：每个结点的值都小于或等于其左右孩子结点的值   大顶堆的构建过程就是从最后一个非叶子结点开始从下往上调整。 1167. 连接棒材的最低费用为了装修新房，你需要加工一些长度为正整数的棒材 。棒材以数组 sticks 的形式给">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Blogs/source_posts/排序.assets/quickSort.gif">
 <meta property="og:image" content="c:/Blogs/source/_posts/排序.assets/image-20220303120749643.png">
 <meta property="article:published_time" content="2022-01-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-03T04:07:51.668Z">
+<meta property="article:modified_time" content="2022-03-07T10:22:50.764Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="排序">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.1k 字
+      3.2k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      26 分钟
+      28 分钟
     </span>
   
 
@@ -244,7 +244,15 @@
             <h1 style="display: none">排序</h1>
             
             <div class="markdown-body">
-              <h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><h4 id="1167-连接棒材的最低费用"><a href="#1167-连接棒材的最低费用" class="headerlink" title="1167. 连接棒材的最低费用"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-cost-to-connect-sticks/">1167. 连接棒材的最低费用</a></h4><p>为了装修新房，你需要加工一些长度为正整数的棒材 。棒材以数组 <code>sticks</code> 的形式给出，其中 <code>sticks[i]</code> 是第 <code>i</code> 根棒材的长度。</p>
+              <h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p>堆是一种非线性结构，通俗来讲堆其实就是**利用完全二叉树的结构来维护的一维数组，但堆并不一定是完全二叉树。</p>
+<ul>
+<li><p>大顶堆：每个结点的值都大于或等于其左右孩子结点的值</p>
+</li>
+<li><p>小顶堆：每个结点的值都小于或等于其左右孩子结点的值</p>
+</li>
+</ul>
+<p><strong>大顶堆的构建过程就是从最后一个非叶子结点开始从下往上调整。</strong></p>
+<h4 id="1167-连接棒材的最低费用"><a href="#1167-连接棒材的最低费用" class="headerlink" title="1167. 连接棒材的最低费用"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-cost-to-connect-sticks/">1167. 连接棒材的最低费用</a></h4><p>为了装修新房，你需要加工一些长度为正整数的棒材 。棒材以数组 <code>sticks</code> 的形式给出，其中 <code>sticks[i]</code> 是第 <code>i</code> 根棒材的长度。</p>
 <p>如果要将长度分别为 <code>x</code> 和 <code>y</code> 的两根棒材连接在一起，你需要支付 <code>x + y</code> 的费用。 由于施工需要，你必须将所有棒材连接成一根。</p>
 <p>返回你把所有棒材 <code>sticks</code> 连成一根所需要的最低费用。注意你可以任意选择棒材连接的顺序。</p>
 <p><strong>示例 1：</strong></p>
@@ -256,7 +264,7 @@
 
 
 
-<h4 id="普通排序"><a href="#普通排序" class="headerlink" title="普通排序"></a>普通排序</h4><h4 id="1636-按照频率将数组升序排序"><a href="#1636-按照频率将数组升序排序" class="headerlink" title="1636. 按照频率将数组升序排序"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sort-array-by-increasing-frequency/">1636. 按照频率将数组升序排序</a></h4><p>给你一个整数数组 <code>nums</code> ，请你将数组按照每个值的频率 <strong>升序</strong> 排序。如果有多个值的频率相同，请你按照数值本身将它们 <strong>降序</strong> 排序。 </p>
+<h3 id="普通排序"><a href="#普通排序" class="headerlink" title="普通排序"></a>普通排序</h3><h4 id="1636-按照频率将数组升序排序"><a href="#1636-按照频率将数组升序排序" class="headerlink" title="1636. 按照频率将数组升序排序"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sort-array-by-increasing-frequency/">1636. 按照频率将数组升序排序</a></h4><p>给你一个整数数组 <code>nums</code> ，请你将数组按照每个值的频率 <strong>升序</strong> 排序。如果有多个值的频率相同，请你按照数值本身将它们 <strong>降序</strong> 排序。 </p>
 <p>请你返回排序后的数组。</p>
 <p><strong>示例 1：</strong></p>
 <figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs prolog">输入：nums = [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]<br>输出：[<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>]<br>解释：<span class="hljs-string">&#x27;3&#x27;</span> 频率为 <span class="hljs-number">1</span>，<span class="hljs-string">&#x27;1&#x27;</span> 频率为 <span class="hljs-number">2</span>，<span class="hljs-string">&#x27;2&#x27;</span> 频率为 <span class="hljs-number">3</span> 。<br></code></pre></td></tr></table></figure>

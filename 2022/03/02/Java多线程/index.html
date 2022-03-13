@@ -18,12 +18,12 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="什么是死锁死锁是指两个或两个以上的进程（线程）在执行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程（线程）称为死锁进程（线程）。 形成死锁的四个必要条件是什么 互斥条件：在一段时间内某资源只由一个进程（线程）占用。如果此时还有其它进程请求资源，就只能等待，直至占有资源的进程用毕释放。">
+    <meta name="description" content="HashMap多线程情况下怎么保证线程安全线程池的作用 降低资源消耗：通过重用已经创建的线程来降低线程创建和销毁的消耗 提高响应速度：任务到达时不需要等待线程创建就可以立即执行。 提高线程的可管理性：线程池可以统一管理、分配、调优和监控。  java中线程池创建的几种方式 通过Executors工厂方法创建。  通过new ThreadPoolExecutor(5, 20, 2, TimeUnit">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程">
 <meta property="og:url" content="http://example.com/2022/03/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="什么是死锁死锁是指两个或两个以上的进程（线程）在执行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程（线程）称为死锁进程（线程）。 形成死锁的四个必要条件是什么 互斥条件：在一段时间内某资源只由一个进程（线程）占用。如果此时还有其它进程请求资源，就只能等待，直至占有资源的进程用毕释放。">
+<meta property="og:description" content="HashMap多线程情况下怎么保证线程安全线程池的作用 降低资源消耗：通过重用已经创建的线程来降低线程创建和销毁的消耗 提高响应速度：任务到达时不需要等待线程创建就可以立即执行。 提高线程的可管理性：线程池可以统一管理、分配、调优和监控。  java中线程池创建的几种方式 通过Executors工厂方法创建。  通过new ThreadPoolExecutor(5, 20, 2, TimeUnit">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Blogs/source_posts/Java多线程.assets/bVcHSNt.png">
 <meta property="og:image" content="c:/Blogs/source_posts/Java多线程.assets/7e76cc17-0ad5-3ff3-954e-1f83463519d1.jpg">
@@ -33,7 +33,7 @@
 <meta property="article:published_time" content="2022-03-02T14:17:24.000Z">
 <meta property="article:modified_time" content="2022-03-02T14:17:24.000Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="c:/Blogs/source_posts/Java多线程.assets/bVcHSNt.png">
   
@@ -205,7 +205,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.6k 字
+      13k 字
     </span>
   
 
@@ -214,7 +214,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      81 分钟
+      108 分钟
     </span>
   
 
@@ -246,7 +246,50 @@
             <h1 style="display: none">Java多线程</h1>
             
             <div class="markdown-body">
-              <h3 id="什么是死锁"><a href="#什么是死锁" class="headerlink" title="什么是死锁"></a>什么是死锁</h3><p>死锁是指两个或两个以上的进程（线程）在执行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程（线程）称为死锁进程（线程）。</p>
+              <h3 id="HashMap多线程情况下怎么保证线程安全"><a href="#HashMap多线程情况下怎么保证线程安全" class="headerlink" title="HashMap多线程情况下怎么保证线程安全"></a>HashMap多线程情况下怎么保证线程安全</h3><h3 id="线程池的作用"><a href="#线程池的作用" class="headerlink" title="线程池的作用"></a>线程池的作用</h3><ul>
+<li>降低资源消耗：通过重用已经创建的线程来降低线程创建和销毁的消耗</li>
+<li>提高响应速度：任务到达时不需要等待线程创建就可以立即执行。</li>
+<li>提高线程的可管理性：线程池可以统一管理、分配、调优和监控。</li>
+</ul>
+<h3 id="java中线程池创建的几种方式"><a href="#java中线程池创建的几种方式" class="headerlink" title="java中线程池创建的几种方式"></a>java中线程池创建的几种方式</h3><ul>
+<li><p><strong>通过Executors工厂方法创建</strong>。</p>
+</li>
+<li><p><strong>通过new ThreadPoolExecutor(5, 20, 2, TimeUnit.SECONDS,</strong> **new LinkedBlockingQueue&lt;&gt;(5))**，调用ThreadPoolExecutor的execute提交线程。</p>
+<ul>
+<li>corePoolSize 核心线程池大小</li>
+<li>maximumPoolSize 线程池最大容量大小</li>
+<li>keepAliveTime 线程池空闲时，线程存活的时间</li>
+<li>TimeUnit  时间单位</li>
+<li>ThreadFactory 线程工厂</li>
+<li>BlockingQueue 任务队列</li>
+<li>RejectedExecutionHandler 线程拒绝策略</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><pre><code class="hljs java"> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-keyword">int</span> size)</span> </span>&#123;<br>        ThreadPoolExecutor poolExecutor = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<span class="hljs-number">5</span>, <span class="hljs-number">20</span>, <span class="hljs-number">2</span>, TimeUnit.SECONDS, <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;&gt;(<span class="hljs-number">5</span>));<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++) &#123;<br>            poolExecutor.execute(<span class="hljs-keyword">new</span> DemoTask(i));<br><br>            Console.log(<span class="hljs-string">&quot;corePoolSize:&quot;</span> + poolExecutor.getCorePoolSize());<br>            Console.log(<span class="hljs-string">&quot;maximumPoolSize:&quot;</span> + poolExecutor.getMaximumPoolSize());<br>            Console.log(<span class="hljs-string">&quot;queue:&quot;</span> + poolExecutor.getQueue().size());<br>            Console.log(<span class="hljs-string">&quot;completedTaskCount:&quot;</span> + poolExecutor.getCompletedTaskCount());<br>            Console.log(<span class="hljs-string">&quot;largestPoolSize:&quot;</span> + poolExecutor.getLargestPoolSize());<br>            Console.log(<span class="hljs-string">&quot;keepAliveTime:&quot;</span> + poolExecutor.getKeepAliveTime(TimeUnit.SECONDS));<br>        &#125;<br><br>        poolExecutor.shutdown();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoTask</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> taskNum;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">DemoTask</span><span class="hljs-params">(<span class="hljs-keyword">int</span> taskNum)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.taskNum = taskNum;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        Console.log(StringUtils.center(<span class="hljs-string">&quot;正在执行&quot;</span> + taskNum, <span class="hljs-number">20</span>, <span class="hljs-string">&quot;=&quot;</span>));<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            Thread.sleep(<span class="hljs-number">2000</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        Console.log(StringUtils.center(<span class="hljs-string">&quot;执行完毕&quot;</span> + taskNum, <span class="hljs-number">20</span>, <span class="hljs-string">&quot;=&quot;</span>));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="java中的锁"><a href="#java中的锁" class="headerlink" title="java中的锁"></a>java中的锁</h3><ul>
+<li>从线程是否需要对资源加锁可以分为 悲观锁 和 乐观锁</li>
+<li>从资源已被锁定，线程是否阻塞可以分为 自旋锁</li>
+<li>从多个线程并发访问资源，也就是 Synchronized 可以分为 无锁、偏向锁、 轻量级锁 和 重量级锁</li>
+<li>从锁的公平性进行区分，可以分为公平锁 和 非公平锁</li>
+<li>从根据锁是否重复获取可以分为 可重入锁 和 不可重入锁</li>
+<li>从那个多个线程能否获取同一把锁分为 共享锁 和 排他锁</li>
+</ul>
+<p>1）从线程是否需要对资源加锁可以分为 悲观锁 和 乐观锁</p>
+<ul>
+<li><p>悲观锁</p>
+<p>每次去拿数据的时候都认为别人会修改，所以都会上锁。上锁期间其他人不能修改数据</p>
+</li>
+<li><p>乐观锁（Optimistic Lock）</p>
+<p>每次去拿数据的时候都认为别人不会修改，所以不会上锁。如果别人修改了数据则放弃操作，否则执行操作。乐观锁适用于多读的应用类型，这样可以提高吞吐量。</p>
+</li>
+</ul>
+<p>2）从根据锁是否重复获取可以分为 可重入锁 和 不可重入锁</p>
+<ul>
+<li>重入锁</li>
+</ul>
+<h3 id="线程池的队列满了怎么办"><a href="#线程池的队列满了怎么办" class="headerlink" title="线程池的队列满了怎么办"></a>线程池的队列满了怎么办</h3><p>首先判断线程池中的线程是否达到最大线程数，如果没有到达最大，则创建新的线程处理该任务；如果达到最大值，则交给饱和策略来处理，默认情况下，应该拒绝且抛异常。</p>
+<h3 id="线程池的构造函数的含义"><a href="#线程池的构造函数的含义" class="headerlink" title="线程池的构造函数的含义"></a>线程池的构造函数的含义</h3><p>corePoolSize    int    核心线程数<br>maxPoolSize    int    最大线程数<br>keepAliveTime    long    空闲线程的存活时间<br>theadFactory    ThreadFactory    当线程池需要新的线程的时候，会使用 threadFactory 来生成新的线程<br>workQueue    BlockingQueue    用于存放任务的队列</p>
+<h3 id="什么是死锁"><a href="#什么是死锁" class="headerlink" title="什么是死锁"></a>什么是死锁</h3><p>死锁是指两个或两个以上的进程（线程）在执行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程（线程）称为死锁进程（线程）。</p>
 <h3 id="形成死锁的四个必要条件是什么"><a href="#形成死锁的四个必要条件是什么" class="headerlink" title="形成死锁的四个必要条件是什么"></a>形成死锁的四个必要条件是什么</h3><ul>
 <li>互斥条件：在一段时间内某资源只由一个进程（线程）占用。如果此时还有其它进程请求资源，就只能等待，直至占有资源的进程用毕释放。</li>
 <li>占有且等待条件：指进程已经保持至少一个资源，但又提出了新的资源请求，而该资源已被其它进程占有，此时请求进程阻塞，但又对自己已获得的其它资源保持不放。</li>
@@ -263,7 +306,7 @@
 <li>Runnable 接口 run 方法只能抛出运行时异常，且无法捕获处理；Callable 接口 call 方法允许抛出异常，可以获取异常信息 </li>
 </ul>
 <p>配合ExecutorService来使用的，在ExecutorService接口中声明了若干个submit方法的重载版本：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs java">&lt;T&gt; <span class="hljs-function">Future&lt;T&gt; <span class="hljs-title">submit</span><span class="hljs-params">(Callable&lt;T&gt; task)</span></span>;<br>&lt;T&gt; <span class="hljs-function">Future&lt;T&gt; <span class="hljs-title">submit</span><span class="hljs-params">(Runnable task, T result)</span></span>;<br>Future&lt;?&gt; submit(Runnable task);<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;T&gt; <span class="hljs-function">Future&lt;T&gt; <span class="hljs-title">submit</span><span class="hljs-params">(Callable&lt;T&gt; task)</span></span>;<br>&lt;T&gt; <span class="hljs-function">Future&lt;T&gt; <span class="hljs-title">submit</span><span class="hljs-params">(Runnable task, T result)</span></span>;<br>Future&lt;?&gt; submit(Runnable task);<br></code></pre></td></tr></table></figure>
 
 <p>第一个方法：submit提交一个实现Callable接口的任务，并且返回封装了异步计算结果的Future。</p>
 <p>第二个方法：submit提交一个实现Runnable接口的任务，并且指定了在调用Future的get方法时返回的result对象。</p>
@@ -336,8 +379,8 @@
 <li>有序性：程序执行的顺序按照代码的先后顺序执行。（处理器可能会对指令进行重排序）</li>
 </ul>
 <h3 id="并行和并发有什么区别？"><a href="#并行和并发有什么区别？" class="headerlink" title="并行和并发有什么区别？"></a>并行和并发有什么区别？</h3><ul>
-<li>并发：在同一个 CPU 核上，多个任务按时间片分时交替执行，从逻辑上来看那些任务是同时执行。并发 = 俩个人用一台电脑。</li>
-<li>并行：单位时间内，多个CPU同时处理多个任务，是真正意义上的“同时进行”。俩个人分配了俩台电脑。</li>
+<li>并发：在同一个 CPU 核上，多个任务按时间片分时交替执行，从逻辑上来看那些任务是同时执行。并发 = 俩个人用一台电脑。在操作系统中，是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行。</li>
+<li>并行：单位时间内，多个CPU同时处理多个任务，是真正意义上的“同时进行”。俩个人分配了俩台电脑。当系统有一个以上CPU时，当一个CPU执行一个进程时，另一个CPU可以执行另一个进程，两个进程互不抢占CPU资源，可以同时进行，这种方式我们称之为并行(Parallel)。</li>
 <li>串行：有n个任务，由一个线程按顺序执行。由于任务、方法都在一个线程执行所以不存在线程不安全情况，也就不存在临界区的问题。俩个人排队使用一台电脑。</li>
 </ul>
 <h3 id="进程与线程的区别"><a href="#进程与线程的区别" class="headerlink" title="进程与线程的区别"></a>进程与线程的区别</h3><ul>
@@ -352,28 +395,45 @@
 <li>需要更稳定安全时，适合选择进程；需要速度时，选择线程更好。</li>
 </ul>
 <h3 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h3><p>当一个线程的时间片用完的时候就会重新处于就绪状态让给其他线程使用，这个过程就属于一次上下文切换。</p>
+<h3 id="守护线程与用户线程"><a href="#守护线程与用户线程" class="headerlink" title="守护线程与用户线程"></a>守护线程与用户线程</h3><ul>
+<li><p>守护线程</p>
+<p>为了确保所有线程都能够安全结束，就引入了守护线程。使用多线程的时候，如果有一个子线程没有结束，jvm进程就不会退出。用来服务用户线程的。setDaemon(boolean on)方法可以方便的设置线程的Daemon模式，true为Daemon模式，false为User模式。setDaemon要先于start()前执行，否则会报 IllegalThreadStateException。</p>
+<p>守护线程不能用于去访问固有资源，比如读写操作或者计算逻辑。因为它会在任何时候甚至在一个操作的中间发生中断。</p>
+</li>
+<li><p>用户线程</p>
+<p>我们平常创建的普通线程。</p>
+</li>
+</ul>
+<p>当主线程结束时，结束其余的子线程（守护线程）自动关闭，就免去了还要继续关闭子线程的麻烦。如：Java垃圾回收线程就是一个典型的守护线程；内存资源或者线程的管理，但是非守护线程也可以。</p>
 <h3 id="sleep-和-wait-的区别"><a href="#sleep-和-wait-的区别" class="headerlink" title="sleep() 和 wait() 的区别"></a>sleep() 和 wait() 的区别</h3><p><img src="C:\Blogs\source_posts\Java多线程.assets\7e76cc17-0ad5-3ff3-954e-1f83463519d1.jpg" srcset="/img/loading3.gif" lazyload alt="img"></p>
 <ul>
-<li><p>wait()：使一个线程处于等待状态，并且释放所持有的对象的锁；</p>
-<ul>
+<li>wait()和sleep()都可以通过interrupt()方法立即 打断线程的暂停状态 ，从而使线程立刻抛出InterruptedException。</li>
+<li>wait() 是Object类 的方法，sleep()是 Thread 类的方法。</li>
+<li></li>
+<li>wait，notify和notifyAll只能在同步控制方法或者同步控制块里面使用，而sleep可以在任何地方使用。</li>
+<li>都可以指定阻塞指定秒数，并返回。</li>
+<li>sleep方法没有释放锁，而wait方法释放了锁。</li>
+<li>wait()：使一个线程处于等待状态，并且释放所持有的对象的锁；<ul>
 <li>运行 -&gt; 等待队列 -&gt; 其他线程调用notify或者notifyAll -&gt; 可运行状态 -&gt; 运行</li>
 </ul>
 </li>
-<li><p>sleep()：使一个正在运行的线程处于睡眠状态，是一个静态方法，调用此方法要处理 InterruptedException 异常；</p>
-<ul>
+<li>sleep()：使一个正在运行的线程处于睡眠状态，是一个静态方法，调用此方法要处理 InterruptedException 异常；释放CPU，millis后线程自动苏醒进入就绪状态。<ul>
 <li>运行 -&gt; 阻塞 -&gt; 就绪 -&gt; 运行</li>
 </ul>
 </li>
 </ul>
 <h3 id="sleep-、-yield-、-suspend的区别"><a href="#sleep-、-yield-、-suspend的区别" class="headerlink" title="sleep() 、 yield()、 suspend的区别"></a>sleep() 、 yield()、 suspend的区别</h3><ul>
-<li>Thread.sleep()方法，当前线程放弃CPU，开始睡眠，在睡眠中不会释放锁。</li>
-<li>Thread.yield()方法，当前线程放弃CPU，但不会释放锁。</li>
-<li>其他线程执行了当前对象的suspend()方法，当前线程被暂停，但不会释放锁。</li>
+<li>Thread.sleep()方法，当前线程放弃CPU资源，不会占用CPU，开始睡眠。（在睡眠中不会释放锁）</li>
+<li>Thread.yield()方法，当前线程放弃CPU资源。让给其他线程去使用。（但不会释放锁）接下来哪个线程会从就绪状态变成执行状态呢？可能是当前线程，也可能是其他线程，看系统的分配了。</li>
+<li>其他线程执行了当前对象的suspend()方法，当前线程被暂停。（但不会释放锁）</li>
+<li>Thread.Sleep(0) 是你的线程暂时放弃cpu，也就是释放一些未用的时间片给其他线程或进程使用，让其他线程有机会优先执行。</li>
 </ul>
-<h3 id="notify-和-notifyAll的区别"><a href="#notify-和-notifyAll的区别" class="headerlink" title="notify 和 notifyAll的区别"></a>notify 和 notifyAll的区别</h3><ul>
+<h3 id="notify-和-notifyAll的区别"><a href="#notify-和-notifyAll的区别" class="headerlink" title="notify 和 notifyAll的区别"></a>notify 和 notifyAll的区别</h3><p>wait 与 notify/notifyAll 方法必须在synchronized 同步代码块中使用。即要先对调用对象加锁，不放在synchronized 中则会在program runtime时扔出<code>“java.lang.IllegalMonitorStateException”</code>异常。</p>
+<ul>
 <li>notify()：唤醒一个处于等待状态的线程，当然在调用此方法的时候，并不能确切的唤醒某一个等待状态的线程，而是由 JVM 确定唤醒哪个线程，而且与优先级无关；</li>
-<li>notityAll()：唤醒所有处于等待状态的线程，该方法并不是将对象的锁给所有线程，而是让它们竞争，只有获得锁的线程才能进入就绪状态；</li>
+<li>notityAll()：唤醒所有处于等待状态的线程，该方法并不是将对象的锁给所有线程，而是让它们竞争，只有获得锁的线程才能进入就绪状态；会将全部线程由等待池移到锁池，然后参与锁的竞争，竞争成功则继续执行，如果不成功则留在锁池等待锁被释放后再次参与竞争。</li>
 </ul>
+<h3 id="join-方法"><a href="#join-方法" class="headerlink" title="join ()方法"></a>join ()方法</h3><p>join方法是将指定线程加入当前线程，将两个交替执行的线程转换成顺序执行。</p>
 <h3 id="在-Java-程序中怎么保证多线程的运行安全"><a href="#在-Java-程序中怎么保证多线程的运行安全" class="headerlink" title="在 Java 程序中怎么保证多线程的运行安全"></a>在 Java 程序中怎么保证多线程的运行安全</h3><ul>
 <li>方法一：使用安全类，比如 java.util.concurrent 下的类，使用原子类AtomicInteger</li>
 <li>方法二：使用自动锁 synchronized。</li>
@@ -385,13 +445,7 @@
 
 
 
-
-
-
-
-
-
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><h3 id="什么是线程池"><a href="#什么是线程池" class="headerlink" title="什么是线程池"></a>什么是线程池</h3><table>
+<h3 id="什么是线程池"><a href="#什么是线程池" class="headerlink" title="什么是线程池"></a>什么是线程池</h3><table>
 <thead>
 <tr>
 <th align="left">ExecutorService</th>
@@ -452,7 +506,7 @@
 <li>threadFactory：创建线程的工厂，虽说JDK提供了线程工厂的默认实现DefaultThreadFactory，但还是建议自定义实现最好，这样可以自定义线程创建的过程，例如线程分组、自定义线程名称等。</li>
 </ul>
 <h3 id="什么是Executors"><a href="#什么是Executors" class="headerlink" title="什么是Executors"></a>什么是Executors</h3><p>Executors工厂类中提供的newCachedThreadPool、newFixedThreadPool 、newScheduledThreadPool 、newSingleThreadExecutor 等方法其实也只是ThreadPoolExecutor的构造函数参数不同而已。通过传入不同的参数，就可以构造出适用于不同应用场景下的线程池。</p>
-<h3 id="程池四种创建方式"><a href="#程池四种创建方式" class="headerlink" title="程池四种创建方式"></a>程池四种创建方式</h3><p>Java通过Executors（jdk1.5并发包）提供四种线程池，分别为：</p>
+<h3 id="线程池四种创建方式"><a href="#线程池四种创建方式" class="headerlink" title="线程池四种创建方式"></a>线程池四种创建方式</h3><p>Java通过Executors（jdk1.5并发包）提供四种线程池，分别为：</p>
 <ul>
 <li><p>newCachedThreadPool 创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程，那么就会回收部分空闲（60秒不执行任务）的线程，当任务数增加时，此线程池又可以智能的添加新线程来处理任务。此线程池不会对线程数量做限制，线程池大小完全依赖于操作系统（或者说JVM）能够创建的最大线程数量。</p>
 <ul>
@@ -466,21 +520,18 @@
 </li>
 </ul>
 </li>
-</ul>
+<li><p>newFixedThreadPool 创建固定大小的线程池。每次提交一个任务就创建一个线程，直到线程达到线程池的最大数量。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。<strong>超出的线程会在队列中等待。</strong></p>
 <ul>
-<li>newFixedThreadPool 创建固定大小的线程池。每次提交一个任务就创建一个线程，直到线程达到线程池的最大数量。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。<strong>超出的线程会在队列中等待。</strong><ul>
 <li>执行长期的任务，性能好很多</li>
 </ul>
 </li>
-</ul>
+<li><p>newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。</p>
 <ul>
-<li>newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。<ul>
 <li>周期性执行任务的场景</li>
 </ul>
 </li>
-</ul>
+<li><p>newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它，他必须保证前一项任务执行完毕才能执行后一项。</p>
 <ul>
-<li>newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它，他必须保证前一项任务执行完毕才能执行后一项。<ul>
 <li>一个任务一个任务执行的场景</li>
 </ul>
 </li>
@@ -513,6 +564,7 @@
 <li>ThreadPoolExecutor.CallerRunsPolicy：由调用线程（提交任务的线程，主线程）处理该任务</li>
 <li>ThreadPoolExecutor.DiscardPolicy：不处理新任务，直接丢弃掉。</li>
 <li>ThreadPoolExecutor.DiscardOldestPolicy： 此策略将丢弃最早的未处理的任务请求。如果执行程序尚未关闭，则位于工作队列头部的任务将被删除，然后重试执行程序（如果再次失败，则重复此过程）。</li>
+<li>自定义，实现RejectedExecutionHandler接口，实现rejectedExecution 方法。</li>
 </ul>
 <h3 id="线程池的状态"><a href="#线程池的状态" class="headerlink" title="线程池的状态"></a>线程池的状态</h3><p><img src="C:\Blogs\source_posts\Java多线程.assets\59522774bfea4ccc8e029a28f45d9379.jpeg" srcset="/img/loading3.gif" lazyload alt="我画了25张图展示线程池工作原理和实现原理，建议先收藏再阅读"></p>
 <ul>
@@ -522,7 +574,6 @@
 <li>TIDYING：当线程池在SHUTDOWN状态下，队列为空并且线程池中执行的任务也为空时。当线程池在STOP状态下，线程池中执行的任务为空时，就会由STOP -&gt; TIDYING。</li>
 <li>TERMINATED：terminated()方法结束后，线程池彻底终止，就变成TERMINATED状态。</li>
 </ul>
-<p>线程池介绍一下，池和阻塞队列都满了，对于新来的线程任务如何处理 </p>
 <p>线程池如何创建，7大参数；线程有几种状态，分别什么含义 </p>
 <p>知道哪些线程池 </p>
 <ol>
@@ -543,7 +594,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
                     
                   </div>
                 
@@ -551,7 +602,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
                     
                   </div>
                 
@@ -572,8 +623,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/01/Java%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                        <span class="hidden-mobile">Java面试题</span>
+                      <a href="/2022/03/01/Java%E5%9F%BA%E7%A1%80/">
+                        <span class="hidden-mobile">Java基础</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

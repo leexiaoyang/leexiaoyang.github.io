@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.8k 字
+      4.8k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      15 分钟
+      40 分钟
     </span>
   
 
@@ -305,6 +305,55 @@
 
 
 
+<h3 id="关键字-Reified"><a href="#关键字-Reified" class="headerlink" title="关键字 Reified"></a>关键字 Reified</h3><blockquote>
+<p>使抽象的东西更加具体或真实</p>
+</blockquote>
+<ul>
+<li>通过添加类型传递简化泛型参数</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// Function</span><br><span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-type">&lt;T : Activity&gt;</span> Activity.<span class="hljs-title">startActivity</span><span class="hljs-params">(context: <span class="hljs-type">Context</span>, clazz: <span class="hljs-type">Class</span>&lt;<span class="hljs-type">T</span>&gt;)</span></span> &#123;<br>    startActivity(Intent(context, clazz))<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// Function</span><br><span class="hljs-keyword">inline</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-type">&lt;<span class="hljs-keyword">reified</span> T : Activity&gt;</span> Activity.<span class="hljs-title">startActivity</span><span class="hljs-params">()</span></span> &#123;<br>    startActivity(Intent(<span class="hljs-keyword">this</span>, T::<span class="hljs-keyword">class</span>.java))<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">printTaskInfo</span><span class="hljs-params">(activity: <span class="hljs-type">Activity</span>, methodName: <span class="hljs-type">String</span>)</span></span> &#123;<br>    log(<span class="hljs-string">&quot;<span class="hljs-subst">$&#123;activity.localClassName&#125;</span> <span class="hljs-variable">$methodName</span> taskId = <span class="hljs-subst">$&#123;activity.taskId&#125;</span>&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">log</span><span class="hljs-params">(message: <span class="hljs-type">String</span>, tag: <span class="hljs-type">String</span> = <span class="hljs-string">&quot;debugLog&quot;</span>)</span></span> &#123;<br>    Log.i(tag, message)<br>&#125;<br><br><span class="hljs-keyword">inline</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-type">&lt;<span class="hljs-keyword">reified</span> T : Activity&gt;</span> Context.<span class="hljs-title">toActivity</span><span class="hljs-params">()</span></span> &#123;<br>    startActivity(Intent(<span class="hljs-keyword">this</span>, T::<span class="hljs-keyword">class</span>.java))<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>使用 <code>reified</code>，简化泛型参数和保证 <code>as?</code> 类型转换安全性</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Function</span><br>fun &lt;T&gt; Bundle.getDataOrNull(clazz: Class&lt;T&gt;): T? &#123;<br>    val data = getSerializable(DATA_KEY)<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">if</span> (clazz.isInstance(data)) &#123;<br>        data as T<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">null</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Function</span><br><span class="hljs-keyword">private</span> inline fun &lt;reified T&gt; Bundle.getDataOrNull(): T? &#123;<br>    <span class="hljs-keyword">return</span> getSerializable(DATA_KEY) as? T<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>使用 <code>reified</code>，可以实现不同的返回类型函数重载</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">inline</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-type">&lt;<span class="hljs-keyword">reified</span> T&gt;</span> Resources.<span class="hljs-title">dpToPx</span><span class="hljs-params">(value: <span class="hljs-type">Int</span>)</span></span>: T &#123;<br>    <span class="hljs-keyword">val</span> result = TypedValue.applyDimension(<br>        TypedValue.COMPLEX_UNIT_DIP,<br>        value.toFloat(), displayMetrics)<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">when</span> (T::<span class="hljs-class"><span class="hljs-keyword">class</span>) </span>&#123;<br>        <span class="hljs-built_in">Float</span>::<span class="hljs-class"><span class="hljs-keyword">class</span> -&gt; <span class="hljs-title">result</span> <span class="hljs-title">as</span> <span class="hljs-title">T</span></span><br>        <span class="hljs-built_in">Int</span>::<span class="hljs-class"><span class="hljs-keyword">class</span> -&gt; <span class="hljs-title">result</span>.<span class="hljs-title">toInt</span></span>() <span class="hljs-keyword">as</span> T<br>        <span class="hljs-keyword">else</span> -&gt; <span class="hljs-keyword">throw</span> IllegalStateException(<span class="hljs-string">&quot;Type not supported&quot;</span>)<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// Caller</span><br><span class="hljs-keyword">val</span> intValue: <span class="hljs-built_in">Int</span> = resource.dpToPx(<span class="hljs-number">64</span>)<br><span class="hljs-keyword">val</span> floatValue: <span class="hljs-built_in">Float</span> = resource.dpToPx(<span class="hljs-number">64</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="out-和-in"><a href="#out-和-in" class="headerlink" title="out 和 in"></a><code>out</code> 和 <code>in</code></h3><ul>
+<li>使用关键字 <code>out</code> 来支持协变，等同于 Java 中的上界通配符 <code>? extends</code>。</li>
+<li>使用关键字 <code>in</code> 来支持逆变，等同于 Java 中的下界通配符 <code>? super</code>。</li>
+</ul>
+<h3 id="符号"><a href="#符号" class="headerlink" title="*符号"></a><code>*</code>符号</h3><p>前面讲到了 Java 中单个 <code>?</code> 号也能作为泛型通配符使用，相当于 <code>? extends Object</code>。 它在 Kotlin 中有等效的写法：<code>*</code> 号，相当于 <code>out Any</code>。比如你的类型定义里是 <code>out T : Number</code> 的，那它加上 <code>&lt;*&gt;</code> 之后的效果就不是 <code>out Any</code>，而是 <code>out Number</code>。</p>
+<h3 id="amp-符号"><a href="#amp-符号" class="headerlink" title="&amp;符号"></a>&amp;符号</h3><h3 id="Where关键字"><a href="#Where关键字" class="headerlink" title="Where关键字"></a>Where关键字</h3><h3 id="componentX-（多声明）"><a href="#componentX-（多声明）" class="headerlink" title="componentX （多声明）"></a>componentX （多声明）</h3><p>对象的每一个属性映射到一个变量中。val 必须有: 用来保存在 component1 和 component2 中返回构造函数传进来的参数的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java">val f1 = Forecast(Date(), <span class="hljs-number">27.5f</span>, <span class="hljs-string">&quot;Shinny&quot;</span>)<br>val (date, temperature, details) = f1<br><span class="hljs-comment">//=======================</span><br><span class="hljs-comment">// 上面的多声明会被编译成下面的代码</span><br>val date = f1.component1()<br>val temperature = f1.component2()<br>val details = f1.copmponent3()<br><span class="hljs-comment">// object class 默认具有该属性。但普通 class 想要具有这种属性，需要这样做：</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">person</span>(<span class="hljs-title">val</span> <span class="hljs-title">name</span>: <span class="hljs-title">String</span>, <span class="hljs-title">val</span> <span class="hljs-title">age</span>: <span class="hljs-title">Int</span>) </span>&#123;<br>    <span class="hljs-function">operator fun <span class="hljs-title">component1</span><span class="hljs-params">()</span>: String </span>&#123;<br>        <span class="hljs-keyword">return</span> name<br>    &#125;<br>    <span class="hljs-function">operator fun <span class="hljs-title">component2</span><span class="hljs-params">()</span>: Int </span>&#123;<br>        <span class="hljs-keyword">return</span> age<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="伴生对象Companion"><a href="#伴生对象Companion" class="headerlink" title="伴生对象Companion"></a>伴生对象Companion</h3><p>Companion object 的出现是为了解决 Java static 方法的反面向对象（Anti-OOP）的问题。static 方法没有面向对象的<strong>消息传递</strong>和<strong>延迟绑定</strong>特性。提出了<strong>伴生对象</strong>这个概念来代替 static 方法。<strong>companion 伴生对象是一个对象，它在类初始化时被实例化。</strong>因为伴生对象不再是类的 static 方法，而是某个类的实例化对象，所以它可以声明接口，里面的方法也可以被重写，具备面向对象的所有特点。</p>
+<ul>
+<li>即使伴⽣对象的成员看起来像其他语⾔的静态成员，在运⾏时他们仍然是真实对象的实例成 员，我们可以使⽤ @JvmStatic</li>
+<li>注解，你可以将伴⽣对象的成员⽣成为真正的静态⽅法和 字段。</li>
+</ul>
+<h3 id="伴生对象实现接口"><a href="#伴生对象实现接口" class="headerlink" title="伴生对象实现接口"></a>伴生对象实现接口</h3><p>伴生对象跟其他对象声明一样，可以实现接口。其调用方式就是直接使用容器类来调用接口实现，就像容器类实现了相关接口一样。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">JSONFactory</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;<br>    <span class="hljs-function">fun <span class="hljs-title">loadFromJson</span><span class="hljs-params">(json: String)</span>: T</span><br><span class="hljs-function">&#125;</span><br><span class="hljs-function"></span><br><span class="hljs-function">class User <span class="hljs-keyword">private</span> <span class="hljs-title">constructor</span><span class="hljs-params">(val name: String)</span> </span>&#123;<br>    companion object Factory: JSONFactory&lt;User&gt; &#123;<br>        <span class="hljs-function">override fun <span class="hljs-title">loadFromJson</span><span class="hljs-params">(json: String)</span>: User </span>&#123;<br>            <span class="hljs-comment">// ...</span><br>            <span class="hljs-keyword">return</span> User(<span class="hljs-string">&quot;..&quot;</span>)<br>        &#125;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
 
@@ -312,9 +361,8 @@
 
 
 
-
-
-
+<h3 id="object关键字"><a href="#object关键字" class="headerlink" title="object关键字"></a>object关键字</h3><p>本身就是一个对象了，不需要像类一样要创建实例，可以直接调用方法。这就被称作对象声明。<strong>可以用于创建单例对象</strong>。</p>
+<h3 id="对象表达式（匿名内部类）"><a href="#对象表达式（匿名内部类）" class="headerlink" title="对象表达式（匿名内部类）"></a>对象表达式（匿名内部类）</h3><p>取代Java的匿名内部类的写法。与Java的匿名内部类只能扩展一个类或实现一个接口不同，<strong>Kotlin中匿名对象可以实现多个接口或者不实现接口。</strong></p>
 
             </div>
             <hr>

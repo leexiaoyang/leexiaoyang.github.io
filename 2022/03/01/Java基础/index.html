@@ -1,0 +1,744 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="型变、协变、逆变、不变型变：用来描述类型转换后的继承关系（即协变、逆变和不变的统称）。比如：List&lt;Orange&gt;是List&lt;Fruit&gt;的子类型吗？答案是No，两者并没有关系，并不能相互读写数据。因此，型变是处理如List&lt;Orange&gt;(List&lt;? extends Orange&gt;)和List&lt;Fruit&gt;子类型关系的一种表达方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础">
+<meta property="og:url" content="http://example.com/2022/03/01/Java%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="型变、协变、逆变、不变型变：用来描述类型转换后的继承关系（即协变、逆变和不变的统称）。比如：List&lt;Orange&gt;是List&lt;Fruit&gt;的子类型吗？答案是No，两者并没有关系，并不能相互读写数据。因此，型变是处理如List&lt;Orange&gt;(List&lt;? extends Orange&gt;)和List&lt;Fruit&gt;子类型关系的一种表达方式。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source_posts/Java基础.assets/1629712458383-5.png">
+<meta property="og:image" content="c:/Blogs/source_posts/Java基础.assets/85916163-8a124800-b880-11ea-9224-dde832893d0f.png">
+<meta property="og:image" content="c:/Blogs/source/_posts/Java面试题.assets/image-20220301165217271.png">
+<meta property="article:published_time" content="2022-03-01T06:27:18.000Z">
+<meta property="article:modified_time" content="2022-03-01T06:27:18.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/Java基础.assets/1629712458383-5.png">
+  
+  
+  <title>Java基础 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading3.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alexander Lee</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java基础">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-01 14:27" pubdate>
+        2022年3月1日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      89 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java基础</h1>
+            
+            <div class="markdown-body">
+              <h3 id="型变、协变、逆变、不变"><a href="#型变、协变、逆变、不变" class="headerlink" title="型变、协变、逆变、不变"></a>型变、协变、逆变、不变</h3><p>型变：用来描述类型转换后的继承关系（即协变、逆变和不变的统称）。比如：<code>List&lt;Orange&gt;</code>是<code>List&lt;Fruit&gt;</code>的子类型吗？答案是No，两者并没有关系，并不能相互读写数据。因此，<strong>型变</strong>是处理如<code>List&lt;Orange&gt;</code>(<code>List&lt;? extends Orange&gt;</code>)和<code>List&lt;Fruit&gt;</code>子类型关系的一种表达方式。</p>
+<p>协变(covariance)：满足条件诸如<code>List&lt;Orange&gt;</code>是<code>List&lt;? extends Fruit&gt;</code>的子类型时，称为协变。</p>
+<p>逆变(covariance)：满足条件<code>List&lt;Fruit&gt;</code>是<code>List&lt;? super Orange&gt;</code>的子类型时，称为逆变。</p>
+<p>不变(invariance)：表示<code>List&lt;Orange&gt;</code>和<code>List&lt;Fruit&gt;</code>不存在型变关系。</p>
+<h3 id="JAVA泛型"><a href="#JAVA泛型" class="headerlink" title="JAVA泛型"></a>JAVA泛型</h3><p><strong>参数化类型，将类型当作参数传递给一个类或者是方法。</strong>早期Java是使用Object来代表任意类型的，但是向下转型有强转的问题，这样程序就不太安全。</p>
+<ul>
+<li>它是一种类型安全检测机制，提供编译期间的类型检测，且具有自动和隐式的类型转化；</li>
+<li>泛化代码，代码可以更多的重复利用；</li>
+</ul>
+<h3 id="JAVA泛型的用法"><a href="#JAVA泛型的用法" class="headerlink" title="JAVA泛型的用法"></a>JAVA泛型的用法</h3><ul>
+<li><p>泛型方法：将方法的参数类型定义为泛型，在调用的时候接受不同类型的参数。泛型类中的类型参数与泛型方法中的类型参数是没有相应的联系的，<strong>泛型方法始终以自己定义的类型参数为准</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test1</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;<br>    <span class="hljs-comment">// 泛型方法与泛型类稍有不同的地方是，类型参数也就是尖括号那一部分是写在返回值前面</span><br>    <span class="hljs-comment">// &lt;T&gt;中的 T 被称为类型参数，而方法中的 T 被称为参数化类型，它不是运行时真正的参数。</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMethod</span><span class="hljs-params">(T t)</span></span>&#123;<br>		System.out.println(t.getClass().getName());<br>	&#125;<br>    <br>    <span class="hljs-comment">// 为了避免混淆，如果在一个泛型类中存在泛型方法，那么两者的类型参数最好不要同名。</span><br>	<span class="hljs-keyword">public</span>  &lt;E&gt; <span class="hljs-function">E <span class="hljs-title">testMethod1</span><span class="hljs-params">(E e)</span></span>&#123;<br>		<span class="hljs-keyword">return</span> e;<br>	&#125;<br>&#125;<br><br><br>Test1&lt;String&gt; t = <span class="hljs-keyword">new</span> Test1();<br>t.testMethod(<span class="hljs-string">&quot;generic&quot;</span>);<br>Integer i = t.testMethod1(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">1</span>));<br></code></pre></td></tr></table></figure></li>
+<li><p>泛型类：定义类的时候在类上定义了泛型，传入不同的参数实例化不同的对象，用户想要使用哪种类型，就在创建的时候指定类型。使用的时候，该类就会自动转换成用户想要使用的类型了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 将 value 这个属性的类型也参数化了，这就是所谓的参数化类型</span><br><span class="hljs-comment">// 泛型类不至接受一个类型参数，它还可以这样接受多个类型参数。</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cache</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;<br>	T value;<br><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getValue</span><span class="hljs-params">()</span> </span>&#123;<br>		<span class="hljs-keyword">return</span> value;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setValue</span><span class="hljs-params">(T value)</span> </span>&#123;<br>		<span class="hljs-keyword">this</span>.value = value;<br>	&#125;<br>&#125;<br><br><span class="hljs-comment">// 不再需要对取出来的结果进行强制转换了。</span><br>Cache&lt;String&gt; cache1 = <span class="hljs-keyword">new</span> Cache&lt;String&gt;();<br>cache1.setValue(<span class="hljs-string">&quot;123&quot;</span>);<br>String value2 = cache1.getValue();<br>		<br>Cache&lt;Integer&gt; cache2 = <span class="hljs-keyword">new</span> Cache&lt;Integer&gt;();<br>cache2.setValue(<span class="hljs-number">456</span>);<br><span class="hljs-keyword">int</span> value3 = cache2.getValue();<br></code></pre></td></tr></table></figure></li>
+<li><p>泛型接口：通过在接口名后面添加类型参数的声明部分来实现。泛型接口和泛型类差不多。</p>
+</li>
+</ul>
+<h3 id="类型擦除"><a href="#类型擦除" class="headerlink" title="类型擦除"></a>类型擦除</h3><p>泛型只存在源码中，编译器将源码编译成字节码之时，就会把泛型『擦除』，所以字节码中并不存在泛型。最终替换成了 Object。类型擦除的主要目的是避免过多的创建类而造成的运行时的过度消耗。<code>List&lt;A&gt;</code>表示一个类型，再用<code>List&lt;B&gt;</code>表示另一个类型，以此类推，无疑会引起类型的数量爆炸。</p>
+<p>当类定义中的类型参数存在限制时，在类型擦除中替换为类型参数的上界或者下界。</p>
+<p>​       <img src="C:\Blogs\source_posts\Java基础.assets\1629712458383-5.png" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<h3 id="泛型类型限定"><a href="#泛型类型限定" class="headerlink" title="泛型类型限定"></a>泛型类型限定</h3><p><strong>通配符的出现是为了指定泛型中的类型范围</strong>。</p>
+<p>具体限定<T extends List></p>
+<ul>
+<li><p>具体限定只能使用<code>extends</code>关键字做上界限定，不能做下届限定</p>
+</li>
+<li><p>使用上界限定泛型的类型后，编译时类型擦除就不会转为Object而是转为限定的类。</p>
+</li>
+<li><p>上界是另一个泛型<T extends E>，泛型还可以继承另一个泛型来限定泛型的类型。</p>
+</li>
+<li><p>T表示一种数据类型，必须实现Comparable接口，且必须可以与相同类型的元素进行比较</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs excel">public static &lt;<span class="hljs-built_in">T</span> extends Comparable&lt;<span class="hljs-built_in">T</span>&gt;&gt; <span class="hljs-built_in">T</span> <span class="hljs-built_in">max</span>(<span class="hljs-built_in">T</span>[] arr)&#123;&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>通配符限定<? extends ArrayList> 、<? super ArrayList>、<?></p>
+<ul>
+<li><p>通配符限定可以使用<code>extends</code>和<code>super</code>分别来限定泛型的上界和限定泛型的下界，叫有限定通配符</p>
+<ul>
+<li><p>上界通配符 &lt;? extends T&gt;<code> 不能往里存，只能往外取</code>。因为如果支持存入则会破坏类型安全。（生产者只能读取）</p>
+</li>
+<li><p>下界通配符&lt;? super T&gt; <code>能存，能取，但取得部分功能被限制</code>，取出来得东西只能放到Object类中。不能保证从中读取到的元素的类型。（消费者只能写入）</p>
+</li>
+<li><p>频繁set的内容，适合用下界通配符&lt;? super T&gt;，因为上界通配符不支持写入</p>
+</li>
+<li><p>频繁get的内容，适合用上界通配符 &lt;? extends T&gt;，因为下届通配符会返回Object，每次转换很麻烦。</p>
+</li>
+</ul>
+</li>
+<li><p>直接使用&lt;?&gt;，叫无限定通配符</p>
+</li>
+</ul>
+<ul>
+<li><p><code>&lt;?&gt;</code>被称作无限定的通配符。</p>
+<p><code>&lt;?&gt;</code>提供了只读的功能，也就是它删减了增加具体类型元素的能力，只保留与具体类型无关的功能。</p>
+</li>
+<li><p><code>&lt;? extends T&gt;</code>被称作上界通配符。</p>
+<? extends T> 代表只接受类型 T 及 T 的子类。`extends` 限制了泛型类型的父类型，所以叫上界。</li>
+<li><p><code>&lt;? super T&gt;</code>被称作下界通配符。</p>
+<p>super 限制了通配符 ? 的子类型，所以称之为下界。</p>
+</li>
+</ul>
+<h3 id="能在指定类型的List中放入其他类型的对象吗"><a href="#能在指定类型的List中放入其他类型的对象吗" class="headerlink" title="能在指定类型的List中放入其他类型的对象吗"></a>能在指定类型的List中放入其他类型的对象吗</h3><ul>
+<li><p>声明泛型为Object,这是所有类的父类，因此可以存储不同类型的值。泛型不写也可以，默认为Object类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;Object&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;Object&gt;();<br>list.add(<span class="hljs-string">&quot;abc&quot;</span>);<br>list.add(<span class="hljs-number">123</span>);<br>list.add(<span class="hljs-keyword">new</span> HashMap&lt;Integer,String&gt;());<br></code></pre></td></tr></table></figure></li>
+<li><p>在取出元素时，会将这个元素强制类型转换成泛型中的类型，也就是说在上面的代码中，最后会尝试强制把<code>User</code>对象转换成<code>String</code>类型</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReflectTest</span> </span>&#123;<br>    <span class="hljs-keyword">static</span> List&lt;String&gt; lists = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        list.add(<span class="hljs-string">&quot;1&quot;</span>);<br>        ReflectTest reflectTest =<span class="hljs-keyword">new</span> ReflectTest();<br>        <span class="hljs-keyword">try</span> &#123;<br>            Field field = ReflectTest.class.getDeclaredField(<span class="hljs-string">&quot;lists&quot;</span>);<br>            field.setAccessible(<span class="hljs-keyword">true</span>);<br>            List list=(List) field.get(reflectTest);<br>            list.add(<span class="hljs-keyword">new</span> User());<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;        <br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="getTypeParameters"><a href="#getTypeParameters" class="headerlink" title="getTypeParameters"></a>getTypeParameters</h3><p>反射中的<code>getTypeParameters</code>方法可以获得类、数组、接口等实体的类型参数，方法只能获取到泛型的参数占位符，而不能获得代码中真正的泛型类型。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">Map&lt;String,Integer&gt; map=<span class="hljs-keyword">new</span> HashMap&lt;&gt;<span class="hljs-literal">()</span>;<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Arrays</span>.</span></span><span class="hljs-keyword">as</span><span class="hljs-constructor">List(<span class="hljs-params">map</span>.<span class="hljs-params">getClass</span>()</span>.get<span class="hljs-constructor">TypeParameters()</span>));<br><span class="hljs-comment">// [K, V]</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Java重载（Overload）和重写（Override）的区别"><a href="#Java重载（Overload）和重写（Override）的区别" class="headerlink" title="Java重载（Overload）和重写（Override）的区别"></a>Java重载（Overload）和重写（Override）的区别</h3><p>重载发生在本类，方法名相同，必须改变参数列表（个数或者参数类型），与返回值、访问修饰符无关。可以改变返回类型，可以改变访问修饰符，可以声明新的或更广的检查异常，方法能够在同一个类中或者在一个子类中被重载。因为调用时不能指定类型信息，编译器不知道你要调用哪个函数。</p>
+<p>重写，参数列表必须完全与被重写方法的相同；返回类型必须完全与被重写方法的返回类型相同；访问级别的限制性一定不能比被重写方法的强</p>
+<ul>
+<li><p>重载遵循所谓“编译期绑定”，即在编译时根据参数变量的类型判断应该调用哪个方法。</p>
+</li>
+<li><p>重写遵循所谓“运行期绑定”，即在运行时根据引用变量所指向的实际对象类型来调用方法。</p>
+</li>
+</ul>
+<h3 id="Java反射之访问私有属性或方法"><a href="#Java反射之访问私有属性或方法" class="headerlink" title="Java反射之访问私有属性或方法"></a>Java反射之访问私有属性或方法</h3><p>通过setAccessible(true)的方式关闭安全检查来提升反射速度。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br> <br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 用Java反射机制来调用private方法</span><br><span class="hljs-comment"> * @author WalkingDog</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> */</span><br> <br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Reflect</span> &#123;</span><br>	<br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">String</span>[] args)</span> throws Exception </span>&#123;<br>		<br>		<span class="hljs-comment">//直接创建对象</span><br>		Person person = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Person</span>();<br>		<br>		Class&lt;?&gt; personType = person.<span class="hljs-built_in">getClass</span>();<br>		<br>		<span class="hljs-comment">//访问私有方法</span><br>		<span class="hljs-comment">//getDeclaredMethod可以获取到所有方法，而getMethod只能获取public</span><br>		Method method = personType.<span class="hljs-built_in">getDeclaredMethod</span>(<span class="hljs-string">&quot;say&quot;</span>, <span class="hljs-keyword">String</span>.class);<br>		<br>		<span class="hljs-comment">//取消Java对访问修饰符的检查</span><br>		method.<span class="hljs-built_in">setAccessible</span>(<span class="hljs-literal">true</span>);<br>		<br>		<span class="hljs-comment">//调用方法person为所在对象</span><br>		method.<span class="hljs-built_in">invoke</span>(person, <span class="hljs-string">&quot;Hello World !&quot;</span>);<br>		<br>		<span class="hljs-comment">//访问私有属性</span><br>		Field field = personType.<span class="hljs-built_in">getDeclaredField</span>(<span class="hljs-string">&quot;name&quot;</span>);<br>		<br>		field.<span class="hljs-built_in">setAccessible</span>(<span class="hljs-literal">true</span>);<br>		<br>		<span class="hljs-comment">//为属性设置值;person为所在对象</span><br>		field.<span class="hljs-built_in">set</span>(person, <span class="hljs-string">&quot;WalkingDog&quot;</span>);<br>		<br>		System.out.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;The Value Of The Field is : &quot;</span> + person.<span class="hljs-built_in">getName</span>());<br>		<br>	&#125;<br>&#125;<br> <br><span class="hljs-comment">//JavaBean</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>&#123;</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">String</span> name;<br>	<br>	<span class="hljs-comment">//每个JavaBean都应该实现无参构造方法</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span><span class="hljs-params">()</span> </span>&#123;&#125;<br>	<br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">String</span> <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;<br>		<span class="hljs-keyword">return</span> name;<br>	&#125;<br> <br>	<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">say</span><span class="hljs-params">(<span class="hljs-keyword">String</span> message)</span></span>&#123;<br>		System.out.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;You want to say : &quot;</span> + message);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="反射原理"><a href="#反射原理" class="headerlink" title="反射原理"></a>反射原理</h3><p>Java在编译之后会生成一个<strong>class文件</strong>，包含类的所有信息，反射通过<strong>字节码文件</strong>找到其类中的方法和属性等</p>
+<ul>
+<li><p>ReflectionData</p>
+<p>用来缓存从JVM中读取类的如下属性数据。</p>
+</li>
+</ul>
+<h3 id="实例初始化"><a href="#实例初始化" class="headerlink" title="实例初始化"></a>实例初始化</h3><p>初始化属于实例的内容（非静态）</p>
+<h3 id="类的初始化"><a href="#类的初始化" class="headerlink" title="类的初始化"></a>类的初始化</h3><p>类第一次加载到内存时进行的过程</p>
+<ul>
+<li>遇到 new、getstatic、putstatic或invokestatic这 4 条字节码指令时，如果类未进行过初始化，那么需首先触发类的初始化。分别对应的场景为：<ul>
+<li>使用 new 关键字实例化对象时</li>
+<li>读取类的静态变量时（被 final修饰，已在编译期把结果放入常量池的静态字段除外）</li>
+<li>设置类的静态变量时</li>
+<li>调用一个类的静态方法时。</li>
+</ul>
+</li>
+<li>使用反射对类进行调用时。</li>
+<li>初始化一个类时，如果其父类还未初始化，那么会先触发其父类的初始化。</li>
+<li>当虚拟机启动时，被指定为需要执行的那个主类（main() 方法所在的类），虚拟机需要先初始化。</li>
+</ul>
+<h3 id="Java反射创建对象效率高还是通过new创建对象的效率高？"><a href="#Java反射创建对象效率高还是通过new创建对象的效率高？" class="headerlink" title="Java反射创建对象效率高还是通过new创建对象的效率高？"></a>Java反射创建对象效率高还是通过new创建对象的效率高？</h3><p>通过new创建对象的效率比较高。通过反射时，先找查找类资源，使用类加载器创建，过程比较繁琐，所以效率较低。</p>
+<p>优点： 运行期类型的判断，动态加载类，提高代码灵活度。<br>缺点： 1,性能瓶颈：反射相当于一系列解释操作，通知 JVM 要做的事情，性能比直接的 java 代码要慢很多。2,安全问题，让我们可以动态操作改变类的属性同时也增加了类的安全隐患。</p>
+<h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><p>Java 反射机制是在运行状态中，对于任意一个类，都能够知道这个类中的所有属性和方法，对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为 Java 语言的反射机制。android中xml解析成具体的类 是用了反射。</p>
+<div class="code-wrapper"><pre><code class="hljs">Field getField(String name)
+//获得某个类的所有的公共（public）的字段，包括父类中的字段。
+Field[] getFields()
+
+Field getDeclaredField(String name)
+//获得某个类的所有声明的字段，即包括public、private和proteced，但是不包括父类的申明字段
+Field[] getDeclaredFields()
+</code></pre></div>
+<p><img src="C:\Blogs\source_posts\Java基础.assets\85916163-8a124800-b880-11ea-9224-dde832893d0f.png" srcset="/img/loading3.gif" lazyload alt="image"></p>
+<p>Class类：代表一个类，位于java.lang包下。</p>
+<p>Field类：代表类的成员变量（成员变量也称为类的属性）。</p>
+<p>Method类：代表类的方法。</p>
+<p>Constructor类：代表类的构造方法。</p>
+<p>Array类：提供了动态创建数组，以及访问数组的元素的静态方法。</p>
+<h3 id="java获取对象实例的三种方法"><a href="#java获取对象实例的三种方法" class="headerlink" title="java获取对象实例的三种方法"></a>java获取对象实例的三种方法</h3><ul>
+<li><p>new</p>
+</li>
+<li><p>通过**Class.newInstance()**进行对象实例化：实际调用的是无参数的构造函数进行实例化。需要强制类型转换。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age = <span class="hljs-number">100</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            Class clazz = Class.forName(<span class="hljs-string">&quot;User&quot;</span>);<br>            User user = (User) clazz.newInstance();<br>            System.out.println(user.age);<br>        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;<br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">catch</span> (InstantiationException e) &#123; <span class="hljs-comment">// 实例化异常</span><br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">catch</span> (IllegalAccessException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>通过**Constructor.newInstance()**进行对象实例化：可以选择调用哪个构造函数进行实例化。</p>
+</li>
+</ul>
+<h3 id="java获取类对象（class）的三种方法"><a href="#java获取类对象（class）的三种方法" class="headerlink" title="java获取类对象（class）的三种方法"></a>java获取类对象（class）的三种方法</h3><ul>
+<li><p>调用对象的getClass()方法来得到Class对象，触发类的初始化</p>
+</li>
+<li><p>使用Class类的中静态forName()方法获得，触发类的初始化</p>
+</li>
+<li><p>使用类的class属性来获取该类对应的Class对象，不会触发类的初始化但XXX类已经被加载到方法区</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">Class</span>&lt;<span class="hljs-keyword">User</span>&gt; clazz = <span class="hljs-keyword">User</span>.<span class="hljs-keyword">class</span>;<br><span class="hljs-keyword">User</span> <span class="hljs-keyword">user</span> = clazz.newInstance();<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>Class.forName的一个很常见的用法是在加载数据库驱动的时候。</p>
+<h3 id="static-为什么不可以修饰局部变量"><a href="#static-为什么不可以修饰局部变量" class="headerlink" title="static 为什么不可以修饰局部变量"></a>static 为什么不可以修饰局部变量</h3><p>static可以修饰类的成员变量，属于类的变量，而非某个特定实例的。而局部变量，例如在某个方法中定义的变量，是存在于栈中的，方法调用结束，其生命周期也随之结束了。跟static可作用的变量不是一回事。</p>
+<h3 id="面向对象编程三大特性"><a href="#面向对象编程三大特性" class="headerlink" title="面向对象编程三大特性"></a>面向对象编程三大特性</h3><p>面向对象说到底就是一种思想，任何事物都可以看作是一个对象。</p>
+<p><strong>封装</strong></p>
+<p>把描述一个对象的属性和行为的代码封装在一个类中，属性用变量定义，行为用方法进行定义。</p>
+<p><strong>继承</strong></p>
+<p>子类继承父类的特征和行为。子类可以有父类非私有的方法，属性。子类也可以对父类进行扩展，也可以重写父类的方法。缺点就是提高代码之间的耦合性。</p>
+<p><strong>多态</strong>（<strong>编译看左边，运行看右边</strong>）</p>
+<p>多态是同一个行为具有多个不同表现形态的能力。</p>
+<p>Java的多态性体现在两个方面：由方法重载实现的编译时多态和方法重写实现的运行时多态。</p>
+<ul>
+<li>编译时多态：在编译阶段，具体调用哪个被重载的方法，编译器会根据参数的不同来确定调用相应的方法。</li>
+<li>运行时多态：在编译时，仅仅依据对象所属的类，系统无法确定到底应该执行那个类的方法，只有运行时才能确定。由于子类继承了父类所有的属性（私有的除外），所以使用父类对象的地方，可以用子类对象来代替。一个对象可以通过引用子类的实例来调用子类的方法。</li>
+</ul>
+<p><strong>优点</strong>：</p>
+<ol>
+<li>提高了代码的维护性（由继承保证）</li>
+<li>提高代码复用性（由继承保证）</li>
+<li>提高了代码的扩展性：新增加的子类不影响已存在类的多态性、继承性以及其他特性</li>
+<li>安全性：向上转型将子类类型隐藏了起来</li>
+</ol>
+<p><strong>缺点</strong>：</p>
+<ol>
+<li>无法使用子类特有的功能（如要使用就要使用向下转型强制类型转换）</li>
+</ol>
+<h3 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h3><p>深拷贝和浅拷贝是只针对Object和Array这样的引用数据类型的。</p>
+<ul>
+<li>浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。对基本数据类型进行值传递。</li>
+<li>深拷贝会另外创造一个新的对象，并复制其内容，新对象跟原对象不共享同一块内存，修改新对象不会影响到原对象。</li>
+</ul>
+<h3 id="clone-方法"><a href="#clone-方法" class="headerlink" title="clone() 方法"></a><code>clone()</code> 方法</h3><p><code>clone()</code> 方法实则是真的创建了一个新的对象。如果一个对象内部只有基本数据类型，那用 clone() 方法获取到的就是这个对象的深拷贝，而如果其内部还有引用数据类型，那用 clone() 方法就是一次浅拷贝的操作。</p>
+<p>String 类型很特殊，它是不可变类型。String类型的引用将会指向常量。进行克隆后，得到一个新的对象，如果该对象的string变量重新赋值，那么只会有这个string 引用变量指向一个新的内存区域，对原来对象中的string变量不会有影响。</p>
+<h3 id="如何实现深拷贝"><a href="#如何实现深拷贝" class="headerlink" title="如何实现深拷贝"></a>如何实现深拷贝</h3><ul>
+<li>序列化（serialization）这个对象，再反序列化回来，就可以得到这个新的对象，无非就是序列化的规则需要我们自己来写。</li>
+<li>继续利用 clone() 方法，可以对其内部的引用类型的变量，再进行一次 clone()。</li>
+</ul>
+<h3 id="向上转型和向下转型"><a href="#向上转型和向下转型" class="headerlink" title="向上转型和向下转型"></a>向上转型和向下转型</h3><p><strong>向上转型</strong></p>
+<ul>
+<li>当子类对象赋值给一个父类引用时，即向上转型（多态本身就是向上转型的过程）</li>
+<li>格式：父类类型 变量名 = new 子类类型（）；</li>
+</ul>
+<p><strong>向下转型</strong></p>
+<ul>
+<li>通过强制类型转换格式，将父类引用转为子类格式</li>
+<li>格式：子类类型 变量名 = （子类类型）父类类型的变量；</li>
+</ul>
+<h3 id="equals与-的区别"><a href="#equals与-的区别" class="headerlink" title="equals与 == 的区别"></a>equals与 == 的区别</h3><p>==</p>
+<ul>
+<li>基本类型：比较的是值是否相同；（byte,short,char,int,long,float,double,boolean等基本类型）</li>
+<li>引用类型：比较的是在内存中的存放地址是否相同；</li>
+</ul>
+<p>equals</p>
+<ul>
+<li>引用类型：默认情况下，比较的是内存地址值。</li>
+<li>只不过 String 和 Integer 等重写了 equals 方法，把它变成了值比较。</li>
+<li>String类中被复写的equals()方法其实是比较两个字符串的内容。</li>
+</ul>
+<h3 id="什么时候需要重写equals与-hashcode"><a href="#什么时候需要重写equals与-hashcode" class="headerlink" title="什么时候需要重写equals与 hashcode"></a>什么时候需要重写equals与 hashcode</h3><p>hashcode：元素的地址转换成一个整数返回</p>
+<p>只有当类需要作为key放在HashTable和HashMap等这些具有Hash结构的集合中才需要重写hashcode。因为 hash结构的集合存储的是不重复的对象，依据 hashCode 和 equals 进行判断，所以 hash结构的集合存储的对象必须重写 hashCode 和 equals。</p>
+<h3 id="为什么equals相等hashcode必相等"><a href="#为什么equals相等hashcode必相等" class="headerlink" title="为什么equals相等hashcode必相等"></a>为什么equals相等hashcode必相等</h3><p>如果只重写了 equals 方法，两个对象 equals 返回了true，集合是不允许出现重复元素的，只能插入一个。此时如果没有重写 hashCode 方法，那么就无法定位到同一个位置，集合还是会插入元素。这样集合中就出现了重复元素了。那么重写的equals方法就没有意义了。</p>
+<h3 id="抽象类必须要有抽象方法吗"><a href="#抽象类必须要有抽象方法吗" class="headerlink" title="抽象类必须要有抽象方法吗"></a>抽象类必须要有抽象方法吗</h3><p>不需要，抽象类不一定非要有抽象方法</p>
+<h3 id="StringBuffer-和-StringBuilder-的区别是什么"><a href="#StringBuffer-和-StringBuilder-的区别是什么" class="headerlink" title="StringBuffer 和 StringBuilder 的区别是什么"></a>StringBuffer 和 StringBuilder 的区别是什么</h3><p><code>StringBuilder</code>是线程不安全的，效率较高；而<code>StringBuffer</code>是线程安全的，效率较低。</p>
+<p><code>StringBuffer</code>和<code>StringBuilder</code>的值是可变的，底层使用的是可变字符数组：<code>char[] value</code></p>
+<p>String 类内部是用 char 数组来保存字符串的值, 并且 char[] 是 final 的。</p>
+<h3 id="抽象类能使用-final-修饰吗"><a href="#抽象类能使用-final-修饰吗" class="headerlink" title="抽象类能使用 final 修饰吗"></a>抽象类能使用 final 修饰吗</h3><p>不能，定义抽象类就是让其他类继承的，如果定义为 final 该类就不能被继承，这样彼此就会产生矛盾，所以 final 不能修饰抽象类</p>
+<h3 id="接口和抽象类区别"><a href="#接口和抽象类区别" class="headerlink" title="接口和抽象类区别"></a>接口和抽象类区别</h3><img src="C:\Blogs\source\_posts\Java面试题.assets\image-20220301165217271.png" srcset="/img/loading3.gif" lazyload alt="image-20220301165217271" sty le="zoom:50%;" style="zoom:50%;" /> 
+
+<ul>
+<li>接口中没有构造方法，而抽象类中可以有。</li>
+<li>接口中的方法修饰符默认是public abstract，抽象类可以是任意访问修饰符。</li>
+<li>抽象类有的变量默认是 public static final 修饰，而抽象类中的变量无限制。</li>
+<li>接口中不能含有静态方法（java8取消限制）以及静态代码块，而抽象类可以有。</li>
+<li>接口可以多实现 implement， 抽象类只能单继承 extends ，一个类如果继承抽象类，要么实现它的抽象方法，要么也定义为一个抽象类。</li>
+<li>接口是不可以被实例化，抽象类也不可以被实例化。</li>
+</ul>
+<ul>
+<li><p>default 方法 （实现类可以选择重写，也可以不重写）</p>
+</li>
+<li><p>static 方法 （接口名.static方法名调用，切记实现类不能继承static方法）</p>
+</li>
+</ul>
+<h3 id="final、finally、finalize-有什么区别"><a href="#final、finally、finalize-有什么区别" class="headerlink" title="final、finally、finalize 有什么区别"></a>final、finally、finalize 有什么区别</h3><ul>
+<li>final可以修饰类、变量、方法，修饰类表示该类不能被继承、修饰方法表示该方法不能被重写、修饰变量表示该变量是一个常量不能被重新赋值。</li>
+<li>finally一般作用在处理异常的try-catch代码块后，表示不管是否出现异常，该代码块都会执行，一般用来存放一些关闭资源的代码。</li>
+<li>finalize是Object类的一个方法，而Object类是所有类的父类，该方法一般由垃圾回收器来调用，当我们调用System的gc()方法的时候，垃圾回收器会调用finalize()。一般用来堆那些即将被垃圾回收器标记的对象重新赋值，从而达到逃生的目的。</li>
+</ul>
+<h3 id="四种访问修饰符"><a href="#四种访问修饰符" class="headerlink" title="四种访问修饰符"></a>四种访问修饰符</h3><ul>
+<li>private：类中限定为private的成员，只能被这个类本身访问。如果一个类的构造方法声明为private,则其它类不能生成该类的一个实例。</li>
+<li>default：类中不加任何访问权限限定的成员属于缺省的（default）访问状态，可以被这个类本身和同一个包中的类所访问。</li>
+<li>protected：类中限定为protected的成员，可以被这个类本身、它的子类（包括同一个包中以及不同包中的子类）和同一个包中的所有其他的类访问。</li>
+<li>public：类中限定为public的成员，可以被所有的类访问。</li>
+</ul>
+<h3 id="反射破坏单例及其解决方案"><a href="#反射破坏单例及其解决方案" class="headerlink" title="反射破坏单例及其解决方案"></a>反射破坏单例及其解决方案</h3><p>Java 反射机制是在运行状态中，对于任意一个类，都能够知道这个类中的所有属性和方法，对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为 Java 语言的反射机制。</p>
+<ul>
+<li>先得到class对象（类名、类本身、类的对象）</li>
+<li>通过class对象的对应方法得到构造器、属性、方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">Singleton s1 = Singleton.getInstance();<br> <br>Constructor&lt;Singleton&gt; constructor = Singleton.class.getDeclaredConstructor();<br>constructor.setAccessible(<span class="hljs-keyword">true</span>);<br>Singleton s2 = constructor.newInstance();<br> <br>System.out.println(s1.hashCode());<br>System.out.println(s2.hashCode());<br></code></pre></td></tr></table></figure>
+
+<p>由于该构造函数是private的，通过setAccessible(true)指示反射的对象在使用时应该取消 <a target="_blank" rel="noopener" href="http://lib.csdn.net/base/javase">Java</a> 语言访问检查,使得私有的构造函数能够被访问，这样使得单例模式失效。如果要抵御这种攻击，要防止构造函数被成功调用两次。需要在构造函数中对实例化次数进行统计，大于一次就抛出异常。</p>
+<h3 id="URI-和-URL-有什么区别？"><a href="#URI-和-URL-有什么区别？" class="headerlink" title="URI 和 URL 有什么区别？"></a>URI 和 URL 有什么区别？</h3><p>URI 在于I(Identifier)是统一资源标示符，可以唯一标识一个资源。</p>
+<p>URL在于Locater，一般来说（URL）统一资源定位符，可以提供找到该资源的路径，</p>
+<p>URL又是URI，因为它可以标识一个资源，所以URL又是URI的子集。</p>
+<h3 id="finally会不执行吗"><a href="#finally会不执行吗" class="headerlink" title="finally会不执行吗"></a>finally会不执行吗</h3><ul>
+<li><p>System.exit()</p>
+<p>System.exit()的作用是中止当前虚拟机，虚拟机都被中止了，finally代码块自然不会执行。</p>
+</li>
+<li><p>守护（daemon）线程被中止时</p>
+<p>当所有的非守护线程中止时，守护线程被kill掉，其finally代码块是不会执行的。</p>
+</li>
+</ul>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java多线程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/28/Android-%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F/">
+                        <span class="hidden-mobile">Android 启动方式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'leexiaoyang/leexiaoyang.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

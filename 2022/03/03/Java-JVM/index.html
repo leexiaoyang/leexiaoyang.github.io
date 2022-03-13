@@ -18,18 +18,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="转载">
+    <meta name="description" content="如何配置的垃圾收集器JDK 1.8 中有 Serial、ParNew、Parallel Scavenge、Serial Old、Parallel Old、CMS、G1，默认使用 Parallel Scavenge + Parallel Old。  Serial 系列是单线程垃圾收集器，处理效率很高，适合小内存、客户端场景使用，使用参数 -XX:+UseSerialGC 显式启用。  Paralle">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java JVM">
 <meta property="og:url" content="http://example.com/2022/03/03/Java-JVM/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="转载">
+<meta property="og:description" content="如何配置的垃圾收集器JDK 1.8 中有 Serial、ParNew、Parallel Scavenge、Serial Old、Parallel Old、CMS、G1，默认使用 Parallel Scavenge + Parallel Old。  Serial 系列是单线程垃圾收集器，处理效率很高，适合小内存、客户端场景使用，使用参数 -XX:+UseSerialGC 显式启用。  Paralle">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source_posts/Java-JVM.assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3RpbWVsdmtl,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200219125743635.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NodWlDU0RO,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2022-03-03T12:46:33.000Z">
 <meta property="article:modified_time" content="2022-03-03T12:46:33.000Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/Java-JVM.assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3RpbWVsdmtl,size_16,color_FFFFFF,t_70.png">
   
   
   <title>Java JVM - Hexo</title>
@@ -199,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2 字
+      16k 字
     </span>
   
 
@@ -208,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      131 分钟
     </span>
   
 
@@ -240,8 +243,349 @@
             <h1 style="display: none">Java JVM</h1>
             
             <div class="markdown-body">
-              <h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
-<li></li>
+              <h3 id="如何配置的垃圾收集器"><a href="#如何配置的垃圾收集器" class="headerlink" title="如何配置的垃圾收集器"></a>如何配置的垃圾收集器</h3><p>JDK 1.8 中有 Serial、ParNew、Parallel Scavenge、Serial Old、Parallel Old、CMS、G1，默认使用 Parallel Scavenge + Parallel Old。</p>
+<ul>
+<li><p>Serial 系列是单线程垃圾收集器，处理效率很高，适合小内存、客户端场景使用，使用参数 -XX:+UseSerialGC 显式启用。</p>
+</li>
+<li><p>Parallel 系列相当于并发版的 Serial，追求高吞吐量，适用于较大内存并且有多核CPU的环境，默认或显式使用参数 -XX:+UseParallelGC 启用。可以使用 -XX:MaxGCPauseMillis 参数指定最大垃圾收集暂停毫秒数，收集器会尽量达到目标；使用 -XX:GCTimeRatio 指定期望吞吐量大小，默认 99，用户代码运行时间:垃圾收集时间=99:1。</p>
+</li>
+<li><p>CMS，追求垃圾收集暂停时间尽可能短，适用于服务端较大内存且多 CPU 的应用，使用参数 -XX:+UseConcMarkSweepGC 显式开启，会同时作用年轻代与老年代，但有浮动垃圾和内存碎片化的问题。</p>
+</li>
+<li><p>G1，主要面向服务端应用的垃圾收集器，适用于具有大内存的多核 CPU 的服务器，追求较小的垃圾收集暂停时间和较高的吞吐量。首创局部内存回收设计思路，采用不同策略实现分代，不再使用固定大小、固定数量的堆内存分代区域划分，而是基于 Region 内存布局，优先回收价收益最大的 Region。使用参数 -XX:+UseG1GC 开启。</p>
+<p>我们生产环境使用了 G1 收集器，相关配置如下 -Xmx12g -Xms12g -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=45 -XX:MaxGCPauseMillis=200 -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m -XX:MaxDirectMemorySize=512m</p>
+<p>-XX:G1HeapRegionSize 未指定</p>
+<p><strong>核心思路：</strong> 每个内存区域设置上限，避免溢出</p>
+<p>堆设置为操作系统的 70%左右，超过 8 G，首选 G1</p>
+<p>根据老年代对象提升速度，调整新生代与老年代之间的内存比例 等过 GC 信息，针对项目敏感指标优化，比如访问延迟、吞吐量等</p>
+</li>
+</ul>
+<h3 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h3><p>Java内存模型规定了所有的<strong>变量都存储在主内存</strong>中，每条<strong>线程还有自己的工作内存</strong>，线程的工作内存中保存了该线程中是用到的主内存中的变量的副本，<strong>线程对变量的所有操作都必须在工作内存中</strong>进行，<strong>而不能直接读写主内存</strong>。不同的线程之间也<strong>无法直接访问对方工作内存中的变量</strong>，线程间变量的传递均需要自己的工作内存和主存之间进行数据同步进行。</p>
+<h3 id="查看-JVM-当前使用的是什么垃圾收集器"><a href="#查看-JVM-当前使用的是什么垃圾收集器" class="headerlink" title="查看 JVM 当前使用的是什么垃圾收集器"></a>查看 JVM 当前使用的是什么垃圾收集器</h3><p>-XX:+PrintCommandLineFlags 参数可以打印出所选垃圾收集器和堆空间大小等设置</p>
+<p>如果开启了 GC 日志详细信息，里面也会包含各代使用的垃圾收集器的简称</p>
+<h3 id="CMS收集器和G1收集器的区别"><a href="#CMS收集器和G1收集器的区别" class="headerlink" title="CMS收集器和G1收集器的区别"></a>CMS收集器和G1收集器的区别</h3><ul>
+<li>CMS收集器是老年代的收集器，可以配合新生代的Serial和ParNew收集器一起使用；</li>
+<li>G1收集器收集范围是老年代和新生代，不需要结合其他收集器使用；</li>
+<li>CMS收集器以最小的停顿时间为目标的收集器；</li>
+<li>G1收集器可预测垃圾回收的停顿时间</li>
+<li>CMS收集器是使用“标记-清除”算法进行的垃圾回收，容易产生内存碎片</li>
+<li>G1收集器使用的是“标记-整理”算法，进行了空间整合，降低了内存空间碎片。</li>
+</ul>
+<h3 id="JVM内存模型"><a href="#JVM内存模型" class="headerlink" title="JVM内存模型"></a>JVM内存模型</h3><ul>
+<li>程序计数器：当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址，线程私有。</li>
+<li>Java虚拟栈：存放基本数据类型、对象的引用、方法出口等，线程私有。</li>
+<li>Native方法栈：和虚拟栈相似，只不过它服务于Native方法，线程私有。</li>
+<li>Java堆：java内存最大的一块，所有对象实例、数组都存放在java堆，GC回收的地方，线程共享。</li>
+<li>方法区：存放已被加载的类信息、常量、静态变量、即时编译器编译后的代码数据等。（即永久带），回收目标主要是常量池的回收和类型的卸载，各线程共享</li>
+</ul>
+<h3 id="栈内存溢出"><a href="#栈内存溢出" class="headerlink" title="栈内存溢出"></a>栈内存溢出</h3><p>栈是线程私有的，他的生命周期与线程相同，每个方法在执行的时候都会创建一个栈帧，用来存储局部变量表，操作数栈，动态链接，方法出口等信息。局部变量表又包含基本数据类型，对象引用类型。参数 -Xss 去调整JVM栈的大小</p>
+<ul>
+<li>如果线程请求的栈深度大于虚拟机所允许的最大深度，将抛出StackOverflowError异常，方法递归调用产生这种结果。跟线程栈以及栈帧的大小有关。局部变量表内容越多，那么栈帧就越大，栈深度就越小。</li>
+<li>线程启动过多，新建立的线程没有足够的内存去创建对应的虚拟机栈，那么Java虚拟机将抛出一个OutOfMemory 异常。</li>
+</ul>
+<h3 id="字节码"><a href="#字节码" class="headerlink" title="字节码"></a>字节码</h3><p>Java源代码经过虚拟机编译器编译后产生的文件（即扩展为.class的文件），它不面向任何特定的处理器，只面向虚拟机。Java语言通过字节码的方式，在一定程度上解决了传统解释型语言执行效率低的问题，同时又保留了解释型语言可移植的特点。因此，Java程序无须重新编译便可在多种不同的计算机上运行。</p>
+<h3 id="排查-OOM-的问题"><a href="#排查-OOM-的问题" class="headerlink" title="排查 OOM 的问题"></a>排查 OOM 的问题</h3><ul>
+<li>增加两个参数 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/heapdump.hprof，当 OOM 发生时自动 dump 堆内存信息到指定目录</li>
+<li>同时 jstat 查看监控 JVM 的内存和 GC 情况，先观察问题大概出在什么区域</li>
+<li>使用 MAT 工具载入到 dump 文件，分析大对象的占用情况，比如 HashMap 做缓存未清理，时间长了就会内存溢出，可以把改为弱引用</li>
+</ul>
+<h3 id="内存区域有-OOM-的风险"><a href="#内存区域有-OOM-的风险" class="headerlink" title="内存区域有 OOM 的风险"></a>内存区域有 OOM 的风险</h3><ul>
+<li>栈一般经常会发生 StackOverflowError，比如 32 位的 windows 系统单进程限制 2G 内存，无限创建线程就会发生栈的 OOM</li>
+<li>Java 8 常量池移到堆中，溢出会出 java.lang.OutOfMemoryError: Java heap space，设置最大元空间大小参数无效</li>
+<li>堆内存溢出，报错同上，这种比较好理解，GC 之后无法在堆中申请内存创建对象就会报错</li>
+<li>方法区 OOM，经常会遇到的是动态生成大量的类、jsp 等</li>
+<li>直接内存 OOM，涉及到 -XX:MaxDirectMemorySize 参数和 Unsafe 对象对内存的申请</li>
+</ul>
+<h3 id="JIT是什么"><a href="#JIT是什么" class="headerlink" title="JIT是什么"></a>JIT是什么</h3><p>Just In Time Compiler 的简称，即时编译器。为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器码，并进行各种层次的优化，完成这个任务的编译器就是 JIT。</p>
+<h3 id="JVM-配置参数"><a href="#JVM-配置参数" class="headerlink" title="JVM 配置参数"></a>JVM 配置参数</h3><p><strong>日志</strong> </p>
+<p>-XX:+PrintFlagsFinal，打印JVM所有参数的值 </p>
+<p>-XX:+PrintGC，打印GC信息 </p>
+<p>-XX:+PrintGCDetails，打印GC详细信息 </p>
+<p>-XX:+PrintGCTimeStamps，打印GC的时间戳 </p>
+<p>-Xloggc:filename，设置GC log文件的位置 </p>
+<p>-XX:+PrintTenuringDistribution，查看熬过收集后剩余对象的年龄分布信息</p>
+<p><strong>内存设置</strong></p>
+<p>-Xms，设置堆的初始化内存大小   </p>
+<p>-Xmx，设置堆的最大内存 </p>
+<p>-Xmn， 设置新生代内存大小 </p>
+<p>-Xss，设置线程栈大小 </p>
+<p>-XX:NewRatio，新生代与老年代比值</p>
+<p>-XX:SurvivorRatio，新生代中Eden区与两个Survivor区的比值，默认为8，即Eden:Survivor:Survivor=8:1:1 </p>
+<p>-XX:MaxTenuringThreshold，从年轻代到老年代，最大晋升年龄。CMS 下默认为 6，G1 下默认为 15 -XX:MetaspaceSize，设置元空间的大小，第一次超过将触发 GC </p>
+<p>-XX:MaxMetaspaceSize，元空间最大值 </p>
+<p>-XX:MaxDirectMemorySize，用于设置直接内存的最大值，限制通过 DirectByteBuffer 申请的内存 </p>
+<p>-XX:ReservedCodeCacheSize，用于设置 JIT 编译后的代码存放区大小，如果观察到这个值有限制，可以适当调大，一般够用即可</p>
+<p><strong>设置垃圾收集相关</strong> </p>
+<p>-XX:+UseSerialGC，设置串行收集器 </p>
+<p>-XX:+UseParallelGC，设置并行收集器 </p>
+<p>-XX:+UseConcMarkSweepGC，使用CMS收集器 </p>
+<p>-XX:ParallelGCThreads，设置Parallel GC的线程数 </p>
+<p>-XX:MaxGCPauseMillis，GC最大暂停时间 ms </p>
+<p>-XX:+UseG1GC，使用G1垃圾收集器</p>
+<p>CMS 垃圾回收器相关</p>
+<p>-XX:+UseCMSInitiatingOccupancyOnly </p>
+<p>-XX:CMSInitiatingOccupancyFraction，与前者配合使用，指定MajorGC的发生时机 </p>
+<p>-XX:+ExplicitGCInvokesConcurrent，代码调用 System.gc() 开始并行 FullGC，建议加上这个参数 </p>
+<p>-XX:+CMSScavengeBeforeRemark，表示开启或关闭在 CMS 重新标记阶段之前的清除（YGC）尝试，它可以降低 remark 时间，建议加上 </p>
+<p>-XX:+ParallelRefProcEnabled，可以用来并行处理 Reference，以加快处理速度，缩短耗时</p>
+<p><strong>G1 垃圾回收器相关</strong> </p>
+<p>-XX:MaxGCPauseMillis，用于设置目标停顿时间，G1 会尽力达成 </p>
+<p>-XX:G1HeapRegionSize，用于设置小堆区大小，建议保持默认 </p>
+<p>-XX:InitiatingHeapOccupancyPercent，表示当整个堆内存使用达到一定比例（默认是 45%），并发标记阶段就会被启动 </p>
+<p>-XX:ConcGCThreads，表示并发垃圾收集器使用的线程数量，默认值随 JVM 运行的平台不同而变动，不建议修改</p>
+<h3 id="对象什么时候会从年轻代进入老年代"><a href="#对象什么时候会从年轻代进入老年代" class="headerlink" title="对象什么时候会从年轻代进入老年代"></a>对象什么时候会从年轻代进入老年代</h3><ul>
+<li>对象的年龄超过一定阀值，-XX:MaxTenuringThreshold 可以指定该阀值</li>
+<li>动态对象年龄判定，有的垃圾回收算法，比如 G1，并不要求 age 必须达到 15 才能晋升到老年代，它会使用一些动态的计算方法</li>
+<li>大小超出某个阀值的对象将直接在老年代上分配，值默认为 0，意思是全部首选 Eden 区进行分配，-XX:PretenureSizeThreshold 可以指定该阀值，部分收集器不支持</li>
+<li>分配担保，当 Survivor 空间不够的时候，则需要依赖其他内存（指老年代）进行分配担保，这个时候，对象也会直接在老年代上分配</li>
+</ul>
+<h3 id="为什么有两个survivor区"><a href="#为什么有两个survivor区" class="headerlink" title="为什么有两个survivor区"></a>为什么有两个survivor区</h3><p>解决内存碎片化。</p>
+<h3 id="为什么要有Survivor区"><a href="#为什么要有Survivor区" class="headerlink" title="为什么要有Survivor区"></a>为什么要有Survivor区</h3><p><img src="C:\Blogs\source_posts\Java-JVM.assets\watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3RpbWVsdmtl,size_16,color_FFFFFF,t_70.png" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<p>如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代。老年代很快被填满，触发Major GC（也可以看做触发了Full GC）。老年代的内存空间远大于新生代，进行一次MajorGC消耗的时间比Minor GC长得多。频发的Full GC消耗的时间是非常多的，这一点会影响大型程序的执行和响应速度。</p>
+<p>Survivor的存在意义，就是减少被送到老年代的对象，进而减少Full GC的发生，Survivor的预筛选保证只有经历几次Minor GC还能在新生代中存活的对象，才会被送到老年代。</p>
+<h3 id="被GC判断为垃圾的对象一定会回收吗"><a href="#被GC判断为垃圾的对象一定会回收吗" class="headerlink" title="被GC判断为垃圾的对象一定会回收吗"></a>被GC判断为垃圾的对象一定会回收吗</h3><p>真正宣告一个对象死亡,至少要经历两次标记过程**:**</p>
+<p><strong>如果对象在进行可达性分析后发现没有与GC Roots相连接的引用链,那它将会被第一次标记</strong></p>
+<p>**并且进行一次筛选,**筛选的条件是此对象是否有必要执行finalize()方法。当对象没有覆盖finalize()方法,或者finalize()方法已经被虚拟机调用过,虚拟机将这两种情况都视为“没有必要执行”。(即意味着直接回收)</p>
+<p>如果这个对象被判定为有必要执行finalize()方法,那么<strong>这个对象将会放置在一个叫做F-Queue的队列之中,并在稍后由一个由虚拟机自动建立的、低优先级的Finalizer线程去执行它。</strong>这里所谓的“执行”是指虚拟机会触发这个方法,但并不承诺会等待它运行结束,这样做的原因是,如果一个对象在finalize()方法中执行缓慢,或者发生了死循环(更极端的情况),将很可能会导致F-Queue队列中其他对象永久处于等待,甚至导致整个内存回收系统崩溃。</p>
+<p><strong>finalize()方法是对象逃脱死亡命运的最后一次机会,稍后GC将对F-Queue中的对象进行第二次小规模的标记,如果对象要在finalize()中成功拯救自己——只要重新与引用链上的任何一个对象建立关联即可</strong>,譬如把自己(this关键字)赋值给某个类变量或者对象的成员变量,那在第二次标记时它将被移除出“即将回收”的集合;<strong>如果对象这时候还没有逃脱,那基本上它就真的被回收了。</strong></p>
+<h3 id="JVM-监控与分析工具"><a href="#JVM-监控与分析工具" class="headerlink" title="JVM 监控与分析工具"></a>JVM 监控与分析工具</h3><p><code>jps</code>，显示系统所有虚拟机进程信息的命令行工具 <code>jstat</code>，监视分析虚拟机运行状态的命令行工具 <code>jinfo</code>，查看和调整虚拟机参数的命令行工具 <code>jmap</code>，生成虚拟机堆内存转储快照的命令行工具 <code>jhat</code>，显示和分析虚拟机的转储快照文件的命令行工具 <code>jstack</code>，生成虚拟机的线程快照的命令行工具 <code>jcmd</code>，虚拟机诊断工具，JDK 7 提供 <code>jhsdb</code>，基于服务性代理实现的进程外可视化调试工具，JDK 9 提供 <code>JConsole</code>，基于JMX的可视化监视和管理工具 <code>jvisualvm</code>，图形化虚拟机使用情况的分析工具 <code>Java Mission Control</code>，监控和管理 Java 应用程序的工具</p>
+<p><code>MAT</code>，Memory Analyzer Tool，虚拟机内存分析工具 <code>vjtools</code>，唯品会的包含核心类库与问题分析工具 <code>arthas</code>，阿里开源的 Java 诊断工具 <code>greys</code>，JVM进程执行过程中的异常诊断工具 <code>GCHisto</code>，GC 分析工具 <code>GCViewer</code>，GC 日志文件分析工具 <code>GCeasy</code>，在线版 GC 日志文件分析工具 <code>JProfiler</code>，检查、监控、追踪 Java 性能的工具 <code>BTrace</code>，基于动态字节码修改技术(Hotswap)实现的Java程序追踪与分析工具</p>
+<h3 id="垃圾分代收集的过程"><a href="#垃圾分代收集的过程" class="headerlink" title="垃圾分代收集的过程"></a>垃圾分代收集的过程</h3><p><img src="https://img-blog.csdnimg.cn/20200219125743635.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NodWlDU0RO,size_16,color_FFFFFF,t_70" srcset="/img/loading3.gif" lazyload alt="GC流程图"></p>
+<h3 id="何开启和查看-GC-日志"><a href="#何开启和查看-GC-日志" class="headerlink" title="何开启和查看 GC 日志"></a>何开启和查看 GC 日志</h3><p>关注各个分代的内存使用情况、垃圾回收次数、垃圾回收的原因、垃圾回收占用的时间、吞吐量、用户线程停顿时间。 JDK 自带的jstat 工具监控观察 GC 情况。</p>
+<p>常见的 GC 日志开启参数包括： <code>-Xloggc:filename</code>，指定日志文件路径 <code>-XX:+PrintGC</code>，打印 GC 基本信息 <code>-XX:+PrintGCDetails</code>，打印 GC 详细信息 <code>-XX:+PrintGCTimeStamps</code>，打印 GC 时间戳 <code>-XX:+PrintGCDateStamps</code>，打印 GC 日期与时间 <code>-XX:+PrintHeapAtGC</code>，打印 GC 前后的堆、方法区、元空间可用容量变化 <code>-XX:+PrintTenuringDistribution</code>，打印熬过收集后剩余对象的年龄分布信息，有助于 MaxTenuringThreshold 参数调优设置 <code>-XX:+PrintAdaptiveSizePolicy</code>，打印收集器自动设置堆空间各分代区域大小、收集目标等自动调节的相关信息 <code>-XX:+PrintGCApplicationConcurrentTime</code>，打印 GC 过程中用户线程并发时间 <code>-XX:+PrintGCApplicationStoppedTime</code>，打印 GC 过程中用户线程停顿时间 <code>-XX:+HeapDumpOnOutOfMemoryError</code>，堆 oom 时自动 dump <code>-XX:HeapDumpPath</code>，堆 oom 时 dump 文件路径</p>
+<h3 id="哪些是-GC-Roots"><a href="#哪些是-GC-Roots" class="headerlink" title="哪些是 GC Roots"></a>哪些是 GC Roots</h3><ul>
+<li>在JVM栈（栈帧中的本地变量表）中引用的对象，譬如在方法栈中调用到的参数、局部变量、临时变量等。</li>
+<li>在方法区中类静态属性引用的对象，譬如Java类是引用类型的静态变量。</li>
+<li>在方法区中常量引用的对象，譬如字符串常量池（String Table）里的引用。</li>
+<li>在本地方法栈中JNI（即通常所说的Native方法）引用的对象。</li>
+<li>Java虚拟机内部的引用，如基本数据类型对应的Class对象，一些常驻的异常对象（比如 NullPointExcepiton、OutOfMemoryError）等，还有系统类加载器。</li>
+<li>所有被同步锁（synchronized关键字）持有的对象。</li>
+<li>反映 Java 虚拟机内部情况的 JMXBean、JVMTI中注册的回调、本地代码缓存等。</li>
+</ul>
+<h3 id="JVM-如何确定垃圾对象"><a href="#JVM-如何确定垃圾对象" class="headerlink" title="JVM 如何确定垃圾对象"></a>JVM 如何确定垃圾对象</h3><p>JVM 采用的是可达性分析算法，通过 GC Roots 来判定对象是否存活，从 GC Roots 向下搜索，会产生 Reference Chain。当一个对象不能和任何一个 GC Root 产生关系时，就判定为垃圾。</p>
+<p>软引用和弱引用，也会影响对象的回收。内存不足时会回收软引用对象；GC 时会回收弱引用对象。</p>
+<h3 id="运行时栈帧包含哪些结构"><a href="#运行时栈帧包含哪些结构" class="headerlink" title="运行时栈帧包含哪些结构"></a>运行时栈帧包含哪些结构</h3><ul>
+<li>局部变量表</li>
+<li>操作数栈</li>
+<li>动态连接</li>
+<li>返回地址</li>
+<li>附加信息</li>
+</ul>
+<h3 id="运行时内存区域"><a href="#运行时内存区域" class="headerlink" title="运行时内存区域"></a>运行时内存区域</h3><p><strong>Java 8</strong></p>
+<ul>
+<li>The pc Register，程序计数器</li>
+<li>Java Virtual Machine Stacks，Java 虚拟机栈</li>
+<li>Heap，堆</li>
+<li>Method Area，方法区</li>
+<li>Run-Time Constant Pool，运行时常量池</li>
+<li>Native Method Stacks，本地方法栈</li>
+</ul>
+<h3 id="线程A与线程B通信"><a href="#线程A与线程B通信" class="headerlink" title="线程A与线程B通信"></a>线程A与线程B通信</h3><ul>
+<li>首先，线程A把本地内存A中更新过的共享变量刷新到主内存中去。</li>
+<li>然后，线程B到主内存中去读取线程A之前已更新过的共享变量。</li>
+</ul>
+<h3 id="Metaspace-元空间"><a href="#Metaspace-元空间" class="headerlink" title="Metaspace(元空间)"></a>Metaspace(元空间)</h3><p>因为Metaspace是一个堆外数据区。元空间直接在本地内存分配。为了限制Metaspace大小，我们使用其他调优标志：</p>
+<ul>
+<li>-XX：MetaspaceSize和-XX：MaxMetaspaceSize设置最小和最大元空间大小</li>
+<li>在Java 8之前，-XX：PermSize和-XX：MaxPermSize设置最小和最大PermGen大小</li>
+</ul>
+<p>JDK 8 之前，Hotspot 中方法区的实现是永久代（Perm）</p>
+<h3 id="本地内存"><a href="#本地内存" class="headerlink" title="本地内存"></a>本地内存</h3><p>线程之间的共享变量存储在主内存（Main Memory）中，每个线程都有一个私有的本地内存（Local Memory），本地内存中存储了该线程以读/写共享变量的副本。本地内存是JMM的一个抽象概念，并不真实存在。</p>
+<h3 id="JVM-中的常量池"><a href="#JVM-中的常量池" class="headerlink" title="JVM 中的常量池"></a>JVM 中的常量池</h3><ul>
+<li>字符串常量池：存放在堆中，包括 String 对象执行 intern() 方法后存的地方、双引号直接引用的字符串</li>
+<li>运行时常量池：存放在方法区，属于元空间，是类加载后的一些存储区域，大多数是类中 constant_pool 的内容</li>
+</ul>
+<h3 id="对象在哪块内存分配"><a href="#对象在哪块内存分配" class="headerlink" title="对象在哪块内存分配"></a>对象在哪块内存分配</h3><p>数组和对象在堆内存分配，某些对象没有逃逸出方法，可能被优化为在栈上分配</p>
+<h3 id="打出线程栈信息"><a href="#打出线程栈信息" class="headerlink" title="打出线程栈信息"></a>打出线程栈信息</h3><p><code>adb shell &quot;dumpsys meminfo com.alexander.b1 | grep pid&quot;</code></p>
+<p>输入jps，获得进程号。top -Hp pid 获取本进程中所有线程的CPU耗时性能 jstack pid命令查看当前java进程的堆栈状态 或者 jstack -l &gt; /tmp/output.txt 把堆栈信息打到一个txt文件。可以使用fastthread 堆栈定位（fastthread.io）</p>
+<h3 id="垃圾回收器（重点CMS、G1）"><a href="#垃圾回收器（重点CMS、G1）" class="headerlink" title="垃圾回收器（重点CMS、G1）"></a>垃圾回收器（重点CMS、G1）</h3><ul>
+<li>Serial收集器，串行收集器是最古老，最稳定以及效率高的收集器，但可能会产生较长的停顿，只使用一个线程去回收。</li>
+<li>ParNew收集器，ParNew收集器其实就是Serial收集器的多线程版本（新生代）。</li>
+<li>Parallel收集器，Parallel Scavenge收集器类似ParNew收集器，Parallel收集器更关注系统的吞吐量。</li>
+<li>Parallel Old收集器，Parallel Old是Parallel Scavenge收集器的老年代版本，使用多线程“标记－整理”算法</li>
+<li>CMS收集器，CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器。它需要消耗额外的CPU和内存资源，在CPU和内存资源紧张，CPU较少时，会加重系统负担。CMS无法处理浮动垃圾。CMS的“标记-清除”算法，会导致大量空间碎片的产生。</li>
+<li>G1收集器，G1 (Garbage-First)是一款面向服务器的垃圾收集器,主要针对配备多颗处理器及大容量内存的机器、以极高概率满足GC停顿时间要求的同时,还具备高吞吐量性能特征。</li>
+</ul>
+<h3 id="JVM内存模型（结构）"><a href="#JVM内存模型（结构）" class="headerlink" title="JVM内存模型（结构）"></a>JVM内存模型（结构）</h3><p><strong>类加载器</strong>：加载类文件到内存。Class loader只管加载，只要符合文件结构就加载，至于能否运行，它不负责，那是由执行引擎负责的</p>
+<p><strong>执行引擎</strong>：负责解释命令，交由操作系统执行</p>
+<p><strong>本地接口</strong>：本地接口的作用是融合不同的语言为java所用。</p>
+<p>JVM的运行时数据区分为五个区域：堆、虚拟机栈、本地方法栈、方法区、程序计数器。其中虚拟机栈、本地方法栈、程序计数器为线程私有，方法区和堆为线程共享区，JVM不同区域的占用内存大小不同，一般情况下堆内存最大，程序计数器较小。</p>
+<p><strong>程序计数器</strong>：当前线程所执行的行号指示器。执行字节码工作时就是利用程序计数器来选取下一条需要执行的字节码指令。在分支、循环、跳转、异常、线程恢复等都依赖这个计数器。</p>
+<p><strong>java虚拟机栈：</strong>每个方法执行的时候都会创建一个栈帧，用于存放 局部变量表、操作栈、动态链接、方法出口。每一个方法从调用直到执行完成的过程，就对应一个栈帧在虚拟机中入栈到出栈的过程。</p>
+<p><strong>本地方法栈：</strong>与虚拟机栈很类似，区别是一个是执行Java方法，一个是执行本地方法。有的虚拟机会把这2个栈合二为一。</p>
+<p><strong>堆：</strong>Java堆是Java虚拟机所管理的内存最大的一块，被所有线程共享的一块内存区域，在虚拟机启动的时候就创建了。这个内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在这里分配内存。</p>
+<p>Java堆是垃圾收集器（GC）管理的主要区域，有时候也被称为“GC堆”。因为现在收集器基本都采用分代收集算法，所有Java堆还可以细分为：新生代和老年代。堆是可以固定大小也是可以扩展的，如果在堆内存不足，并且也无法及时扩展时，会抛出OutOfMemoryError异常。</p>
+<p><strong>方法区：</strong>用于存储已被Java虚拟机加载的类信息、常量、静态变量、以及编译器编译后的代码等数据。</p>
+<h3 id="类实例化的顺序"><a href="#类实例化的顺序" class="headerlink" title="类实例化的顺序"></a>类实例化的顺序</h3><ul>
+<li>首先是父类的静态变量和静态代码块，按代码先后顺序执行</li>
+<li>第二执行子类的静态变量和静态代码块，按代码先后顺序执行</li>
+<li>第三执行父类的成员变量和普通代码块，按代码先后顺序执行</li>
+<li>第五执行父类的构造方法</li>
+<li>第六执行子类的成员变量和普通代码块，按代码先后顺序执行</li>
+<li>第七执行子类的构造方法</li>
+</ul>
+<h3 id="怎么判断对象是否可以被回收"><a href="#怎么判断对象是否可以被回收" class="headerlink" title="怎么判断对象是否可以被回收"></a>怎么判断对象是否可以被回收</h3><ul>
+<li>引用计数器：为每个对象创建一个引用计数，有对象引用时计数器 +1，引用被释放时计数 -1，当计数器为 0 时就可以被回收。它有一个缺点不能解决循环引用的问题；</li>
+<li>可达性分析：从 GC Roots 开始向下搜索，搜索所走过的路径称为引用链。当一个对象到 GC Roots 没有任何引用链相连时，则证明此对象是可以被回收的。</li>
+</ul>
+<h3 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h3><blockquote>
+<p>类的加载指的是将类的.class文件中的二进制数据读入到内存中</p>
+</blockquote>
+<p><strong>加载</strong>：查找并加载类的二进制数据</p>
+<ul>
+<li>通过一个类的全限定名来获取其定义的二进制字节流</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在Java堆中生成一个代表这个类的<code>java.lang.Class</code>对象，作为对方法区中这些数据的访问入口</li>
+</ul>
+<p><strong>验证</strong>：确保被加载的类的正确性</p>
+<ul>
+<li><p><strong>文件格式验证</strong>：验证字节流是否符合Class文件格式的规范；例如：是否以<code>0xCAFEBABE</code>开头、主</p>
+<p>次版本号是否在当前虚拟机的处理范围之内、常量池中的常量是否有不被支持的类型。</p>
+</li>
+<li><p><strong>元数据验证</strong>：对字节码描述的信息进行语义分析（注意：对比javac编译阶段的语义分析），以保</p>
+<p>证其描述的信息符合Java语言规范的要求；例如：这个类是否有父类，除了</p>
+<p><code>java.lang.Object</code>之外。</p>
+</li>
+<li><p><strong>字节码验证</strong>：通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。</p>
+</li>
+<li><p><strong>符号引用验证</strong>：确保解析动作能正确执行。</p>
+</li>
+</ul>
+<p><strong>准备</strong>：为类的<code>静态变量分</code>配内存，并将其初始化为默认值</p>
+<ul>
+<li><p>这时候进行内存分配的仅包括类变量（static），而不包括实例变量，实例变量会在对象实例化时随着对象一块分配在Java堆中。</p>
+</li>
+<li><p>所设置的初始值通常情况下是数据类型默认的零值（如0、0L、null、false等）</p>
+</li>
+</ul>
+<p><strong>解析</strong>：把类中的符号引用转换为直接引用（常量池中）</p>
+<ul>
+<li>符号引用就是一组符号来描述目标，可以是任何字面量</li>
+<li>直接引用就是直接指向内存地址的指针</li>
+</ul>
+<p><strong>初始</strong>：对类进行初始化，为类的静态变量赋予正确的初始值</p>
+<h3 id="加载-class文件的方式"><a href="#加载-class文件的方式" class="headerlink" title="加载.class文件的方式"></a>加载.class文件的方式</h3><ul>
+<li>从本地系统中直接加载</li>
+<li>通过网络下载.class文件</li>
+<li>从zip，jar等归档文件中加载.class文件</li>
+<li>从专有数据库中提取.class文件</li>
+<li>将Java源文件动态编译为.class文件</li>
+</ul>
+<h3 id="创建对象的方式"><a href="#创建对象的方式" class="headerlink" title="创建对象的方式"></a>创建对象的方式</h3><p><strong>动态加载</strong></p>
+<p>在运行时执行加载。通过Class.forName(“XXX”)创建对象</p>
+<p><strong>静态加载</strong></p>
+<p>在编译时执行加载。指通过new方式创建对象的方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="hljs-keyword">boolean</span> resolve) <span class="hljs-keyword">throws</span> ClassNotFoundException &#123;<br>        <span class="hljs-comment">// 线程安全</span><br>        <span class="hljs-keyword">synchronized</span> (getClassLoadingLock(name)) &#123;<br>            <span class="hljs-comment">// 首先检查这个class是否已经加载过了</span><br>            Class&lt;?&gt; c = findLoadedClass(name);<br>            <span class="hljs-keyword">if</span> (c == <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-keyword">long</span> t0 = System.nanoTime();<br>                <span class="hljs-keyword">try</span> &#123;<br>                    <span class="hljs-comment">// c==null表示没有加载，如果有父类的加载器则让父类加载器加载</span><br>                    <span class="hljs-keyword">if</span> (parent != <span class="hljs-keyword">null</span>) &#123;<br>                        c = parent.loadClass(name, <span class="hljs-keyword">false</span>);<br>                    &#125; <span class="hljs-keyword">else</span> &#123;<br>                        <span class="hljs-comment">//如果父类的加载器为空 则说明递归到bootStrapClassloader了</span><br>                        <span class="hljs-comment">//bootStrapClassloader比较特殊无法通过get获取</span><br>                        c = findBootstrapClassOrNull(name);<br>                    &#125;<br>                &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;&#125;<br>                <span class="hljs-keyword">if</span> (c == <span class="hljs-keyword">null</span>) &#123;<br>                    <span class="hljs-comment">//如果bootstrapClassLoader 仍然没有加载过，则递归回来，尝试自己去加载class</span><br>                    <span class="hljs-keyword">long</span> t1 = System.nanoTime();<br>                    c = findClass(name);<br>                    sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);<br>                    sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);<br>                    sun.misc.PerfCounter.getFindClasses().increment();<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (resolve) &#123;<br>                resolveClass(c);<br>            &#125;<br>            <span class="hljs-keyword">return</span> c;<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="加载器类别"><a href="#加载器类别" class="headerlink" title="加载器类别"></a>加载器类别</h3><ul>
+<li><p><strong>Bootstrap classLoader（启动类加载器）</strong>主要负责加载核心的类库(java.lang.*等) （c++）</p>
+</li>
+<li><p><strong>ExtClassLoader  （标准扩展类加载器）</strong>主要负责加载 jre/lib/ext 目录下的一些扩展的jar （基本上是以javax开头的）</p>
+</li>
+<li><p><strong>AppClassLoader（系统类加载器）</strong>主要负责加载应用程序的主函数类。加载开发者开发的应用代码的类、加载存放在classpath路径下的应用程序级别的类</p>
+</li>
+</ul>
+<h3 id="Class-forName-和ClassLoader-loadClass-区别"><a href="#Class-forName-和ClassLoader-loadClass-区别" class="headerlink" title="Class.forName()和ClassLoader.loadClass()区别"></a>Class.forName()和ClassLoader.loadClass()区别</h3><ul>
+<li><p><code>Class.forName()</code>：将类的.class文件加载到jvm中，还会对类进行解释，执行类中的static代码块。</p>
+</li>
+<li><p><code>ClassLoader.loadClass()</code>：只干一件事情，就是将.class文件加载到jvm中，不会执行static代码块，只有在newInstance才会去执行static块。</p>
+</li>
+<li><p><code>Class.forName(name, initialize, loader)</code>带参函数也可控制是否加载static块。并且只有调用了newInstance()方法采用调用构造函数，创建类的对象。</p>
+</li>
+</ul>
+<h3 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h3><p>当一个类加载器收到了类加载请求，首先不会自己去加载这个类，而是把这个请求委派给父类去加载。如果父类加载器还存在其父类加载器，则进一步向上委托，依次递归。因此所有的加载请求都会传送到启动类加载器中。只有当父类加载器自己无法加载这个请求的时候，子类加载器才会尝试自己加载。无法加载此类，则抛出异常。</p>
+<ul>
+<li>防止重复加载同一个<code>.class</code></li>
+<li>保证核心类库不被篡改</li>
+</ul>
+<h3 id="自定义加载器"><a href="#自定义加载器" class="headerlink" title="自定义加载器"></a>自定义加载器</h3><p>比如应用是通过网络来传输 Java类的字节码，为保证安全性，这些字节码经过了加密处理，这时系统类加载器就无法对其进行加载，这样则需要自定义类加载器来实现。</p>
+<ul>
+<li><p>如果不想打破双亲委派模型，那么只需要重写findClass方法即可</p>
+</li>
+<li><p>如果想打破双亲委派模型，那么就重写整个loadClass方法</p>
+</li>
+<li><p>传递的文件名需要是类的全限定性名称，即<code>com.paddx.test.classloading.Test</code>格式的，因为 defineClass 方法是按这种格式进行处理的。</p>
+</li>
+<li><p>这类Test 类本身可以被 <code>AppClassLoader</code>类加载，因此我们不能把<code>com/paddx/test/classloading/Test.class</code>放在类路径下。否则，由于双亲委托机制的存在，会直接导致该类由<code>AppClassLoader</code>加载，而不会通过我们自定义类加载器来加载。</p>
+</li>
+</ul>
+<h3 id="JVM调优的工具"><a href="#JVM调优的工具" class="headerlink" title="JVM调优的工具"></a>JVM调优的工具</h3><p>JDK 自带了很多监控工具，都位于 JDK 的 bin 目录下，其中最常用的是 jconsole 和 jvisualvm 这两款视图监控工具。</p>
+<ul>
+<li>jconsole：用于对 JVM 中的内存、线程和类等进行监控；</li>
+<li>jvisualvm：JDK 自带的全能分析工具，可以分析：内存快照、线程快照、程序死锁、监控内存的变化、gc 变化等。</li>
+<li>jstat：jstat 命令可以查看堆内存各部分的使用量，以及加载类的数量</li>
+<li>jmap：是用于查看指定Java进程的堆内存使用情况</li>
+</ul>
+<h3 id="JVM堆中的内存模型"><a href="#JVM堆中的内存模型" class="headerlink" title="JVM堆中的内存模型"></a>JVM堆中的内存模型</h3><p>我先给您介绍下jdk1.7中的堆的情况吧</p>
+<ul>
+<li>Young 年轻代</li>
+</ul>
+<p>年轻代区域被划分为三部分，Eden区和两个大小严格相同的Survivor区，其中，Survivor区间中，某一时刻只有其中一个是被使用的，另外一个留做垃圾收集时复制对象用，在Eden区间变满的时候，GC就会将存活的对象移到空闲的Survivor区间中，根据JVM的策略，在经过15次垃圾收集后，仍然存活于Survivor的对象被移动到老年代。</p>
+<ul>
+<li>Tenured 年老代</li>
+</ul>
+<p>老年带主要保存生命周期长的对象，一般是一些老的对象，当一些对象在年轻代复制转移一定的次数以后，对象就会被转移到老年代，一般如果系统中用了application级别的缓存，缓存中的对象往往会被转移到这一区间</p>
+<ul>
+<li>Perm 永久代</li>
+</ul>
+<p>永久代主要保存 class、method、filed对象，这部分的空间如果使用不当，就会造成内存溢出，比如一次性加载了很多的类，或者一个tomcat下部署了几十个应用，不过在涉及到热部署的服务器的时候，有时候会遇到 java.lang.OutOfMemoryError：PermGenSpace的错误，造成这个错误的很大原因就有可能是每次都重新部署，但是重新部署后，类的class没有被卸载掉，这样就造成了大量的class对象保存在永久代中，不过这种情况下，一般重新启动服务器可以解决问题</p>
+<ul>
+<li>Virtual虚拟区</li>
+</ul>
+<p>最大内存和初始内存的差值，就是虚拟区</p>
+<p>而在jdk1.8中，最大的变化就是用元数据空间替代了永久代，这块所占用的内存空间不是在虚拟机内部的，而是在本地内存空间中，我看了下官网的解释，是因为了后续要融合两个JVM的版本，因为一个版本中没有设计永久代这个概念，另外一方面就是在我们现实使用中，由于永久代内存经常不够用或发生内存泄露，因此将永久代废弃，而改用元数据空间，改为了使用本地内存空间</p>
+<h3 id="JVM中垃圾回收的算法"><a href="#JVM中垃圾回收的算法" class="headerlink" title="JVM中垃圾回收的算法"></a>JVM中垃圾回收的算法</h3><ul>
+<li>引用计数器算法</li>
+</ul>
+<p>　　对象中添加一个引用计数器，如果引用计数器为0则表示没有其它地方在引用它。如果有一个地方引用就+1，引用失效时就-1。看似搞笑且简单的一个算法，实际上在大部分Java虚拟机中并没有采用这种算法，因为它会带来一个致命的问题——对象循环引用。对象A指向B，对象B反过来指向A，此时它们的引用计数器都不为0，但它们俩实际上已经没有意义因为没有任何地方指向它们。</p>
+<ul>
+<li>可达性分析算法</li>
+</ul>
+<p>　　这种算法可以有效地避免对象循环引用的情况，整个对象实例以一个树的形式呈现，根节点是一个称为“GC Roots”的对象，从这个对象开始向下搜索并作标记，遍历完这棵树过后，未被标记的对象就会判断“已死”，即为可被回收的对象。</p>
+<ul>
+<li>标记-清除算法</li>
+</ul>
+<p>这个方法是将垃圾回收分成了两个阶段：标记阶段和清除阶段。在标记阶段，通过根对象，标记所有从跟节点可达的对象，那么未标记的对象就是未被引用的垃圾对象。在清除阶段，清除掉所以的未被标记的对象。这个方法的缺点是，垃圾回收后可能存在大量的磁盘碎片，准确的说是内存碎片。</p>
+<ul>
+<li>标记-整理算法</li>
+</ul>
+<p>　　在标记清除算法的基础上做了一个改进，可以说这个算法分为三个阶段：标记阶段，压缩阶段，清除阶段。标记阶段和清除阶段不变，只不过增加了一个压缩阶段，就是在做完标记阶段后，将这些未被标记过的对象集中放到一起，确定开始和结束地址，比如全部放到开始处，这样再去清除，将不会产生磁盘碎片。但是我们也要注意到几个问题，压缩阶段占用了系统的消耗，并且如果未标记对象过多的话，损耗可能会很大，在未标记对象相对较少的时候，效率较高。</p>
+<ul>
+<li>复制算法（Java中新生代采用）</li>
+</ul>
+<p>　　核心思想是将内存空间分成两块，同一时刻只使用其中的一块，在垃圾回收时将正在使用的内存中的存活的对象复制到未使用的内存中，然后清除正在使用的内存块中所有的对象，然后把未使用的内存块变成正在使用的内存块，把原来使用的内存块变成未使用的内存块。很明显如果存活对象较多的话，算法效率会比较差，并且这样会使内存的空间折半，但是这种方法也不会产生内存碎片。</p>
+<p>　　此GC算法实际上解决了标记-清除算法带来的“内存碎片化”问题。首先还是先标记出待回收内存和不用回收的内存，下一步将不用回收的内存复制到新的内存区域，这样旧的内存区域就可以全部回收，而新的内存区域则是连续的。它的缺点就是会损失掉部分系统内存，因为你总要腾出一部分内存用于复制。</p>
+<ul>
+<li>分代搜集算法（Java堆采用）</li>
+</ul>
+<p>主要思想是根据对象的生命周期长短特点将其进行分块，根据每块内存区间的特点，使用不同的回收算法，从而提高垃圾回收的效率。</p>
+<p>Java 中的堆是 JVM 所管理的最大的一块内存空间，主要用于存放各种类的实例对象。在 Java 中，堆被划分成两个不同的区域：新生代 ( Young )、老年代 ( Old )。新生代 ( Young ) 又被划分为三个区域：Eden、From Survivor、To Survivor。这样划分的目的是为了使 JVM 能够更好的管理堆内存中的对象，包括内存的分配以及回收。</p>
+<p>JVM 每次只会使用 Eden 和其中的一块 Survivor 区域来为对象服务，所以无论什么时候，总是有一块 Survivor 区域是空闲着的。因此，新生代实际可用的内存空间为 90% 的新生代空间。新生代垃圾回收采用复制算法，清理的频率比较高。如果新生代在若干次清理中依然存活，则移入老年代，有的内存占用比较大的直接进入老年代。老年代使用标记清理算法，清理的频率比较低。</p>
+<h3 id="OOM类型"><a href="#OOM类型" class="headerlink" title="OOM类型"></a>OOM类型</h3><ul>
+<li><p><code>OutOfMemoryError： Java heap space</code></p>
+<p>java虚拟机创建的对象太多，在进行垃圾回收之前，虚拟机分配的到堆内存空间已经满了，与堆空间大小有关。解决这类问题有两种思路：</p>
+<ul>
+<li>检查程序，看是否有死循环或不必要地重复创建大量对象。找到原因后，修改程序和算法。 我以前写一个使用算法对几万条文本记录进行操作时，由于程序细节上有问题，就导致了 Java heap space的内存溢出问题，后来通过修改程序得到了解决。 </li>
+<li>增加Java虚拟机中Xms（初始堆大小）和Xmx（最大堆大小）参数的值。（如：set JAVA_OPTS= -Xms256m -Xmx1024m）</li>
+</ul>
+</li>
+<li><p><code>OutOfMemoryError： PermGen space</code></p>
+<p>发生这种问题的原意是程序中使用了大量的jar或class，使java虚拟机装载类的空间不够，与Permanent Generation space有关。解决这类问题有以下两种办法：</p>
+<ul>
+<li>增加java虚拟机中的PermSize和MaxPermSize参数的大小，其中PermSize是初始永久保存区域大小，MaxPermSize是最大永久保存区域大小。比如说针对tomcat，在<code>catalina.sh</code> 文件中增加这两个参数的配置就行了（一系列环境变量名说明结束处（大约在70行左右） 增加一行：<code>JAVA_OPTS=&quot; -XX:PermSize=64M -XX:MaxPermSize=128m&quot;</code>）。如果是windows服务器还可以在系统环境变量中设置。用tomcat发布ssh架构的程序时很容易发生这种内存溢出错误。使用上述方法，我成功解决了部署ssh项目的tomcat服务器经常宕机的问题。 2、清理应用程序中<code>web-inf/lib</code>下的jar，如果tomcat部署了多个应用，很多应用都使用了相同的jar，可以将共同的jar移到 tomcat共同的lib下，减少类的重复加载。这种方法是网上有人推荐过，我没试过，但感觉减少不了太大的空间，最靠谱的还是第一种方法。</li>
+</ul>
+</li>
+<li><p><code>OutOfMemoryError：unable to create new native thread</code></p>
+<p>在java应用中，有时候会出现这样的错误。这种错误是因为给JVM分配了过多内存导致的，比如超过可用内存的一半，就会导致这种问题。在线程个数很多的情况下， 你分配给JVM的内存越多，那么，这种错误发生的可能性就越大。</p>
+<p>比如说系统可用内存一共2G，这里假设分配1.5G给JVM，那么还余下500M可用内存。这 500M内存中的一部分必须用于系统文件加载，那么真正剩下的也许只有400M，但是关键是，当你使用Java创建一个线程，在JVM的内 存里也会创建一个Thread对象，但是同时也会在操作系统里创建一个真正的物理线程，操作系统会在剩下的400兆内存里创建这个物理 线程，而不是在JVM的1.5G的内存堆里创建。在jdk1.4里头，默认的栈大小是256KB，但是在jdk1.5之后，默认的栈大小为1M每个线程， 因此，在余下400M的可用内存里边我们最多也只能创建400个可用线程。</p>
+<p>这种情况的话，要想创建更多的线程，你必须减少分配给JVM的最大内存，或者增加系统的内存</p>
+</li>
+</ul>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903862575300622#heading-0">一文让你读懂Java类加载机制！</a></li>
 </ul>
 
             </div>
@@ -270,6 +614,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/03/06/c++/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

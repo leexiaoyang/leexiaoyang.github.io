@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.2k 字
+      3.5k 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      19 分钟
+      30 分钟
     </span>
   
 
@@ -282,6 +282,18 @@
 </ol>
 </li>
 </ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">  * 生命周期状态。可以将状态视为图形中的节点，并将&#123;<span class="hljs-doctag">@link</span> Lifecycle.Event&#125;视为这些节点之间的边</span><br><span class="hljs-comment">  */</span><br> <span class="hljs-meta">@SuppressWarnings(&quot;WeakerAccess&quot;)</span><br> <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">State</span> </span>&#123;<br>     <span class="hljs-comment">/**</span><br><span class="hljs-comment">      * LifecycleOwner的已销毁状态。此事件之后，生命周期将不再分发任何事件。</span><br><span class="hljs-comment">      * 对于&#123;<span class="hljs-doctag">@link</span> android.app.Activity&#125;，此状态是在Activity的&#123;<span class="hljs-doctag">@link</span> android.app.Activity#onDestroy()&#125;调用之前到达的</span><br><span class="hljs-comment">      */</span><br>     DESTROYED,<br><br>     <span class="hljs-comment">/**</span><br><span class="hljs-comment">      * LifecycleOwner的初始化状态。</span><br><span class="hljs-comment">      * 对于&#123;<span class="hljs-doctag">@link</span> android.app.Activity&#125;，这是构造但&#123;<span class="hljs-doctag">@link</span> android.app.Activity＃onCreate(android.os.Bundle)&#125;未调用的状态。</span><br><span class="hljs-comment">      */</span><br>     INITIALIZED,<br><br>     <span class="hljs-comment">/**</span><br><span class="hljs-comment">      * LifecycleOwner的创建状态。</span><br><span class="hljs-comment">      * 对于&#123;<span class="hljs-doctag">@link</span> android.app.Activity&#125;，在两种情况下会到达此状态：</span><br><span class="hljs-comment">      * 1.在&#123;<span class="hljs-doctag">@link</span> android.app.Activity＃onCreate(android.os.Bundle)&#125;调用之后</span><br><span class="hljs-comment">      * 2.在&#123;<span class="hljs-doctag">@link</span> android.app.Activity＃onStop()&#125;调用之前</span><br><span class="hljs-comment">      */</span><br>     CREATED,<br><br>     <span class="hljs-comment">/**</span><br><span class="hljs-comment">      * LifecycleOwner的开始状态</span><br><span class="hljs-comment">      * 对于&#123;<span class="hljs-doctag">@link</span> android.app.Activity&#125;，在两种情况下会到达此状态：</span><br><span class="hljs-comment">      * 1.在&#123;<span class="hljs-doctag">@link</span> android.app.Activity＃onStart())&#125;调用之后</span><br><span class="hljs-comment">      * 2.在&#123;<span class="hljs-doctag">@link</span> android.app.Activity＃onPause()&#125;调用之前</span><br><span class="hljs-comment">      */</span><br>     STARTED,<br><br>     <span class="hljs-comment">/**</span><br><span class="hljs-comment">      * LifecycleOwner的恢复状态</span><br><span class="hljs-comment">      * 对于&#123;<span class="hljs-doctag">@link</span> android.app.Activity&#125;，在调用&#123;<span class="hljs-doctag">@link</span> android.app.Activity＃onResume()&#125;之后会到达此状态</span><br><span class="hljs-comment">      */</span><br>     RESUMED;<br>     <br>     <span class="hljs-comment">/**</span><br><span class="hljs-comment">      * 比较此State是否大于或等于给定的&#123;<span class="hljs-doctag">@code</span> state&#125;</span><br><span class="hljs-comment">      *</span><br><span class="hljs-comment">      * <span class="hljs-doctag">@param</span> state 与之比较的State</span><br><span class="hljs-comment">      * <span class="hljs-doctag">@return</span> 如果此状态大于或等于给定的&#123;<span class="hljs-doctag">@code</span> state&#125;，则返回true</span><br><span class="hljs-comment">      */</span><br>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isAtLeast</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> Lifecycle.State state)</span> </span>&#123;<br>         <span class="hljs-keyword">return</span> compareTo(state) &gt;= <span class="hljs-number">0</span>;<br>     &#125;<br> &#125;<br> <br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
 <h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019979056">Fragment 使用详解</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2201a107d5b5?utm_campaign=hugo">Androidx 下 Fragment 懒加载的新实现</a></li>

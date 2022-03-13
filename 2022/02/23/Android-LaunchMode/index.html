@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      2.1k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11 分钟
+      18 分钟
     </span>
   
 
@@ -240,20 +240,36 @@
             <h1 style="display: none">Android LaunchMode</h1>
             
             <div class="markdown-body">
-              <h4 id="Activity-的五种启动模式"><a href="#Activity-的五种启动模式" class="headerlink" title="Activity 的五种启动模式"></a>Activity 的五种启动模式</h4><ul>
+              <h3 id="Activity-的五种启动模式"><a href="#Activity-的五种启动模式" class="headerlink" title="Activity 的五种启动模式"></a>Activity 的五种启动模式</h3><ul>
 <li><strong>standard 标准模式：</strong> 每次启动一个 Activity 都会重新创建一个新的实例，不管这个实例是否已经存在，此模式的 Activity 默认会进入启动它的 Activity 所属的任务栈中；</li>
 <li><strong>singleTop 栈顶复用模式：</strong> 如果新 Activity 已经位于任务栈的栈顶，那么此 Activity 不会被重新创建，同时会回调 onNewIntent方法，如果新 Activity 实例已经存在但不在栈顶，那么Activity 依然会被重新创建；</li>
-<li><strong>singleTask 栈内复用模式：</strong> 只要 Activity 在一个任务栈中存在，那么多次启动此 Activity 都不会重新创建实例，并回调onNewIntent 方法。</li>
+<li><strong>singleTask 栈内复用模式：</strong> 只要 Activity 在一个任务栈中存在，那么多次启动此 Activity 都不会重新创建实例，并回调onNewIntent 方法。如果存在实例，会将该实例之上所有的activity出栈（销毁）。</li>
 <li><strong>singleInstance单实例模式：</strong> 这是一种加强的 singleTask 模式，具有此种模式的 Activity 只能单独地位于一个任务栈中，且此任务栈中只有唯一一个实例。如果继续启动这个activity，不会去继续创建新的activity,也不会重新创建任务栈，因为具有栈内复用的特性。</li>
 </ul>
-<h4 id="Activity-常用的标记位-Flags"><a href="#Activity-常用的标记位-Flags" class="headerlink" title="Activity 常用的标记位 Flags"></a>Activity 常用的标记位 Flags</h4><ul>
-<li><strong>FLAG_ACTIVITY_NEW_TASK :</strong> 对应 singleTask 启动模式，其效果和在 XML 中指定该启动模式相同；</li>
-<li><strong>FLAG_ACTIVITY_SINGLE_TOP :</strong> 对应 singleTop 启动模式，其效果和在 XML 中指定该启动模式相同；</li>
-<li><strong>FLAG_ACTIVITY_CLEAR_TOP :</strong> 具有此标记位的 Activity，当它启动时，在同一个任务栈中所有位于它上面的 Activity 都要出栈。这个标记位一般会和 singleTask 模式一起出现，在这种情况下，被启动 Activity 的实例如果已经存在，那么系统就会回调onNewIntent。如果被启动的 Activity 采用 standard 模式启动，那么它以及连同它之上的 Activity 都要出栈，系统会创建新的Activity 实例并放入栈中；</li>
-<li><strong>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS :</strong> 具有这个标记的Activity 不会出现在历史 Activity 列表中；</li>
+<h3 id="查看-Activity-Task栈的情况"><a href="#查看-Activity-Task栈的情况" class="headerlink" title="查看 Activity Task栈的情况"></a>查看 Activity Task栈的情况</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs undefined">adb shell dumpsys activity activities<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Activity-常用的标记位-Flags"><a href="#Activity-常用的标记位-Flags" class="headerlink" title="Activity 常用的标记位 Flags"></a>Activity 常用的标记位 Flags</h3><ul>
+<li><p><strong>FLAG_ACTIVITY_NEW_TASK :</strong> </p>
+<p>设置此状态，首先会查找是否存在和被启动的Activity具有相同的亲和性的任务栈。如果相同，则为标准模式，如果不同，则新建一个栈来存放被启动的activity。</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_SINGLE_TOP :</strong> 对应 singleTop 启动模式，其效果和在 XML 中指定该启动模式相同；</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_CLEAR_TOP :</strong> 具有此标记位的 Activity，当它启动时，在同一个任务栈中所有位于它上面的 Activity 都要出栈。这个标记位一般会和 singleTask 模式一起出现，在这种情况下，被启动 Activity 的实例如果已经存在，那么系统就会回调onNewIntent。如果被启动的 Activity 采用 standard 模式启动，那么它以及连同它之上的 Activity 都要出栈，系统会创建新的Activity 实例并放入栈中；</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_CLEAR_TASK</strong>：如果Intent中设置了这个标志，会导致含有待启动Activity的Task在Activity被启动前清空。也就是说，这个Activity会成为一个新的root，并且所有旧的activity都被finish掉。这个标志只能与FLAG_ACTIVITY_NEW_TASK 一起使用。</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_REORDER_TO_FRONT</strong>：如果activity在task存在，拿到最顶端,不会启动新的Activity</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_NO_HISTORY：</strong>被启动的Activity一旦退出，他就不会存在于栈中</p>
+</li>
 </ul>
-<h4 id="LaunchMode-的应用场景"><a href="#LaunchMode-的应用场景" class="headerlink" title="LaunchMode 的应用场景"></a>LaunchMode 的应用场景</h4><ul>
-<li>singleTop社交应用中的通知栏      v  功能。</li>
+<p>注：intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)。表示通过intent开启一个activity，并将这个activity放至栈底或者清空栈后再把这个activity压进栈去。</p>
+<h3 id="LaunchMode-的应用场景"><a href="#LaunchMode-的应用场景" class="headerlink" title="LaunchMode 的应用场景"></a>LaunchMode 的应用场景</h3><ul>
+<li>singleTop社交应用中的通知栏功能。</li>
 </ul>
 <p>例如：App 用户收到几条好友请求的推送消息，需要用户点击推送通知进入到请求者个人信息页，将信息页设置为 SingleTop 模式就可以增强复用性。</p>
 <ul>
@@ -264,6 +280,13 @@
 <li>singleInstance适合需要与程序分离开的页面。</li>
 </ul>
 <p>模式常应用于独立栈操作的应用，如闹钟的提醒页面，当你在A应用中看视频时，闹钟响了，你点击闹钟提醒通知后进入提醒详情页面，然后点击返回就再次回到A的视频页面，这样就不会过多干扰到用户先前的操作了。比如Launch、锁屏键的应用等等</p>
+<h3 id="taskAffinity"><a href="#taskAffinity" class="headerlink" title="taskAffinity"></a>taskAffinity</h3><p>每个Activity都有taskAffinity属性，taskAffinity属性指出了Activity希望进入的Task。默认情况下Activity 进入的任务栈的名字为应用的包名。当使用SingleTask来启动Activity时：taskAffinity不同，则会重新创建一个任务栈，然后把Activity放到新任务栈中。</p>
+<ul>
+<li>taskAffinity属性指出了Activity希望进入的Task</li>
+<li>只有singleTask、singleInstance或者带FLAG_ACTIVITY_NEW_TASK等带创建栈能力的方式启动，才会让taskAffinity生效。</li>
+<li>taskAffinity不设置时，则默认为包名</li>
+<li><a href="https://link.zhihu.com/?target=https://developer.android.com/guide/topics/manifest/activity-element.html%23reparent">allowTaskReparenting</a>这个属性，也会让taskAffinity生效。比如栈S1中的A启动设置了taskAffinity的B，无论B使用什么启动模式，B都会被放入其taskAffinity所声明的栈。</li>
+</ul>
 
             </div>
             <hr>
@@ -302,8 +325,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/23/TaskAffinity/">
-                        <span class="hidden-mobile">TaskAffinity</span>
+                      <a href="/2022/02/22/synchronized-%E5%85%B3%E9%94%AE%E5%AD%97/">
+                        <span class="hidden-mobile">synchronized 关键字</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
