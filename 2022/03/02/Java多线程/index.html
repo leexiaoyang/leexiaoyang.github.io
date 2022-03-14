@@ -18,12 +18,12 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="HashMap多线程情况下怎么保证线程安全线程池的作用 降低资源消耗：通过重用已经创建的线程来降低线程创建和销毁的消耗 提高响应速度：任务到达时不需要等待线程创建就可以立即执行。 提高线程的可管理性：线程池可以统一管理、分配、调优和监控。  java中线程池创建的几种方式 通过Executors工厂方法创建。  通过new ThreadPoolExecutor(5, 20, 2, TimeUnit">
+    <meta name="description" content="为什么要用到多进程允许在同一个应用内，为了分担主进程的压力，将占用内存的某些页面单独开一个进程，比如Flash、视频播放页面，频繁绘制的页面等。 只需要在AndroidManifest.xml的声明四大组件的标签中增加”android:process”属性即可，process分私有进程和全局进程，  以“：”号开头的属于私有进程，其他应用组件不可以和他跑在同一个进程中； 不以“：”号开头的属于全局">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程">
 <meta property="og:url" content="http://example.com/2022/03/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="HashMap多线程情况下怎么保证线程安全线程池的作用 降低资源消耗：通过重用已经创建的线程来降低线程创建和销毁的消耗 提高响应速度：任务到达时不需要等待线程创建就可以立即执行。 提高线程的可管理性：线程池可以统一管理、分配、调优和监控。  java中线程池创建的几种方式 通过Executors工厂方法创建。  通过new ThreadPoolExecutor(5, 20, 2, TimeUnit">
+<meta property="og:description" content="为什么要用到多进程允许在同一个应用内，为了分担主进程的压力，将占用内存的某些页面单独开一个进程，比如Flash、视频播放页面，频繁绘制的页面等。 只需要在AndroidManifest.xml的声明四大组件的标签中增加”android:process”属性即可，process分私有进程和全局进程，  以“：”号开头的属于私有进程，其他应用组件不可以和他跑在同一个进程中； 不以“：”号开头的属于全局">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Blogs/source_posts/Java多线程.assets/bVcHSNt.png">
 <meta property="og:image" content="c:/Blogs/source_posts/Java多线程.assets/7e76cc17-0ad5-3ff3-954e-1f83463519d1.jpg">
@@ -205,7 +205,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      13k 字
+      14k 字
     </span>
   
 
@@ -214,7 +214,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      108 分钟
+      120 分钟
     </span>
   
 
@@ -246,7 +246,65 @@
             <h1 style="display: none">Java多线程</h1>
             
             <div class="markdown-body">
-              <h3 id="HashMap多线程情况下怎么保证线程安全"><a href="#HashMap多线程情况下怎么保证线程安全" class="headerlink" title="HashMap多线程情况下怎么保证线程安全"></a>HashMap多线程情况下怎么保证线程安全</h3><h3 id="线程池的作用"><a href="#线程池的作用" class="headerlink" title="线程池的作用"></a>线程池的作用</h3><ul>
+              <h3 id="为什么要用到多进程"><a href="#为什么要用到多进程" class="headerlink" title="为什么要用到多进程"></a>为什么要用到多进程</h3><p>允许在同一个应用内，为了分担主进程的压力，将占用内存的某些页面单独开一个进程，比如Flash、视频播放页面，频繁绘制的页面等。</p>
+<p>只需要在AndroidManifest.xml的声明四大组件的标签中增加”android:process”属性即可，process分私有进程和全局进程，</p>
+<ul>
+<li>以“：”号开头的属于私有进程，其他应用组件不可以和他跑在同一个进程中；</li>
+<li>不以“：”号开头的属于全局进程，其他应用可以通过ShareUID的方式和他跑在同一个进程中；</li>
+</ul>
+<h3 id="多进程模式的问题"><a href="#多进程模式的问题" class="headerlink" title="多进程模式的问题"></a>多进程模式的问题</h3><p>1、静态成员和单例模式完全失效<br>2、线程同步机制完全失效<br>3、SharedPreferences的可靠性下降<br>4、Application多次创建</p>
+<h3 id="CallerRunsPolicy"><a href="#CallerRunsPolicy" class="headerlink" title="CallerRunsPolicy"></a>CallerRunsPolicy</h3><p>CallerRunsPolicy()拒绝策略是指被拒绝的任务，由 创建了线程池的线程来执行 被拒绝的任务（哪个线程创建了线程池，这个线程来执行被拒绝的任务）。</p>
+<h3 id="线程池的执行规则"><a href="#线程池的执行规则" class="headerlink" title="线程池的执行规则"></a>线程池的执行规则</h3><ul>
+<li>当线程数小于核心线程数时，创建线程。</li>
+<li>当线程数大于等于核心线程数，且任务队列未满时，将任务放入任务队列。</li>
+<li>当线程数大于等于核心线程数，且任务队列已满：</li>
+<li>若线程数小于最大线程数，创建线程。</li>
+<li>若线程数等于最大线程数，抛出异常，拒绝任务。</li>
+</ul>
+<h3 id="HashMap多线程情况下怎么保证线程安全"><a href="#HashMap多线程情况下怎么保证线程安全" class="headerlink" title="HashMap多线程情况下怎么保证线程安全"></a>HashMap多线程情况下怎么保证线程安全</h3><h3 id="ArrayBlockingQueue和LinkedBlockingQueue的区别"><a href="#ArrayBlockingQueue和LinkedBlockingQueue的区别" class="headerlink" title="ArrayBlockingQueue和LinkedBlockingQueue的区别"></a>ArrayBlockingQueue和LinkedBlockingQueue的区别</h3><p>BlockingQueue接口定义了一种阻塞的FIFO queue，当容量满时往BlockingQueue中添加数据时会造成阻塞，当容量为空时取元素操作会阻塞。</p>
+<ul>
+<li>ArrayBlockingQueue用于存储队列元素的存储空间是预先分配的，使用过程中内存开销较小（无须动态申请存储空间）；LinkedBlockingQueue用于存储队列元素的存储空间是在其使用过程中动态分配的，因此它可能会增加JVM垃圾回收的负担。</li>
+<li>ArrayBlockingQueue有界，适合已知最大存储容量的场景；LinkedBlockingQueue可有界可以无界。</li>
+<li>ArrayBlockingQueue生产者方放入数据、消费者取出数据都是使用同一把重入锁；LinkedBlockingQueue生产者和消费者分别使用两把重入锁来实现同步，所以可以提高系统的并发度</li>
+</ul>
+<h3 id="并发包中的有界、无界队列"><a href="#并发包中的有界、无界队列" class="headerlink" title="并发包中的有界、无界队列"></a>并发包中的有界、无界队列</h3><p>有界队列指得是当容量满了，就无法再往里放数据，也不会扩容。无界队列意味着里面可以容纳非常多的元素，其大小总归是要受系统资源影响。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ArrayBlockingQueue</td>
+<td>有界队列。底层是一个final修饰的数组，队列的边界由数组的大小决定。当创建时需要指定容量。</td>
+</tr>
+<tr>
+<td>LinkedBlockingQueue</td>
+<td>有界队列。如果不指定容量，容量大小默认为Integer.MAX_VALUE，即成为无界队列。</td>
+</tr>
+<tr>
+<td>SynchronousQueue</td>
+<td>一个不存储元素的阻塞队列，即直接提交给线程不保持它们。</td>
+</tr>
+<tr>
+<td>PriorityBlockingQueue</td>
+<td>一个支持优先级排序的无界阻塞队列。</td>
+</tr>
+<tr>
+<td>DelayQueue</td>
+<td>一个使用优先级队列实现的无界阻塞队列，只有在延迟期满时才能从中提取元素。</td>
+</tr>
+<tr>
+<td>LinkedTransferQueue</td>
+<td>一个由链表结构组成的无界阻塞队列。与SynchronousQueue类似，还含有非阻塞方法。</td>
+</tr>
+<tr>
+<td>LinkedBlockingDeque</td>
+<td>一个由链表结构组成的双向阻塞队列。</td>
+</tr>
+</tbody></table>
+<h3 id="线程池的作用"><a href="#线程池的作用" class="headerlink" title="线程池的作用"></a>线程池的作用</h3><ul>
 <li>降低资源消耗：通过重用已经创建的线程来降低线程创建和销毁的消耗</li>
 <li>提高响应速度：任务到达时不需要等待线程创建就可以立即执行。</li>
 <li>提高线程的可管理性：线程池可以统一管理、分配、调优和监控。</li>

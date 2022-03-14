@@ -25,11 +25,14 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Android 进程间通信方式   通信方式 优点 缺点 使用场景    Bundle 简单易用 只能传输Bundle支持的数据类型 四大组件间的进程间通信   文件共享 简单易用 不适合高并发场景，并且无法做到即时通信 无并发访问的情况，交换实时性不高的简单数据   Messenger 功能一般，支持一对多串行通信，支持实时通信 不能很好的处理高并发情况，不支持RPC，只能传输Bundle支持的">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-进程间通信.assets/v2-aab2affe42958a659ea8a517ffaff5a0_1440w.jpg">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-进程间通信.assets/v2-cbd7d2befbed12d4c8896f236df96dbf_1440w.jpg">
 <meta property="article:published_time" content="2022-03-12T14:17:38.000Z">
 <meta property="article:modified_time" content="2022-03-12T14:17:38.000Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/Android-进程间通信.assets/v2-aab2affe42958a659ea8a517ffaff5a0_1440w.jpg">
   
   
   <title>Android 进程间通信 - Hexo</title>
@@ -199,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      704 字
+      2.1k 字
     </span>
   
 
@@ -208,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6 分钟
+      18 分钟
     </span>
   
 
@@ -294,7 +297,55 @@
 </li>
 </ul>
 <h3 id="进程隔离"><a href="#进程隔离" class="headerlink" title="进程隔离"></a>进程隔离</h3><p>进程与进程间内存是不共享的。A 进程和 B 进程之间要进行数据交互就得采用特殊的通信机制：进程间通信（IPC）。</p>
-<h3 id="进程空间划分"><a href="#进程空间划分" class="headerlink" title="进程空间划分"></a>进程空间划分</h3><h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<h3 id="用户空间-User-Space-内核空间-Kernel-Space"><a href="#用户空间-User-Space-内核空间-Kernel-Space" class="headerlink" title="用户空间(User Space)/内核空间(Kernel Space)"></a>用户空间(User Space)/内核空间(Kernel Space)</h3><p>Kernel space 是 Linux 内核的运行空间，User space 是用户程序的运行空间。</p>
+<h3 id="微内核和宏内核"><a href="#微内核和宏内核" class="headerlink" title="微内核和宏内核"></a>微内核和宏内核</h3><ul>
+<li>微内核，用户服务和内核服务分别运行在不同的地址空间中；</li>
+<li>宏内核不管是用户服务还是内核服务事实上都是内核在统一管理，它们是运行在同一地址空间中的。</li>
+</ul>
+<h3 id="用户态与内核态"><a href="#用户态与内核态" class="headerlink" title="用户态与内核态"></a>用户态与内核态</h3><ul>
+<li>当进程在执行用户自己的代码的时候，我们称其处于<strong>用户运行态（用户态）</strong></li>
+<li>当一个任务（进程）执行系统调用而陷入内核代码中执行时，称进程处于<strong>内核运行态（内核态）</strong>。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs text">copy_from_user() //将数据从用户空间拷贝到内核空间<br>copy_to_user() //将数据从内核空间拷贝到用户空间<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="IPC（Inter-Process-Communication）通信原理"><a href="#IPC（Inter-Process-Communication）通信原理" class="headerlink" title="IPC（Inter-Process-Communication）通信原理"></a>IPC（Inter-Process-Communication）通信原理</h3><ul>
+<li>消息发送方将要发送的数据存放在内存缓存区中，通过系统调用进入内核态。</li>
+<li>内核程序在内核空间分配内存，开辟一块内核缓存区，调用 copy<em>from</em>user() 函数将数据从用户空间的内存缓存区拷贝到内核空间的内核缓存区中。</li>
+<li>同样的，接收方进程在接收数据时在自己的用户空间开辟一块内存缓存区，然后内核程序调用 copy<em>to</em>user() 函数将数据从内核缓存区拷贝到接收进程的内存缓存区。</li>
+<li>这样数据发送方进程和数据接收方进程就完成了一次数据传输，我们称完成了一次进程间通信。</li>
+</ul>
+<p><img src="C:\Blogs\source_posts\Android-进程间通信.assets\v2-aab2affe42958a659ea8a517ffaff5a0_1440w.jpg" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<ul>
+<li>性能低下，一次数据传递需要经历：内存缓存区 –&gt; 内核缓存区 –&gt; 内存缓存区，需要 2 次数据拷贝；</li>
+<li>接收进程并不知道需要多大的空间来存放将要传递过来的数据，因此只能开辟尽可能大的内存空间或者先调用 API 接收消息头来获取消息体的大小，这两种做法不是浪费空间就是浪费时间。</li>
+</ul>
+<h3 id="内存映射"><a href="#内存映射" class="headerlink" title="内存映射"></a>内存映射</h3><p>Binder IPC 机制中涉及到的内存映射通过 mmap() 来实现，mmap() 是操作系统中一种内存映射的方法。</p>
+<p>内存映射简单的讲就是将用户空间的一块内存区域映射到内核空间。映射关系建立后，用户对这块内存区域的修改可以直接反应到内核空间；反之内核空间对这段区域的修改也能直接反应到用户空间。</p>
+<p>内存映射能减少数据拷贝次数，实现用户空间和内核空间的高效互动。两个空间各自的修改能直接反映在映射的内存区域，从而被对方空间及时感知。也正因为如此，内存映射能够提供对进程间通信的支持。</p>
+<h3 id="Binder通信原理"><a href="#Binder通信原理" class="headerlink" title="Binder通信原理"></a>Binder通信原理</h3><ul>
+<li>首先 Binder 驱动在内核空间创建一个数据接收缓存区；</li>
+<li>接着在内核空间开辟一块内核缓存区，建立<strong>内核缓存区</strong>和<strong>内核中数据接收缓存区</strong>之间的映射关系，以及<strong>内核中数据接收缓存区</strong>和<strong>接收进程用户空间地址</strong>的映射关系；</li>
+<li>发送方进程通过系统调用 copy<em>from</em>user() 将数据 copy 到内核中的<strong>内核缓存区</strong>，由于内核缓存区和接收进程的用户空间存在内存映射，因此也就相当于把数据发送到了接收进程的用户空间，这样便完成了一次进程间的通信。</li>
+</ul>
+<p><img src="C:\Blogs\source_posts\Android-进程间通信.assets\v2-cbd7d2befbed12d4c8896f236df96dbf_1440w.jpg" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<h3 id="什么是序列化"><a href="#什么是序列化" class="headerlink" title="什么是序列化"></a>什么是序列化</h3><p>需要实现数据对象数据序列化, 将这些对象放到一个 <code>Intent</code> 或者 <code>Bundle</code> 里面，然后再传递。</p>
+<ul>
+<li>序列化：把对象转换为字节序列的过程称为对象的序列化。</li>
+<li>反序列化：把字节序列恢复为对象的过程称为对象的反序列化。</li>
+</ul>
+<h3 id="为什么要序列化"><a href="#为什么要序列化" class="headerlink" title="为什么要序列化"></a>为什么要序列化</h3><ul>
+<li>永久性保存对象，保存对象的字节序列到本地文件中；</li>
+<li>对象在网络中传递；</li>
+<li>对象在 <code>IPC</code> 间传递。</li>
+</ul>
+<p>每一个进程都分配有一个独立的虚拟机，不同的虚拟机在内存分配上有不同的地址空间，这就导致在不同的虚拟机上访问同一个对象会产生多个副本。例如我们在A中访问的name的值只会影响当前进程，而对其他进程不会造成影响，所以在B中访问name时依旧只能访问自己进程中的副本。</p>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35519585">写给 Android 应用工程师的 Binder 原理剖析</a></li>
 </ul>
 
