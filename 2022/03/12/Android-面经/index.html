@@ -1,0 +1,1187 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="卡顿分析Android的几种存储方式网络存储，sqllite，文件存储，shapepreferences, 数据共享存储content provider 优化ListView 1.在adapter中的getView方法中尽量少使用逻辑 2.尽最大可能避免GC 3.滑动的时候不载入图片 4.将ListView的scrollingCache和animateCache设置为false 5.item的布局">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 面经">
+<meta property="og:url" content="http://example.com/2022/03/12/Android-%E9%9D%A2%E7%BB%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="卡顿分析Android的几种存储方式网络存储，sqllite，文件存储，shapepreferences, 数据共享存储content provider 优化ListView 1.在adapter中的getView方法中尽量少使用逻辑 2.尽最大可能避免GC 3.滑动的时候不载入图片 4.将ListView的scrollingCache和animateCache设置为false 5.item的布局">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-面经.assets/webp.webp">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-面经.assets/image-20220224144505924.png">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-面经.assets/55397796-98888b80-5579-11e9-8798-a92c5e5fd9cc.png">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-面经.assets/SouthEast.png">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-面经.assets/85917550-9cdf4980-b88d-11ea-8d79-95bef969c586-164794251400313.png">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-面经.assets/image-20220322174909477-164794255103014.png">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-面经.assets/webp-16474465779374.webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4625401-a2c6ab45dc165d6b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/317/format/webp">
+<meta property="article:published_time" content="2022-03-12T14:17:38.000Z">
+<meta property="article:modified_time" content="2022-03-12T14:17:38.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/Android-面经.assets/webp.webp">
+  
+  
+  <title>Android 面经 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading3.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alexander Lee</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Android 面经">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-12 22:17" pubdate>
+        2022年3月12日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      40k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      334 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android 面经</h1>
+            
+            <div class="markdown-body">
+              <h3 id="卡顿分析"><a href="#卡顿分析" class="headerlink" title="卡顿分析"></a>卡顿分析</h3><h3 id="Android的几种存储方式"><a href="#Android的几种存储方式" class="headerlink" title="Android的几种存储方式"></a>Android的几种存储方式</h3><p>网络存储，sqllite，文件存储，shapepreferences, 数据共享存储content provider</p>
+<h3 id="优化ListView"><a href="#优化ListView" class="headerlink" title="优化ListView"></a>优化ListView</h3><ul>
+<li>1.在adapter中的getView方法中尽量少使用逻辑</li>
+<li>2.尽最大可能避免GC</li>
+<li>3.滑动的时候不载入图片</li>
+<li>4.将ListView的scrollingCache和animateCache设置为false</li>
+<li>5.item的布局层级越少越好</li>
+<li>6.使用ViewHolder</li>
+</ul>
+<h3 id="DecorView"><a href="#DecorView" class="headerlink" title="DecorView"></a>DecorView</h3><p>DecorView是一个应用窗口的根容器，它本质上是一个FrameLayout。DecorView有唯一一个子View，它是一个垂直LinearLayout，包含两个子元素，一个是TitleView（ActionBar的容器），另一个是ContentView（窗口内容的容器）。</p>
+<h3 id="View绘制"><a href="#View绘制" class="headerlink" title="View绘制"></a>View绘制</h3><p>当建立好了decorView与ViewRoot的关联后，ViewRoot类的requestLayout()方法会被调用，以完成应用程序用户界面的初次布局。实际被调用的是ViewRootImpl类的requestLayout()方法，这个方法的源码如下：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">requestLayout</span>(<span class="hljs-params"></span>)</span> &#123;<br>  <span class="hljs-keyword">if</span> (!mHandlingLayoutInLayoutRequest) &#123;<br>    <span class="hljs-comment">// 检查发起布局请求的线程是否为主线程 </span><br>    checkThread();<br>    mLayoutRequested = <span class="hljs-literal">true</span>;<br>    scheduleTraversals();<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上面的方法中调用了scheduleTraversals()方法来调度一次完成的绘制流程，该方法会向主线程发送一个“遍历”消息，最终会导致ViewRootImpl的performTraversals()方法被调用。下面，我们以performTraversals()为起点，来分析View的整个绘制流程。</p>
+<ul>
+<li>measure: 判断是否需要重新计算View的大小，需要的话则计算；</li>
+<li>layout: 判断是否需要重新计算View的位置，需要的话则计算；</li>
+<li>draw: 判断是否需要重新绘制View，需要的话则重绘制。</li>
+</ul>
+<h3 id="RecyclerView优化"><a href="#RecyclerView优化" class="headerlink" title="RecyclerView优化"></a>RecyclerView优化</h3><ul>
+<li>在RecyclerView添加滑动监听，一些图片加载可以在RecyclerView快速滑动的时候不进行加载图片。</li>
+<li>在Adapter中最好不要进行任何的逻辑操作，比如日期转换,字符串切割等等,可以在model内部自行添加一个参数使用。by lazy 来存储数据转换后的结果,这样数据逻辑操作就只执行一次，而不会随着数据回收重复计算</li>
+<li>新增删除数据不刷线全部，而是刷新局部。</li>
+<li>布局优化，尽量少的布局嵌套，尽量少的控件</li>
+<li>对于一些RecyclerView嵌套RecyclerView的布局可以进行多布局展示，而不是使用嵌套</li>
+<li>如果RecyclerView条目高度固定，使用setHasFixedSize(true),避免多次测量条目高度</li>
+<li>如果不要求动画，可以通过 ((SimpleItemAnimator) rv.getItemAnimator()).setSupportsChangeAnimations(false); 把默认动画关闭来提神效率.</li>
+<li>对于一个页面中的多个RecyclerView,如果使用同一个Adapter，可以使用setRecycledViewPool(pool)，共用回收池</li>
+<li>视情况使用setItemViewCacheSize(size)来加大RecyclerView缓存数目，用空间换取时间提高流畅度</li>
+<li>对于条目点击时间不要在复用部分进行setOnClickListener，这样会重复设置点击监听，而是应该创建一个listener对象</li>
+<li>可以进行预加载,重写LayoutManager的getExtraLayoutSpace()方法,可以返回屏幕高度,预先加载一屏幕高度的数据</li>
+<li>在feed流中使用viewstub, 把一部分不是每次都要初始化的view 延迟初始化</li>
+<li>不在onbindview里面做数据操作 而是获取网络的时候就把model中的复杂数据处理成简单地viewmodel,直接设置进去就能用了</li>
+<li>不要在什么情况下都使用notifyDataSetChanged刷新 小范围刷新用onItemRangeChanged onItemRangeInserted onItemRangeRemoved</li>
+<li>滚动状态停止加载图片，只有当处于停止状态才去加载图片</li>
+<li></li>
+</ul>
+<h3 id="DiffUtil"><a href="#DiffUtil" class="headerlink" title="DiffUtil"></a>DiffUtil</h3><p><a target="_blank" rel="noopener" href="https://www.codetd.com/article/13674078">对 DiffUtil 的使用可能被带偏了</a></p>
+<h3 id="HandlerThread-的使用场景和用法"><a href="#HandlerThread-的使用场景和用法" class="headerlink" title="HandlerThread 的使用场景和用法"></a>HandlerThread 的使用场景和用法</h3><p>HandlerThread继承Thread是一个线程类。</p>
+<p>普通 Thread 主要用于在 run 方法中执行一个耗时任务，而 HandlerThread 内部创建了消息队列，外界需要通过 Handler 的消息方式来通知 HandlerThread 执行具体任务。通过启动一个子线程的Handler来做一些耗时操作 比如数据查询。</p>
+<p>单线程+异步任务场景。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">new</span> <span class="hljs-constructor">Thread()</span> &#123;<br>  @Override<br>  public void run<span class="hljs-literal">()</span> &#123;<br>    super.run<span class="hljs-literal">()</span>;<br>    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Looper</span>.</span></span>prepare<span class="hljs-literal">()</span>;<br>    Looper looper = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Looper</span>.</span></span>my<span class="hljs-constructor">Looper()</span>;<br>    mHandler = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Handler(<span class="hljs-params">looper</span>)</span>;<br>    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Looper</span>.</span></span>loop<span class="hljs-literal">()</span>;<br>  &#125;<br>&#125;.start<span class="hljs-literal">()</span>;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h3><p>当有新的任务要处理时，<strong>先看线程池中的线程数量是否大于 corePoolSize，再看缓冲队列 workQueue 是否满，最后看线程池中的线程数量是否大于 maximumPoolSize</strong>。另外，当线程池中的线程数量大于 corePoolSize 时，如果里面有线程的空闲时间超过了 keepAliveTime，就将其移除线程池，这样，可以动态地调整线程池中线程的数量。</p>
+<h3 id="AsyncTask的优点和缺点"><a href="#AsyncTask的优点和缺点" class="headerlink" title="AsyncTask的优点和缺点"></a>AsyncTask的优点和缺点</h3><p>优点：AsyncTask操作简单，轻便，适用简单的异步操作。</p>
+<p>缺点：存在新开大量线程，消耗系统资源的风险</p>
+<p>所有的asyctask 共享 两个线程池 一个用来排队 一个用来执行任务<br>asyctask中的任务默认是串行的,但是可以通过配置实现 并行<br>默认串行导致一个问题 asyctask只能用来处理 短暂的任务 非常耗时的任务请使用线程池,否则会过长等待</p>
+<p><img src="C:\Blogs\source_posts\Android-面经.assets\webp.webp" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;<br><br>    <span class="hljs-comment">// 线程变量</span><br>    MyTask mTask;<br><br>    <span class="hljs-comment">// 主布局中的UI组件</span><br>    Button button,cancel; <span class="hljs-comment">// 加载、取消按钮</span><br>    TextView text; <span class="hljs-comment">// 更新的UI组件</span><br>    ProgressBar progressBar; <span class="hljs-comment">// 进度条</span><br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 步骤1：创建AsyncTask子类</span><br><span class="hljs-comment">     * 注：</span><br><span class="hljs-comment">     *   a. 继承AsyncTask类</span><br><span class="hljs-comment">     *   b. 为3个泛型参数指定类型；若不使用，可用java.lang.Void类型代替</span><br><span class="hljs-comment">     *      此处指定为：输入参数 = String类型、执行进度 = Integer类型、执行结果 = String类型</span><br><span class="hljs-comment">     *   c. 根据需求，在AsyncTask子类内实现核心方法</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyTask</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AsyncTask</span>&lt;<span class="hljs-title">String</span>, <span class="hljs-title">Integer</span>, <span class="hljs-title">String</span>&gt; </span>&#123;<br><br>        <span class="hljs-comment">// 方法1：onPreExecute（）</span><br>        <span class="hljs-comment">// 作用：执行 线程任务前的操作</span><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPreExecute</span><span class="hljs-params">()</span> </span>&#123;<br>            text.setText(<span class="hljs-string">&quot;加载中&quot;</span>);<br>            <span class="hljs-comment">// 执行前显示提示</span><br>        &#125;<br><br><br>        <span class="hljs-comment">// 方法2：doInBackground（）</span><br>        <span class="hljs-comment">// 作用：接收输入参数、执行任务中的耗时操作、返回 线程任务执行的结果</span><br>        <span class="hljs-comment">// 此处通过计算从而模拟“加载进度”的情况</span><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> String <span class="hljs-title">doInBackground</span><span class="hljs-params">(String... params)</span> </span>&#123;<br><br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;<br>                <span class="hljs-keyword">int</span> length = <span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">while</span> (count&lt;<span class="hljs-number">99</span>) &#123;<br><br>                    count += length;<br>                    <span class="hljs-comment">// 可调用publishProgress（）显示进度, 之后将执行onProgressUpdate（）</span><br>                    publishProgress(count);<br>                    <span class="hljs-comment">// 模拟耗时任务</span><br>                    Thread.sleep(<span class="hljs-number">50</span>);<br>                &#125;<br>            &#125;<span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br><br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// 方法3：onProgressUpdate（）</span><br>        <span class="hljs-comment">// 作用：在主线程 显示线程任务执行的进度</span><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onProgressUpdate</span><span class="hljs-params">(Integer... progresses)</span> </span>&#123;<br><br>            progressBar.setProgress(progresses[<span class="hljs-number">0</span>]);<br>            text.setText(<span class="hljs-string">&quot;loading...&quot;</span> + progresses[<span class="hljs-number">0</span>] + <span class="hljs-string">&quot;%&quot;</span>);<br><br>        &#125;<br><br>        <span class="hljs-comment">// 方法4：onPostExecute（）</span><br>        <span class="hljs-comment">// 作用：接收线程任务执行结果、将执行结果显示到UI组件</span><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPostExecute</span><span class="hljs-params">(String result)</span> </span>&#123;<br>            <span class="hljs-comment">// 执行完毕后，则更新UI</span><br>            text.setText(<span class="hljs-string">&quot;加载完毕&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-comment">// 方法5：onCancelled()</span><br>        <span class="hljs-comment">// 作用：将异步任务设置为：取消状态</span><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCancelled</span><span class="hljs-params">()</span> </span>&#123;<br><br>            text.setText(<span class="hljs-string">&quot;已取消&quot;</span>);<br>            progressBar.setProgress(<span class="hljs-number">0</span>);<br><br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);<br><br>        <span class="hljs-comment">// 绑定UI组件</span><br>        setContentView(R.layout.activity_main);<br><br>        button = (Button) findViewById(R.id.button);<br>        cancel = (Button) findViewById(R.id.cancel);<br>        text = (TextView) findViewById(R.id.text);<br>        progressBar = (ProgressBar) findViewById(R.id.progress_bar);<br><br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 步骤2：创建AsyncTask子类的实例对象（即 任务实例）</span><br><span class="hljs-comment">         * 注：AsyncTask子类的实例必须在UI线程中创建</span><br><span class="hljs-comment">         */</span><br>        mTask = <span class="hljs-keyword">new</span> MyTask();<br><br>        <span class="hljs-comment">// 加载按钮按按下时，则启动AsyncTask</span><br>        <span class="hljs-comment">// 任务完成后更新TextView的文本</span><br>        button.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>&#123;<br><br>                <span class="hljs-comment">/**</span><br><span class="hljs-comment">                 * 步骤3：手动调用execute(Params... params) 从而执行异步线程任务</span><br><span class="hljs-comment">                 * 注：</span><br><span class="hljs-comment">                 *    a. 必须在UI线程中调用</span><br><span class="hljs-comment">                 *    b. 同一个AsyncTask实例对象只能执行1次，若执行第2次将会抛出异常</span><br><span class="hljs-comment">                 *    c. 执行任务中，系统会自动调用AsyncTask的一系列方法：onPreExecute() 、doInBackground()、onProgressUpdate() 、onPostExecute()</span><br><span class="hljs-comment">                 *    d. 不能手动调用上述方法</span><br><span class="hljs-comment">                 */</span><br>                mTask.execute();<br>            &#125;<br>        &#125;);<br><br>        cancel = (Button) findViewById(R.id.cancel);<br>        cancel.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>&#123;<br>                <span class="hljs-comment">// 取消一个正在执行的任务,onCancelled方法将会被调用</span><br>                mTask.cancel(<span class="hljs-keyword">true</span>);<br>            &#125;<br>        &#125;);<br><br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">RelativeLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">&quot;http://schemas.android.com/tools&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:gravity</span>=<span class="hljs-string">&quot;center&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">tools:context</span>=<span class="hljs-string">&quot;com.example.carson_ho.handler_learning.MainActivity&quot;</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">Button</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_centerInParent</span>=<span class="hljs-string">&quot;true&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/button&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:text</span>=<span class="hljs-string">&quot;点我加载&quot;</span>/&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/text&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_below</span>=<span class="hljs-string">&quot;@+id/button&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_centerInParent</span>=<span class="hljs-string">&quot;true&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:text</span>=<span class="hljs-string">&quot;还没开始加载!&quot;</span> /&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">ProgressBar</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_below</span>=<span class="hljs-string">&quot;@+id/text&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/progress_bar&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;fill_parent&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:progress</span>=<span class="hljs-string">&quot;0&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:max</span>=<span class="hljs-string">&quot;100&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;?android:attr/progressBarStyleHorizontal&quot;</span>/&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">Button</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_below</span>=<span class="hljs-string">&quot;@+id/progress_bar&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_centerInParent</span>=<span class="hljs-string">&quot;true&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/cancel&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:text</span>=<span class="hljs-string">&quot;cancel&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">RelativeLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Intent和IntentFilter区别"><a href="#Intent和IntentFilter区别" class="headerlink" title="Intent和IntentFilter区别"></a>Intent和IntentFilter区别</h3><p>Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述</p>
+<p>IntentFilter就是用于描述intent的各种属性</p>
+<h3 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h3><p><strong><code>IntentService</code></strong> 是 <code>Service</code> 的子类，默认为我们开启了一个工作线程，使用这个工作线程逐一处理所有启动请求，在任务执行完毕后会自动停止服务，使用简单，只要实现一个方法 <code>onHandleIntent</code>，该方法会接收每个启动请求的 <code>Intent</code>，能够执行后台工作和耗时操作。可以启动 <code>IntentService</code> 多次，而每一个耗时操作会以队列的方式在 IntentService 的 <code>onHandlerIntent</code> 回调方法中执行，并且，每一次只会执行一个工作线程，执行完第一个再执行第二个。并且等待所有消息都执行完后才终止服务。</p>
+<ol>
+<li>通过 <code>HandlerThread</code> 单独开启一个名为 <code>IntentService</code> 的线程</li>
+<li>创建一个名叫 <code>ServiceHandler</code> 的内部 <code>Handler</code></li>
+<li>把内部Handler与HandlerThread所对应的子线程进行绑定</li>
+<li>通过 <code>onStartCommand()</code> 传递给服务 <code>intent</code>，依次插入到工作队列中，并逐个发送给 <code>onHandleIntent()</code></li>
+<li>通过 <code>onHandleIntent()</code> 来依次处理所有 <code>Intent</code> 请求对象所对应的任务</li>
+</ol>
+<h3 id="热启动和冷启动"><a href="#热启动和冷启动" class="headerlink" title="热启动和冷启动"></a>热启动和冷启动</h3><p>热启动：后台还存活，这时点击图标不会走application生命周期方法，直接初始化activity及其生命周期方法。<br>冷启动：先初始化application，依次执行attachedbasecontext,oncreate,然后走activity生命周期方法。</p>
+<h3 id="Android进程的创建及启动简述"><a href="#Android进程的创建及启动简述" class="headerlink" title="Android进程的创建及启动简述"></a>Android进程的创建及启动简述</h3><h3 id="Instrumentation是用来监控程序与系统之间的交互操作的"><a href="#Instrumentation是用来监控程序与系统之间的交互操作的" class="headerlink" title="Instrumentation是用来监控程序与系统之间的交互操作的"></a>Instrumentation是用来监控程序与系统之间的交互操作的</h3><h3 id="请简述从点击图标开始app的启动流程？？"><a href="#请简述从点击图标开始app的启动流程？？" class="headerlink" title="请简述从点击图标开始app的启动流程？？"></a>请简述从点击图标开始app的启动流程？？</h3><ul>
+<li>点击app图标，Launcher进程使用Binder IPC向system__server进程发起startActivity请求；</li>
+<li>system__server进程收到请求后，如果没有可用的缓存进程，AMS会向zygote请求创建新进程；</li>
+<li>zygote进程fork出新的App进程；</li>
+<li>应用进程创建好后，就会执行它的入口函数，进入ActivityThread的main(String[] args)方法，初始化主线程的Looper和消息队列；</li>
+<li></li>
+<li>应用程序回调各组件的生命周期</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://kmanong.top/kmn/qxw/form/article?id=10616&amp;cate=45">http://kmanong.top/kmn/qxw/form/article?id=10616&amp;cate=45</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.codetd.com/article/7569183">AndroidX设计架构MVVM之ViewModel生命周期分析</a></p>
+<h3 id="守护线程与用户线程"><a href="#守护线程与用户线程" class="headerlink" title="守护线程与用户线程"></a>守护线程与用户线程</h3><ul>
+<li><p>守护线程</p>
+<p>为了确保所有线程都能够安全结束，就引入了守护线程。使用多线程的时候，如果有一个子线程没有结束，jvm进程就不会退出。用来服务用户线程的。setDaemon(boolean on)方法可以方便的设置线程的Daemon模式，true为Daemon模式，false为User模式。setDaemon要先于start()前执行，否则会报 IllegalThreadStateException。</p>
+<p>守护线程不能用于去访问固有资源，比如读写操作或者计算逻辑。因为它会在任何时候甚至在一个操作的中间发生中断。</p>
+</li>
+<li><p>用户线程</p>
+<p>我们平常创建的普通线程。</p>
+</li>
+</ul>
+<p>当主线程结束时，结束其余的子线程（守护线程）自动关闭，就免去了还要继续关闭子线程的麻烦。如：Java垃圾回收线程就是一个典型的守护线程；内存资源或者线程的管理，但是非守护线程也可以。</p>
+<h3 id="Dalvik-虚拟机和Java-虚拟机区别"><a href="#Dalvik-虚拟机和Java-虚拟机区别" class="headerlink" title="Dalvik 虚拟机和Java 虚拟机区别"></a>Dalvik 虚拟机和Java 虚拟机区别</h3><ul>
+<li>Dalvik 虚拟机使用 dex（Dalvik Executable）格式的类文件</li>
+<li>Java 虚拟机使用 class 格式的类文件。</li>
+</ul>
+<h3 id="ActivityManagerService"><a href="#ActivityManagerService" class="headerlink" title="ActivityManagerService"></a>ActivityManagerService</h3><p>SystemServer 进程启动了一系列的系统服务。ActivityManagerService是Android中最核心的服务 ， 主要负责系统中四大组件的启动、切换、调度及应用进程的管理和调度等工作，其职责与操作系统中的进程管理和调度模块类似</p>
+<p><a target="_blank" rel="noopener" href="https://www.dbhc-doman.club/archives/635/android-framework-system-startup-process2/">https://www.dbhc-doman.club/archives/635/android-framework-system-startup-process2/</a></p>
+<h3 id="系统启动架构图"><a href="#系统启动架构图" class="headerlink" title="系统启动架构图"></a>系统启动架构图</h3><p><img src="C:\Blogs\source_posts\Android-面经.assets\image-20220224144505924.png" srcset="/img/loading3.gif" lazyload alt="image-20220224144505924"></p>
+<ul>
+<li><p><strong><code>kthreadd进程</code></strong>: 是所有内核进程的父进程</p>
+</li>
+<li><p><strong><code>init进程</code></strong> ： 是所有用户进程的父进程(或者父父进程)</p>
+</li>
+<li><p><strong><code>zygote进程</code></strong> ： 是所有上层Java进程的父进程，另外<code>zygote</code>的父进程是<code>init</code>进程。</p>
+</li>
+<li><p>**<code>system_server</code>**：是由zygote孵化而来的，是zygote的首席大弟子，托起整个Java framework的所有service，比如ActivityManagerService, PowerManagerService等等。</p>
+</li>
+<li><p>**<code>servicemanager</code>**：是由init孵化而来的，是整个Binder架构(IPC)的大管家，所有大大小小的service都需要先请示servicemanager。</p>
+</li>
+</ul>
+<h3 id="Android进程间的通信方式"><a href="#Android进程间的通信方式" class="headerlink" title="Android进程间的通信方式"></a>Android进程间的通信方式</h3><p>在Android的本地进程间通信，见识过两种：</p>
+<ul>
+<li>基于binder，例如AIDL、广播、Intent等，这些内部实现都是通过Binder。Binder基于CS通信模式，通过mmap技术，单次拷贝实现的跨进程通信。</li>
+<li>基于socket，例如：通知Zygote进程进行进程的孵化，就是通过socket通知过去的。</li>
+</ul>
+<h3 id="Intent-传值有大小限制"><a href="#Intent-传值有大小限制" class="headerlink" title="Intent 传值有大小限制"></a>Intent 传值有大小限制</h3><p>Intent 中的 Bundle 是使用 Binder 机制进行数据传送的, 数据会写到内核空间, Binder 缓冲区域;<br>Binder 的缓冲区是有大小限制的, 有些 ROM 是 1M, 有些 ROM 是 2M;<br>这个限制定义在 frameworks/native/libs/binder/processState.cpp 类中, 如果超过这个限制, 系统就会报错;</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> BINDER_VM_SIZE ((1*1024*1024) - (4096 *2)) ;   </span><br></code></pre></td></tr></table></figure>
+
+<p>因为 Binder 本身就是为了进程间频繁-灵活的通信所设计的, 并不是为了拷贝大量数据;</p>
+<h3 id="什么是序列化"><a href="#什么是序列化" class="headerlink" title="什么是序列化"></a>什么是序列化</h3><p>把对象转化为可传输的的二进制流的过程称为序列化。反序列化就是二进制流转成对象的过程。进行跨平台存储”和”网络传输”的数据，都需要进行序列化。</p>
+<h3 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h3><ul>
+<li><p><strong>static 属性不能被序列化</strong> 。序列化保存的是对象的状态，静态变量属于类的状态，因此序列化并不保存静态变量。</p>
+</li>
+<li><p><strong>Transient 属性不会被序列化</strong>  transient是针对于对像序列化的。例如，账号密码不想被序列化</p>
+</li>
+<li><p><strong>序列化版本号serialVersionUID</strong> serialVersionUID 是 Java 为每个序列化类产生的版本标识，可用来保证在反序列时，发送方发送的和接受方接收的是可兼容的对象。如果接收方接收的类的serialVersionUID 与发送方发送的 serialVersionUID 不一致，进行反序列时会抛出InvalidClassException</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">1L</span>;<br></code></pre></td></tr></table></figure>
+
+<p>Java 会根据类细节自动生成 serialVersionUID 的值，如果对类的源代码作了修改，再重新编译，新生成的类文件的serialVersionUID的取值有可能也会发生变化。</p>
+</li>
+<li><p>如果父类实现了序列化那么其子类都将被序列化；子类实现了序列化而父类没实现序列化，那么只有子类的属性会进行序列化，而父类的属性是不会进行序列化的。</p>
+</li>
+</ul>
+<h3 id="Parcelable"><a href="#Parcelable" class="headerlink" title="Parcelable"></a>Parcelable</h3><ul>
+<li><p>序列化功能由<strong>writeToParcel</strong>来完成，最终是通过Parcel中的一些列write方法来完成的。</p>
+</li>
+<li><p>反序列化是由CREATOR来完成，其内部标明了<strong>如何创建序列化对象和数组</strong>，并通过Parcel的一些列<strong>read</strong>方法来完成反序列化过程。</p>
+</li>
+<li><p>内容描述功能由describeContents方法来完成，几乎在所有情况下这个方法都应该返回0，仅当前对象中存在文件描述符时，此方法返回1。</p>
+</li>
+</ul>
+<h3 id="Serializable和Parcelable区别"><a href="#Serializable和Parcelable区别" class="headerlink" title="Serializable和Parcelable区别"></a>Serializable和Parcelable区别</h3><ul>
+<li><p>存储到设备或者网络传输上选择Serializable，推荐使用 <strong>Serializable</strong>；android不同版本Parcelable可能不同，所以不推荐使用Parcelable进行数据持久化。</p>
+</li>
+<li><p>内存序列化上选择Parcelable，Serializable在序列化的时候会产生大量的临时变量，从而引起频繁的GC，Serializable效率过慢（使用反射）。Parcelable方式的实现原理是将一个完整的对象进行分解，而分解后的每一部分都是Intent所支持的数据类型，这样也就实现传递对象的功能了。</p>
+</li>
+</ul>
+<ul>
+<li>应用进程在启动 Binder 机制时会映射一块 1M 大小的内存，所有正在进行的 Binder 事务共享这 1M 的缓冲区。当使用 Intent 进行 IPC 时申请的缓存超过 1M - 其他事务占用的内存时，就会申请失败抛 TransactionTooLargeException 异常了。</li>
+</ul>
+<h3 id="Android中内存优化的方式"><a href="#Android中内存优化的方式" class="headerlink" title="Android中内存优化的方式"></a>Android中内存优化的方式</h3><p><img src="C:\Blogs\source_posts\Android-面经.assets\55397796-98888b80-5579-11e9-8798-a92c5e5fd9cc.png" srcset="/img/loading3.gif" lazyload alt="企业微信截图_3522bb02-32a8-4682-acfb-5758cae79088"></p>
+<ul>
+<li>循环中尽可能不要创建较大的对象，例如bitmap。这会引起内存抖动。</li>
+<li>自定义View避免在onDraw中创建对象，因为自定义Viewon的onDraw方法会被频繁调用。创建对象，甚至较大的对象，会导致内存增加，甚至内存抖动。</li>
+<li>cursor和流的及时关闭，特别是异常处理。一定要写finally里关闭流。</li>
+<li>避免静态内部类的引用。比如A类中有静态变量B。这是只要B被应用，就会导致A也不能回收。</li>
+<li>图片尽量使用软引用。较大的图片可以通过bitmapFactory缩放后再使用。并及时recycler.另外加载较大的图片尽可能不要使用setImageResourse,BitmapFactory.decordeResource和setImageBitmap方法。这些方法返回的是Bitmap对象。占用内存较大。可以使用BitmapFactory.decodeStream配合BitampFactory.Options对图片进行缩放，然后显示。</li>
+</ul>
+<h3 id="UI-的刷新机制"><a href="#UI-的刷新机制" class="headerlink" title="UI 的刷新机制"></a><a target="_blank" rel="noopener" href="https://github.com/Moosphan/Android-Daily-Interview/issues/17"><strong>UI 的刷新机制</strong></a></h3><h3 id="SharedPreferences-是线程安全的吗"><a href="#SharedPreferences-是线程安全的吗" class="headerlink" title="SharedPreferences 是线程安全的吗"></a>SharedPreferences 是线程安全的吗</h3><p>SP 是线程安全，非进程安全，用于存储体积小的数据。SharedPreference是单实例，一般不会出现并发冲突，如果对提交的结果不关心的话，建议使用apply，当然需要确保提交成功且有后续操作的话，还是需要用commit的。</p>
+<h3 id="commit-和-apply-方法有什么区别"><a href="#commit-和-apply-方法有什么区别" class="headerlink" title="commit 和 apply 方法有什么区别"></a>commit 和 apply 方法有什么区别</h3><ul>
+<li>apply没有返回值，commit返回boolean表明修改是否提交成功</li>
+<li>apply是将修改数据原子提交到内存, 而后异步真正提交到硬件磁盘, 而commit是同步的提交到硬件磁盘，因此，在多个并发的提交commit的时候，他们会等待正在处理的commit保存到磁盘后在操作，从而降低了效率。而apply只是原子的提交到内容，后面有调用apply的函数的将会直接覆盖前面的内存数据，这样从一定程度上提高了很多效率。</li>
+</ul>
+<h3 id="对于-Context，你了解多少"><a href="#对于-Context，你了解多少" class="headerlink" title="对于 Context，你了解多少"></a>对于 Context，你了解多少</h3><p><img src="C:\Blogs\source_posts\Android-面经.assets\SouthEast.png" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<ul>
+<li>Context本身是一个抽象类。</li>
+<li>ContextWrapper和ContextImpl是它的直接子类，ContextWrapper进行功能的封装，内部委派ContextImpl去实现。</li>
+<li>在attachBaseContext(context)方法中，对mBase进行赋值委派。</li>
+<li>在android中，有3种context，分别是application、service、activity。通常情况下，这3种context的能力都是相同的，但是在有些场景下需要注意，比如启动activity和dialog；因为系统不允许凭空出现activity和dialog(一个启动另一个以此来形成返回栈)，所以必须使用activity类型的context。</li>
+<li>Context的数量=activity的数量+service的数量+1，一个应用只有一个application类型的context.<br>getApplication()和getApplicationContext()返回的都是Application对象本身，但是2者的作用域不一样。getApplication()的作用域比较小，一般只能在activity和service中调用。</li>
+<li>getBaseContext()方法返回的是ContextImpl对象。</li>
+<li>Application的方法调用顺序：构造函数-&gt;attachBaseContext-&gt;onCreate.因此在attachBaseContext方法之前调用context的方法会报空指针，因为这时候mBase==null。</li>
+<li>不能直接new一个Application对象，因为它是系统组件，它需要系统去创建和维护，否则它不具备context的各种能力。</li>
+</ul>
+<h3 id="DecorView又是如何和Window建立联系的"><a href="#DecorView又是如何和Window建立联系的" class="headerlink" title="DecorView又是如何和Window建立联系的"></a>DecorView又是如何和Window建立联系的</h3><ol>
+<li>在Activity的启动流程中，处理onResume()的相关方法中，将DecorView作为Window的成员变量保存到Window内部。</li>
+<li>DecorView与Window建立联系又有什么用呢?例如Activity的onSaveInstanceState()进行数据保存时，就通过window内部的DecorView触发整个View树进行状态保存。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//ActivityThread.java</span><br><span class="hljs-function"><span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleResumeActivity</span><span class="hljs-params">(IBinder token, ...)</span> </span>&#123;<br>  <span class="hljs-comment">//1. 创建DecorView，设置为不可见INVISIBLE</span><br>  View decor = r.window.getDecorView();<br>  decor.setVisibility(View.INVISIBLE);<br>  <span class="hljs-comment">//2. 获取到WindowManager, addView方法将DecorView添加到Window中</span><br>  ViewManager wm = a.getWindowManager();<br>  wm.addView(decor, l);<br>  <span class="hljs-comment">//3. 将DecorView设置为visible</span><br>  r.activity.makeVisible();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Window和DecorView是什么"><a href="#Window和DecorView是什么" class="headerlink" title="Window和DecorView是什么"></a>Window和DecorView是什么</h3><p><strong>DecorView的作用</strong></p>
+<ol>
+<li>DecorView是顶级View，本质就是一个FrameLayout</li>
+<li>包含了两个部分，标题栏和内容栏</li>
+<li>内容栏id是content，也就是activity中setContentView所设置的部分，最终将布局添加到id为content的FrameLayout中</li>
+<li>获取content：<code>ViewGroup content = findViewById(R.android.id.content)</code></li>
+<li>获取设置的View：<code>content.getChidlAt(0)</code></li>
+</ol>
+<p><strong>Window是什么？</strong></p>
+<ol>
+<li>表示一个窗口的概念，是所有<code>View</code>的直接管理者，任何视图都通过<code>Window</code>呈现(单击事件由Window-&gt;DecorView-&gt;View; Activity的<code>setContentView</code>底层通过<code>Window</code>完成)</li>
+<li><code>Window</code>是一个抽象类，具体实现是<code>PhoneWindow</code></li>
+<li>创建<code>Window</code>需要通过<code>WindowManager</code>创建</li>
+<li><code>WindowManager</code>是外界访问<code>Window</code>的入口</li>
+<li><code>Window</code>具体实现位于<code>WindowManagerService</code>中</li>
+<li><code>WindowManager</code>和<code>WindowManagerService</code>的交互是通过<code>IPC</code>完成</li>
+</ol>
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>因为<code>类初始化</code>是线程安全的，并且只会执行一次。因此在多线程环境下，依然能保证只有一个Singleton实例。getInstance()调用了LazyHolder的静态字段INSTANCE，所以会触发<code>LazyHolder</code>的加载和初始化。LazyHolder的初始化阶段会对静态字段INSTANCE进行赋值，也就是<code> new Singleton()</code>，此外初始化阶段是线程安全的且只执行一次，因此就算是多线程，也只会创建一个<code>Singleton对象</code>。从而实现单例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-comment">// 1. 调用该方法时，才会访问 LazyHolder.INSTANCE这个静态类的静态变量</span><br>        <span class="hljs-keyword">return</span>  LazyHolder.INSTANCE;<br>    &#125;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LazyHolder</span></span>&#123;<br>        <span class="hljs-comment">// 2. 访问 LazyHolder.INSTANCE才会触发Singleton的初始化</span><br>        <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Singleton INSTANCE = <span class="hljs-keyword">new</span> Singleton();<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span></span>&#123;&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>枚举类单例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java">  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Singleton</span></span>&#123;<br>        INSTANCE;<br>        <br>        <span class="hljs-keyword">private</span> EnumSingleton singleton;<br>        <span class="hljs-comment">//JVM会保证此方法绝对只调用一次</span><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span></span>&#123;<br>            singleton = <span class="hljs-keyword">new</span> EnumSingleton();<br>        &#125;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> EnumSingleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span>&#123;<br>            <span class="hljs-keyword">return</span> singleton;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="BroadcastReceiver-与-LocalBroadcastReceiver-有什么区别"><a href="#BroadcastReceiver-与-LocalBroadcastReceiver-有什么区别" class="headerlink" title="BroadcastReceiver 与 LocalBroadcastReceiver 有什么区别"></a>BroadcastReceiver 与 LocalBroadcastReceiver 有什么区别</h3><ul>
+<li>BroadcastReceiver 是跨应用广播，利用Binder机制实现，支持动态和静态两种方式注册方式。</li>
+<li>LocalBroadcastReceiver 是应用内广播，利用Handler实现，利用了IntentFilter的match功能，提供消息的发布与接收功能，实现应用内通信，效率和安全性比较高，仅支持动态注册。</li>
+</ul>
+<h3 id="Handler-机制和原理"><a href="#Handler-机制和原理" class="headerlink" title="Handler 机制和原理"></a>Handler 机制和原理</h3><h3 id="ANR"><a href="#ANR" class="headerlink" title="ANR"></a>ANR</h3><p>应用无响应，用户触发了输入事件（如键盘输入，点击按钮等），Android系统对于输入事件需要在一定的时间范围内完成，如果超过预定时间能未能得到有效响应或者响应时间过长，都会造成ANR。</p>
+<p>Activity 的生命周期回调的阻塞并不在触发 ANR 的场景里面，所以并不会直接触发 ANR。只不过死循环阻塞了主线程，如果系统再有上述的四种事件发生，就无法在相应的时间内处理从而触发 ANR。</p>
+<p>基于Handler消息机制来完成。在一个事件执行开始时，通过Handler去post一个对应时间的延迟消息，如果事件在规定事件内执行完成，就remove掉这个message，否则，Handler就会收到这个ANR的Message,做进一步处理，dump日志，弹出ANR对话框。    </p>
+<ul>
+<li><p>Service Timeout：前台服务在20s内未执行完成，后台服务200s</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we wait for a service to finish executing.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERVICE_TIMEOUT = <span class="hljs-number">20</span>*<span class="hljs-number">1000</span>; <span class="hljs-comment">// 前台    // How long we wait for a service to finish executing.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERVICE_BACKGROUND_TIMEOUT = SERVICE_TIMEOUT * <span class="hljs-number">10</span>; <span class="hljs-comment">// 后台</span><br></code></pre></td></tr></table></figure></li>
+<li><p>BroadcastQueue Timeout：前台广播在10s内未执行完成，后台广播60s</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we allow a receiver to run before giving up on it.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> BROADCAST_FG_TIMEOUT = <span class="hljs-number">10</span>*<span class="hljs-number">1000</span>;  <span class="hljs-comment">// 前台</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> BROADCAST_BG_TIMEOUT = <span class="hljs-number">60</span>*<span class="hljs-number">1000</span>;  <span class="hljs-comment">// 后台</span><br></code></pre></td></tr></table></figure></li>
+<li><p>ContentProvider Timeout：内容提供者执行超时</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we wait until we timeout on key dispatching.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> KEY_DISPATCHING_TIMEOUT = <span class="hljs-number">5</span>*<span class="hljs-number">1000</span>;<br></code></pre></td></tr></table></figure></li>
+<li><p>InputDispatching Timeout： 输入事件分发超时5s，包括按键分发事件的超时</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we wait for an attached process to publish its content providers</span><br><span class="hljs-comment">// before we decide it must be hung.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> CONTENT_PROVIDER_PUBLISH_TIMEOUT = <span class="hljs-number">10</span>*<span class="hljs-number">1000</span>;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="ANR分析"><a href="#ANR分析" class="headerlink" title="ANR分析"></a>ANR分析</h3><ul>
+<li>ANR出现的进程包名，从log中搜索“ANR in”或“am_anr”</li>
+<li>在/data/anr/traces.txt文件中写入ANR相关信息</li>
+</ul>
+<h3 id="哪些地方是执行在主线程的"><a href="#哪些地方是执行在主线程的" class="headerlink" title="哪些地方是执行在主线程的"></a>哪些地方是执行在主线程的</h3><ul>
+<li>Activity的所有生命周期回调都是执行在主线程的</li>
+<li>Service默认是执行在主线程的</li>
+<li>BroadcastReceiver的onReceive回调是执行在主线程的</li>
+<li>没有使用子线程的Looper的Handler的handleMessage, post(Runnable)是执行在主线程的</li>
+<li>AsyncTask的回调中除了doInBackground, 其他都是执行在主线程的</li>
+<li>View的post(Runnable)是执行在主线程的</li>
+</ul>
+<h3 id="避免ANR"><a href="#避免ANR" class="headerlink" title="避免ANR"></a>避免ANR</h3><ul>
+<li><p>避免在主线程进行复杂耗时的操作，特别是文件读取或者数据库操作</p>
+</li>
+<li><p>BroadCastReceiver 要进行复杂操作的的时候，在onReceive()方法中启动一个Service来处理</p>
+</li>
+<li><p>避免在IntentReceiver里启动一个Activity，因为它会创建一个新的画面，并从当前用户正在运行</p>
+<p>的程序上抢夺焦点</p>
+</li>
+</ul>
+<h3 id="动画的分类"><a href="#动画的分类" class="headerlink" title="动画的分类"></a>动画的分类</h3><p><img src="C:\Blogs\source_posts\Android-面经.assets\85917550-9cdf4980-b88d-11ea-8d79-95bef969c586-164794251400313.png" srcset="/img/loading3.gif" lazyload alt="image"></p>
+<ul>
+<li><p><strong>View Animation</strong></p>
+<p>视图动画：无改变动画的属性 因为视图动画在动画过程中仅对图像进行变换(平移、缩放、旋转和透明)，从而达到了动画效果。</p>
+<ul>
+<li><p>补间动画（Tween Animation）</p>
+<p>给出两个关键帧，通过一些算法将给定属性值在给定的时间内在两个关键帧间渐变。</p>
+<ul>
+<li>View animation只能应用于View对象，而且只支持一部分属性，如支持缩放旋转而不支持背景颜色的改变。</li>
+<li>View Animation就是一系列View形状的变换，如大小的缩放，透明度的改变，位置的改变，动画的定义既可以用代码定义也可以用XML定义，当然，建议用XML定义。</li>
+</ul>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">ImageView spaceshipImage = (ImageView)find<span class="hljs-constructor">ViewById(R.<span class="hljs-params">id</span>.<span class="hljs-params">spaceshipImage</span>)</span>;<br>Animation hyperspaceJumpAnimation=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AnimationUtils</span>.</span></span>load<span class="hljs-constructor">Animation(<span class="hljs-params">this</span>, R.<span class="hljs-params">anim</span>.<span class="hljs-params">hyperspace_jump</span>)</span>;<br>spaceshipImage.start<span class="hljs-constructor">Animation(<span class="hljs-params">hyperspaceJumpAnimation</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<ul>
+<li><p>逐帧动画 Drawable Animation（Frame Animation）</p>
+<p>帧动画是通过设置每一帧的图片和显示时间，按着一定顺序播放，达成的一种动画效果。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">animation-list</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:oneshot</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">android:drawable</span>=<span class="hljs-string">&quot;@drawable/rocket_thrust1&quot;</span> <span class="hljs-attr">android:duration</span>=<span class="hljs-string">&quot;200&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">android:drawable</span>=<span class="hljs-string">&quot;@drawable/rocket_thrust2&quot;</span> <span class="hljs-attr">android:duration</span>=<span class="hljs-string">&quot;200&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">android:drawable</span>=<span class="hljs-string">&quot;@drawable/rocket_thrust3&quot;</span> <span class="hljs-attr">android:duration</span>=<span class="hljs-string">&quot;200&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">animation-list</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">protected <span class="hljs-type">void</span> onCreate(Bundle savedInstanceState) &#123;        // TODO Auto-<span class="hljs-keyword">generated</span> <span class="hljs-keyword">method</span> stub        super.onCreate(savedInstanceState);        setContentView(R.layout.main);        imageView = (ImageView) findViewById(R.id.imageView1);        imageView.setBackgroundResource(R.drawable.drawable_anim);        anim = (AnimationDrawable) imageView.getBackground();    &#125;    <span class="hljs-built_in">public</span> <span class="hljs-type">boolean</span> onTouchEvent(MotionEvent event) &#123;        <span class="hljs-keyword">if</span> (event.getAction() == MotionEvent.ACTION_DOWN) &#123;            anim.stop();            anim.<span class="hljs-keyword">start</span>();            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;        &#125;        <span class="hljs-keyword">return</span> super.onTouchEvent(event);    &#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>Property Animation</strong></p>
+<p>通过不断地改变view的状态，不断地重新绘制，达成的一种动画效果；</p>
+</li>
+</ul>
+<h3 id="Android-补间动画和属性动画的区别"><a href="#Android-补间动画和属性动画的区别" class="headerlink" title="Android 补间动画和属性动画的区别"></a>Android 补间动画和属性动画的区别</h3><p><img src="C:\Blogs\source_posts\Android-面经.assets\image-20220322174909477-164794255103014.png" srcset="/img/loading3.gif" lazyload alt="image-20220322174909477"></p>
+<ul>
+<li><p>作用对象不同，补间动画只能作用在view上，属性动画可以作用在所有对象上。</p>
+</li>
+<li><p>属性变化不同，补间动画只是改变显示效果，不会改变view的属性，比如位置、宽高等，而属性动画实际改变对象的属性。</p>
+</li>
+<li><p>动画效果不同，补间动画只能实现位移、缩放、旋转和透明度四种动画操作，而属性动画还能实现补间动画所有效果及其他更多动画效果。</p>
+</li>
+</ul>
+<h3 id="多线程的同步"><a href="#多线程的同步" class="headerlink" title="多线程的同步"></a>多线程的同步</h3><ul>
+<li>volatile关键字，在get和set的场景下是可以的，由于get和set的时候都加了读写内存屏障，在数据可见性上保证数据同步。但是对于++这种非原子性操作，数据会出现不同步</li>
+<li>synchronized对代码块或方法加锁，结合wait，notify调度保证数据同步</li>
+<li>reentrantLock加锁结合Condition条件设置，在线程调度上保障数据同步</li>
+<li>CountDownLatch简化版的条件锁，在线程调度上保障数据同步</li>
+<li>cas=compare and swap(set), 在保证操作原子性上，确保数据同步</li>
+<li>参照UI线程更新UI的思路，使用handler把多线程的数据更新都集中在一个线程上，避免多线程出现脏读</li>
+</ul>
+<h3 id="多线程的同步场景"><a href="#多线程的同步场景" class="headerlink" title="多线程的同步场景"></a>多线程的同步场景</h3><ul>
+<li><strong>只有一个线程写</strong>，其他都是读，用 volatile</li>
+<li><strong>多个线程写</strong>，用 Synchronized</li>
+<li>多个线程写+设置<strong>超时</strong>+<strong>自行决定释放</strong>，用 ReentranLock</li>
+<li>想<strong>提高效率</strong>，不单单一个线程进入临界区，用并发包，如：ConcurrentHashMap、LinkBlockingQueue、AtomicXXX。</li>
+<li><strong>读比写多</strong>，用 CopyOnWriteXXX</li>
+<li>希望控制线程的<strong>并发数量</strong>，用 Semaphore 信号量</li>
+<li>想让指定线程<strong>等待</strong>其他线程，用 CountDownLatch</li>
+</ul>
+<h3 id="OOM"><a href="#OOM" class="headerlink" title="OOM"></a>OOM</h3><p>程序申请的内存过大，超过了虚拟机可用的内存资源，就会抛出OOM异常。</p>
+<ul>
+<li>过多的内存泄漏会导致内存溢出。</li>
+<li>大量的大图片</li>
+<li>短时间内创建了大量的对象。</li>
+</ul>
+<h3 id="OOM解决办法"><a href="#OOM解决办法" class="headerlink" title="OOM解决办法"></a>OOM解决办法</h3><ul>
+<li><p>可以增大堆内存的大小</p>
+<p>largeHeap = ”true“    &amp;&amp;   /system/build.prop文件增加heapsize = 512M</p>
+</li>
+<li><p>SoftReference引用方式管理图片资源</p>
+<p>建一个SoftReference的hashmap，使用图片时，先检查这个hashmap是否有softreference，softreference的图片是否为空，如果为空将图片加载到softreference并加入haspmap。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.InputStream;  <br><span class="hljs-keyword">import</span> java.lang.ref.SoftReference;  <br><span class="hljs-keyword">import</span> java.net.HttpURLConnection;  <br><span class="hljs-keyword">import</span> java.net.URL;  <br><span class="hljs-keyword">import</span> java.net.URLConnection;  <br><span class="hljs-keyword">import</span> java.util.HashMap;  <br><span class="hljs-keyword">import</span> android.content.Context;  <br><span class="hljs-keyword">import</span> android.graphics.Bitmap;  <br><span class="hljs-keyword">import</span> android.graphics.BitmapFactory;  <br><span class="hljs-keyword">import</span> android.os.Handler;  <br><span class="hljs-keyword">import</span> android.os.Handler.Callback;  <br><span class="hljs-keyword">import</span> android.os.Message;  <br><span class="hljs-keyword">import</span> android.widget.ImageView;  <br>  <br>  <br><span class="hljs-comment">/** </span><br><span class="hljs-comment"> * 功能说明：异步加载图片 </span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> */</span>  <br>  <br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsyncImageLoaderCore</span> </span>&#123;  <br>    <span class="hljs-keyword">public</span> Context context; <span class="hljs-comment">// 做本地缓存时会用到  </span><br>    <span class="hljs-keyword">public</span> HashMap&lt;String, SoftReference&lt;Bitmap&gt;&gt; imageCache;<span class="hljs-comment">// 软引用集合  </span><br>     <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AsyncImageLoaderCore</span><span class="hljs-params">(Context context)</span> </span>&#123;  <br>        <span class="hljs-keyword">this</span>.context = context;  <br>        <span class="hljs-keyword">this</span>.imageCache = <span class="hljs-keyword">new</span> HashMap&lt;String, SoftReference&lt;Bitmap&gt;&gt;();  <br>    &#125;  <br>  <br>  <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Bitmap <span class="hljs-title">loadBitmap</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String imageUrl, <span class="hljs-keyword">final</span> ImageView imageView, <span class="hljs-keyword">final</span> ImageCallback imageCallback)</span> </span>&#123;  <br>        <span class="hljs-keyword">if</span> (imageCache.containsKey(imageUrl)) &#123;  <br>            SoftReference&lt;Bitmap&gt; softReference = imageCache.get(imageUrl);  <br>            <span class="hljs-keyword">if</span> (softReference.get() != <span class="hljs-keyword">null</span>)  <br>                <span class="hljs-keyword">return</span> softReference.get();  <br>        &#125;  <br>          <br>        <span class="hljs-keyword">final</span> Handler handler = <span class="hljs-keyword">new</span> Handler(<span class="hljs-keyword">new</span> Callback() &#123;  <br>            <span class="hljs-meta">@Override</span>  <br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;  <br>                imageCallback.imageLoaded((Bitmap) msg.obj, imageView, imageUrl);  <br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;  <br>            &#125;  <br>        &#125;);  <br>          <br>        <span class="hljs-keyword">new</span> Thread() &#123;  <br>            <span class="hljs-meta">@Override</span>  <br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;  <br>                Bitmap bitmap = <span class="hljs-keyword">null</span>;  <br>                <span class="hljs-keyword">try</span> &#123;  <br>                    bitmap = getHttpBitmap(imageUrl);  <br>                &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;  <br>                    e.printStackTrace();  <br>                    <span class="hljs-keyword">return</span>;  <br>                &#125;  <br>                  <br>                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != bitmap) &#123;  <br>                    imageCache.put(imageUrl, <span class="hljs-keyword">new</span> SoftReference&lt;Bitmap&gt;(bitmap));  <br>                    handler.sendMessage(handler.obtainMessage(<span class="hljs-number">0</span>, bitmap));  <br>                &#125;  <br>            &#125;  <br>        &#125;.start();  <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;  <br>    &#125;  <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> MAX_PIC_LENGTH = <span class="hljs-number">200000</span>;<span class="hljs-comment">// 最大字节长度限制[可调,最好不要超过200000]  </span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SAMPLE_SIZE = <span class="hljs-number">14</span>;<span class="hljs-comment">// 裁剪图片比列(1/14)[可调]  </span><br>    <span class="hljs-comment">/** </span><br><span class="hljs-comment">     * 获取网络图片 </span><br><span class="hljs-comment">     */</span>  <br>    <span class="hljs-function"><span class="hljs-keyword">private</span> Bitmap <span class="hljs-title">getHttpBitmap</span><span class="hljs-params">(String imgUrl)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;  <br>        URL htmlUrl = <span class="hljs-keyword">new</span> URL(imgUrl);  <br>        URLConnection connection = htmlUrl.openConnection();  <br>        HttpURLConnection conn = (HttpURLConnection) connection;  <br>        <span class="hljs-keyword">if</span> (conn.getResponseCode() == HttpURLConnection.HTTP_OK) &#123;  <br>            InputStream inputStream = conn.getInputStream();  <br>            <span class="hljs-keyword">byte</span>[] bytes = changeToBytes(inputStream);  <br>            <span class="hljs-keyword">if</span> (bytes.length &lt; MAX_PIC_LENGTH) &#123;  <br>                <span class="hljs-keyword">return</span> BitmapFactory.decodeByteArray(bytes, <span class="hljs-number">0</span>, bytes.length);  <br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (bytes.length &lt; MAX_PIC_LENGTH * SAMPLE_SIZE) &#123;  <br>                BitmapFactory.Options options = <span class="hljs-keyword">new</span> BitmapFactory.Options();  <br>                options.inJustDecodeBounds = <span class="hljs-keyword">false</span>;  <br>                options.inSampleSize = SAMPLE_SIZE;  <br>                <span class="hljs-keyword">return</span> BitmapFactory.decodeByteArray(bytes, <span class="hljs-number">0</span>, bytes.length, options);  <br>            &#125;  <br>        &#125;  <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;  <br>    &#125;  <br>  <br>  <br>    <span class="hljs-comment">/** </span><br><span class="hljs-comment">     * 将流转换成字节数组 </span><br><span class="hljs-comment">     */</span>  <br>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">byte</span>[] changeToBytes(InputStream inputStream) <span class="hljs-keyword">throws</span> Exception  <br>    &#123;  <br>        ByteArrayOutputStream outputStream = <span class="hljs-keyword">new</span> ByteArrayOutputStream();  <br>        <span class="hljs-keyword">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];<span class="hljs-comment">// 每次读取的字节长度  </span><br>        <span class="hljs-keyword">int</span> len = <span class="hljs-number">0</span>;  <br>        <span class="hljs-keyword">while</span> ((len = inputStream.read(buffer)) != -<span class="hljs-number">1</span>)  <br>        &#123;  <br>            outputStream.write(buffer, <span class="hljs-number">0</span>, len);  <br>        &#125;  <br>        inputStream.close();  <br>        <span class="hljs-keyword">return</span> outputStream.toByteArray();  <br>    &#125;  <br>    <span class="hljs-comment">/** </span><br><span class="hljs-comment">     * 异步加载资源回调接口 </span><br><span class="hljs-comment">     */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ImageCallback</span> </span>&#123;  <br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">imageLoaded</span><span class="hljs-params">(Bitmap bitmap, ImageView imageView, String imageUrl)</span></span>;  <br>    &#125;  <br>&#125;  ```<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="Activity-的五种启动模式"><a href="#Activity-的五种启动模式" class="headerlink" title="Activity 的五种启动模式"></a>Activity 的五种启动模式</h3><ul>
+<li><strong>standard 标准模式：</strong> 每次启动一个 Activity 都会重新创建一个新的实例，不管这个实例是否已经存在，此模式的 Activity 默认会进入启动它的 Activity 所属的任务栈中；</li>
+<li><strong>singleTop 栈顶复用模式：</strong> 如果新 Activity 已经位于任务栈的栈顶，那么此 Activity 不会被重新创建，同时会回调 onNewIntent方法，如果新 Activity 实例已经存在但不在栈顶，那么Activity 依然会被重新创建；</li>
+<li><strong>singleTask 栈内复用模式：</strong> 只要 Activity 在一个任务栈中存在，那么多次启动此 Activity 都不会重新创建实例，并回调onNewIntent 方法。如果存在实例，会将该实例之上所有的activity出栈（销毁）。</li>
+<li><strong>singleInstance单实例模式：</strong> 这是一种加强的 singleTask 模式，具有此种模式的 Activity 只能单独地位于一个任务栈中，且此任务栈中只有唯一一个实例。如果继续启动这个activity，不会去继续创建新的activity,也不会重新创建任务栈，因为具有栈内复用的特性。</li>
+</ul>
+<h3 id="查看-Activity-Task栈的情况"><a href="#查看-Activity-Task栈的情况" class="headerlink" title="查看 Activity Task栈的情况"></a>查看 Activity Task栈的情况</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">adb shell dumpsys activity activities<br></code></pre></td></tr></table></figure>
+
+<h3 id="Activity-常用的标记位-Flags"><a href="#Activity-常用的标记位-Flags" class="headerlink" title="Activity 常用的标记位 Flags"></a>Activity 常用的标记位 Flags</h3><ul>
+<li><p><strong>FLAG_ACTIVITY_NEW_TASK :</strong> </p>
+<p>设置此状态，首先会查找是否存在和被启动的Activity具有相同的亲和性的任务栈。如果相同，则为标准模式，如果不同，则新建一个栈来存放被启动的activity。</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_SINGLE_TOP :</strong> 对应 singleTop 启动模式，其效果和在 XML 中指定该启动模式相同；</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_CLEAR_TOP :</strong> 具有此标记位的 Activity，当它启动时，在同一个任务栈中所有位于它上面的 Activity 都要出栈。这个标记位一般会和 singleTask 模式一起出现，在这种情况下，被启动 Activity 的实例如果已经存在，那么系统就会回调onNewIntent。如果被启动的 Activity 采用 standard 模式启动，那么它以及连同它之上的 Activity 都要出栈，系统会创建新的Activity 实例并放入栈中；</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_CLEAR_TASK</strong>：如果Intent中设置了这个标志，会导致含有待启动Activity的Task在Activity被启动前清空。也就是说，这个Activity会成为一个新的root，并且所有旧的activity都被finish掉。这个标志只能与FLAG_ACTIVITY_NEW_TASK 一起使用。</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_REORDER_TO_FRONT</strong>：如果activity在task存在，拿到最顶端,不会启动新的Activity</p>
+</li>
+<li><p><strong>FLAG_ACTIVITY_NO_HISTORY：</strong>被启动的Activity一旦退出，他就不会存在于栈中</p>
+</li>
+</ul>
+<p>注：intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)。表示通过intent开启一个activity，并将这个activity放至栈底或者清空栈后再把这个activity压进栈去。</p>
+<h3 id="LaunchMode-的应用场景"><a href="#LaunchMode-的应用场景" class="headerlink" title="LaunchMode 的应用场景"></a>LaunchMode 的应用场景</h3><ul>
+<li>singleTop社交应用中的通知栏功能。</li>
+</ul>
+<p>例如：App 用户收到几条好友请求的推送消息，需要用户点击推送通知进入到请求者个人信息页，将信息页设置为 SingleTop 模式就可以增强复用性。</p>
+<ul>
+<li>singleTask适合作为程序入口点。</li>
+</ul>
+<p>例如浏览器主页，用户可能从多个应用启动浏览器，但主界面仅仅启动一次，其余情况都会走onNewIntent，并且会清空主界面上面的其他页面。最典型的样例就是应用中展示的主页（Home页）</p>
+<ul>
+<li>singleInstance适合需要与程序分离开的页面。</li>
+</ul>
+<p>模式常应用于独立栈操作的应用，如闹钟的提醒页面，当你在A应用中看视频时，闹钟响了，你点击闹钟提醒通知后进入提醒详情页面，然后点击返回就再次回到A的视频页面，这样就不会过多干扰到用户先前的操作了。比如Launch、锁屏键的应用等等</p>
+<h3 id="moveToFirst和moveToNext"><a href="#moveToFirst和moveToNext" class="headerlink" title="moveToFirst和moveToNext"></a>moveToFirst和moveToNext</h3><p>moveToFirst调用的是moveToPosition（0）</p>
+<p>moveToNext调用的是moveToPosition（mPos+1)</p>
+<h3 id="Cursor"><a href="#Cursor" class="headerlink" title="Cursor"></a>Cursor</h3><p>所以这个每行的集合的意思，是获得的满足条件（就是我们query方法中传入的条件参数）的所有行。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stata">SQLiteDataBase <span class="hljs-keyword">db</span>;<br>Cursor cursor = <span class="hljs-keyword">db</span>.<span class="hljs-keyword">query</span>(各种参数);<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h3><p>内存泄漏的根本原因在于生命周期长的对象持有了生命周期短的对象的引用。</p>
+<h3 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h3><p>以生命周期的形式存储和管理与 UI 相关的数据。ViewModel 允许数据在配置变化（例如屏幕旋转）后仍然存活。</p>
+<h3 id="LiveData"><a href="#LiveData" class="headerlink" title="LiveData"></a>LiveData</h3><p>具有生命周期感知能力的可观察的数据持有者。LiveData 仅将更新通知给活跃的观察者，未注册和非活动的观察者不会收到有关更新的通知。如果观察者的生命周期处于 STARTED 或 RESUMED 状态，则 LiveData 会将观察者视为活动状态。</p>
+<h3 id="单个-Activity-Fragment-的启动"><a href="#单个-Activity-Fragment-的启动" class="headerlink" title="单个 Activity + Fragment 的启动"></a>单个 Activity + Fragment 的启动</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">Activity</span> <span class="hljs-literal">on</span>Create<br>Fragment <span class="hljs-literal">on</span>Attach<br>Fragment <span class="hljs-literal">on</span>Create<br>Fragment <span class="hljs-literal">on</span>CreateView<br>Fragment <span class="hljs-literal">on</span>ViewCreated<br><br>Activity <span class="hljs-literal">on</span>Start<br>// 下面两个由 super.<span class="hljs-literal">on</span>Start 触发<br>Fragment <span class="hljs-literal">on</span>ActivityCreated<br>Fragment <span class="hljs-literal">on</span>Start<br><br>Activity <span class="hljs-literal">on</span>Resume<br><br>Activity <span class="hljs-literal">on</span>PostResume<br>// 下面一个由 super.<span class="hljs-literal">on</span>PostResume 触发<br>Activity <span class="hljs-literal">on</span>ResumeFragments<br>// 下面一个由 super.<span class="hljs-literal">on</span>ResumeFragments 触发<br>Fragment <span class="hljs-literal">on</span>Resume<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Lifecycle-的作用"><a href="#Lifecycle-的作用" class="headerlink" title="Lifecycle 的作用"></a>Lifecycle 的作用</h3><p>Lifecycle 是具有生命周期感知能力的组件，也就是说，我们能在 Activity 或者 Fragment 的生命周期发生变化的时候得到通知。更方便的监听Activity和Fragment的生命周期变化。</p>
+<h3 id="Lifecycle查询生命周期状态"><a href="#Lifecycle查询生命周期状态" class="headerlink" title="Lifecycle查询生命周期状态"></a>Lifecycle查询生命周期状态</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">lifecycle</span><span class="hljs-selector-class">.getCurrentState</span>()<span class="hljs-selector-class">.isAtLeast</span>(STARTED)<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Lifecycle内部原理"><a href="#Lifecycle内部原理" class="headerlink" title="Lifecycle内部原理"></a>Lifecycle内部原理</h3><p>一个管理Activity生命周期的一个抽象类，里面封装了activity的生命周期的方法，一般我们会在基类中绑定当前Activity生命周期—-&gt;&gt;它通过观察者模式+注解来让我们更方便的监听Activity和Fragment的生命周期变化</p>
+<h3 id="Lifecycle使用场景"><a href="#Lifecycle使用场景" class="headerlink" title="Lifecycle使用场景"></a>Lifecycle使用场景</h3><ul>
+<li><p><strong>继承AppCompatActivity</strong> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_main);<br><br>        <span class="hljs-comment">// 就只需要这一行代码，简洁吧</span><br>        getLifecycle().addObserver(<span class="hljs-keyword">new</span> MyObserver());<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyObserver</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">LifecycleObserver</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String TAG = <span class="hljs-string">&quot;MyObserver&quot;</span>;<br><br>    <span class="hljs-comment">// 使用注解  @OnLifecycleEvent 来表明该方法需要监听指定的生命周期事件</span><br>    <span class="hljs-meta">@OnLifecycleEvent(Lifecycle.Event.ON_RESUME)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">connectListener</span><span class="hljs-params">()</span> </span>&#123;<br>        Log.d(TAG, <span class="hljs-string">&quot;connectListener:  --------   onResume&quot;</span> );<br>    &#125;<br><br>    <span class="hljs-meta">@OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">disconnectListener</span><span class="hljs-params">()</span> </span>&#123;<br>        Log.d(TAG, <span class="hljs-string">&quot;disconnectListener: -------   onPause&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure></li>
+<li><p><strong>继承Activity</strong> </p>
+<p><code>MainActivity</code>实现了<code>LifecycleOwner</code>接口（实现该接口的对象，即是 Lifecycle 的持有者），并在其 getLifecycle( ) 方法中返回了一个 <code>LifecycleRegistry</code>对象，而 LifecycleRegistry 是 Lifecycle 的子类。其他使用方式，则完全相同。</p>
+<p>LifecycleRegistry 类用于注册和反注册需要观察当前组件生命周期的 LifecycleObserver</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs typescript">ublic <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> <span class="hljs-title">implements</span> <span class="hljs-title">LifecycleOwner</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> LifecycleRegistry mLifecycleRegistry;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">onCreate</span>(<span class="hljs-params">Bundle savedInstanceState</span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_main);<br><br>        mLifecycleRegistry = <span class="hljs-keyword">new</span> LifecycleRegistry(<span class="hljs-built_in">this</span>);<br>        getLifecycle().addObserver(<span class="hljs-keyword">new</span> MyObserver());<br>        mLifecycleRegistry.markState(Lifecycle.State.CREATED);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">onResume</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onResume();<br>        mLifecycleRegistry.markState(Lifecycle.State.RESUMED);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">onPause</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onPause();<br>        mLifecycleRegistry.markState(Lifecycle.State.STARTED);<br>    &#125;<br><br>    <span class="hljs-meta">@NonNull</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Lifecycle <span class="hljs-function"><span class="hljs-title">getLifecycle</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-keyword">return</span> mLifecycleRegistry;<br>    &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-x版本和3-0版本依赖方式"><a href="#2-x版本和3-0版本依赖方式" class="headerlink" title="2.x版本和3.0版本依赖方式"></a>2.x版本和3.0版本依赖方式</h3><ul>
+<li><code>api</code> 该依赖方式会传递所依赖的库，当其他module依赖了该module时，可以使用该module下使用api依赖的库。</li>
+<li><code>implementation</code> 该依赖方式所依赖的库不会传递，只会在当前module中生效。</li>
+<li><code>provided（compileOnly）</code>依赖会添加到编译路径中，但是不会打包到apk中，因此只能在编译时访问，且compileOnly修饰的依赖不会传递。</li>
+<li><code>apk（runtimeOnly）</code>与compileOnly相反，它修饰的依赖不会添加到编译路径中，但是被打包到apk中，运行时使用。没有使用过。</li>
+<li><code>annotationProcessor</code> 用于注解处理器的依赖配置。</li>
+<li><code>testCompile（testImplementation）</code> 只在单元测试代码的编译以及最终打包测试apk时有效。</li>
+<li><code>debugCompile（debugImplementation）</code> 只在 <code>debug</code> 模式的编译和最终的 <code>debug apk</code> 打包时有效。</li>
+<li><code>releaseCompile（releaseImplementation）</code> 仅仅针对 <code>Release</code> 模式的编译和最终的 <code>Release apk</code> 打包。</li>
+</ul>
+<h3 id="View绘制-1"><a href="#View绘制-1" class="headerlink" title="View绘制"></a>View绘制</h3><p><img src="C:\Blogs\source_posts\Android-面经.assets\webp-16474465779374.webp" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<p>在绘制前，系统会有一些绘制准备，即前面几个步骤：创建<code>PhoneWindow</code>类、<code>DecorView</code>类、<code>ViewRootmpl</code>类等</p>
+<h3 id="Android的事件分发机制"><a href="#Android的事件分发机制" class="headerlink" title="Android的事件分发机制"></a>Android的事件分发机制</h3><p>责任链模式</p>
+<h3 id="没有message时，Looper执行什么方法"><a href="#没有message时，Looper执行什么方法" class="headerlink" title="没有message时，Looper执行什么方法"></a>没有message时，Looper执行什么方法</h3><p>调用nativePollOnce(ptr, nextPollTimeoutMillis)进行阻塞，如果时间到了直接分发消息进行调用。delay消息会一直阻塞线程，直到延迟走完，或者下一个消息到来。</p>
+<h3 id="广播注册后不解除注册会有什么问题"><a href="#广播注册后不解除注册会有什么问题" class="headerlink" title="广播注册后不解除注册会有什么问题"></a>广播注册后不解除注册会有什么问题</h3><p>如果我们在Activity中使用了registerReceiver()方法注册了一个BroadcastReceiver，如果没在Activity的生命周期内调用unregisterReceiver()方法取消注册此BroadcastReceiver，由于BroadcastReceiver不止被Activity引用，还可能被AMS等系统服务，管理器等之类引用，导致BroadcastReceiver无法被回收，而BroadcastReceiver有持有着Activity引用，(即：onReceive方法中的参数Context)，会导致Activity也无法被回收(虽然Activity回调了onDestroy方法，但并不意味着Activity被回收了)，从而导致严重的内存泄漏。</p>
+<h3 id="String类型占几个字节"><a href="#String类型占几个字节" class="headerlink" title="String类型占几个字节"></a>String类型占几个字节</h3><p>一个英文字符固定占1个字节，而中文字符占2个（GBK编码）或3个（UTF-8编码）字节。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">utf-<span class="hljs-number">8</span>编码下’hello’所占的字节数: <span class="hljs-number">5</span><br>gbk编码下’hello’所占的字节数: <span class="hljs-number">5</span><br>utf-<span class="hljs-number">8</span>编码下’你好abc’所占的字节数: <span class="hljs-number">9</span><br>gbk编码下你好’你好abc’所占的字节数: <span class="hljs-number">7</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Activity是如何实现LifecycleOwner的"><a href="#Activity是如何实现LifecycleOwner的" class="headerlink" title="Activity是如何实现LifecycleOwner的"></a>Activity是如何实现LifecycleOwner的</h3><p>SupportActivity声明了<code>mLifecycleRegistry</code>对象，但是没有直接使用其进行生命周期的分发，而是被<code>ReportFragment</code>通过<code>activity.getLifecycle()</code>获取使用。</p>
+<ul>
+<li><p>ReportFragment的注入和过程全程无侵</p>
+</li>
+<li><p>同一个Activity，其<code>LifecycleOwner</code>与Fragment的生命周期回调实际并不一致，需要特别注意</p>
+</li>
+</ul>
+<h3 id="Android-Support库和AndroidX冲突问题"><a href="#Android-Support库和AndroidX冲突问题" class="headerlink" title="Android Support库和AndroidX冲突问题"></a>Android Support库和AndroidX冲突问题</h3><ul>
+<li>./gradlew :模块名:dependencies //查看单独模块的依赖</li>
+</ul>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span>这个命令会将 gradle 执行的各个步骤全打印出来，包括引用的库，和库中引用的库文件<br>gradlew :app:dependencies<br><br><span class="hljs-regexp">//</span>可以配置 configuration 参数只查看 implementation 的依赖树。<br>./gradlew :app:dependencies --configuration implementation<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>安装Android Studio插件grade view</li>
+</ul>
+<h3 id="Android-AndroidX的迁移"><a href="#Android-AndroidX的迁移" class="headerlink" title="Android AndroidX的迁移"></a>Android AndroidX的迁移</h3><p><strong>1）常用依赖库对比：</strong></p>
+<table>
+<thead>
+<tr>
+<th>Old build artifact</th>
+<th>AndroidX build artifact</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>com.android.support:appcompat-v7:28.0.2</code></td>
+<td><code>androidx.appcompat:appcompat:1.0.0</code></td>
+</tr>
+<tr>
+<td><code>com.android.support:design:28.0.2</code></td>
+<td><code>com.google.android.material:material:1.0.0</code></td>
+</tr>
+<tr>
+<td><code>com.android.support:support-v4:28.0.2</code></td>
+<td><code>androidx.legacy:legacy-support-v4:1.0.0</code></td>
+</tr>
+<tr>
+<td><code>com.android.support:recyclerview-v7:28.0.2</code></td>
+<td><code>androidx.recyclerview:recyclerview:1.0.0</code></td>
+</tr>
+<tr>
+<td><code>com.android.support.constraint:constraint-layout:1.1.2</code></td>
+<td><code>androidx.constraintlayout:constraintlayout:1.1.2</code></td>
+</tr>
+</tbody></table>
+<p>更多详细变化内容，可以<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://developer.android.google.cn/topic/libraries/support-library/downloads/androidx-class-mapping.csv">下载CSV格式</a>映射文件；</p>
+<p><strong>2）常用支持库类对比：</strong></p>
+<table>
+<thead>
+<tr>
+<th>Support Library class</th>
+<th>AndroidX class</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>android.support.v4.app.Fragment</code></td>
+<td><code>androidx.fragment.app.Fragment</code></td>
+</tr>
+<tr>
+<td><code>android.support.v4.app.FragmentActivity</code></td>
+<td><code>androidx.fragment.app.FragmentActivity</code></td>
+</tr>
+<tr>
+<td><code>android.support.v7.app.AppCompatActivity</code></td>
+<td><code>androidx.appcompat.app.AppCompatActivity</code></td>
+</tr>
+<tr>
+<td><code>android.support.v7.app.ActionBar</code></td>
+<td><code>androidx.appcompat.app.ActionBar</code></td>
+</tr>
+<tr>
+<td><code>android.support.v7.widget.RecyclerView</code></td>
+<td><code>androidx.recyclerview.widget.RecyclerView</code></td>
+</tr>
+</tbody></table>
+<p><strong>1）更新升级插件</strong></p>
+<ul>
+<li>将AS更新至 <strong>AS 3.2</strong>及以上；</li>
+<li>Gradle 插件版本改为 <strong>4.6</strong>及以上；<br> 项目下 <code>gradle/wrapper/gradle-wrapper.propertie</code> 文件中的<code>distributionUrl</code>改为：</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby">distributionUrl=https\<span class="hljs-symbol">://services</span>.gradle.org/distributions/gradle-<span class="hljs-number">4.6</span>-all.zip<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>compileSdkVersion 版本升级到 <strong>28</strong>及以上；</li>
+<li>buildToolsVersion 版本改为 <strong>28.0.2</strong>及以上。</li>
+</ul>
+<p><strong>2）开启迁移AndroidX</strong><br> 在项目的<code>gradle.properties</code>文件里添加如下配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">android.useAndroidX=<span class="hljs-literal">true</span><br>android.enableJetifier=<span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<p>表示项目启用 AndroidX 并迁移到 AndroidX。</p>
+<p><strong>3）替换依赖库</strong><br> 修改项目app目录下的<code>build.gradle</code>依赖库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">implementation <span class="hljs-string">&#x27;com.android.support:appcompat-v7:28.0.2&#x27;</span> → implementation <span class="hljs-string">&#x27;androidx.appcompat:appcompat:1.0.0&#x27;</span><br>implementation <span class="hljs-string">&#x27;com.android.support:design:28.0.2&#x27;</span>  → implementation <span class="hljs-string">&#x27;com.google.android.material:material:1.0.0&#x27;</span><br>implementation <span class="hljs-string">&#x27;com.android.support.constraint:constraint-layout:1.1.2&#x27;</span> → implementation <span class="hljs-string">&#x27;androidx.constraintlayout:constraintlayout:1.1.2&#x27;</span><br>...<br></code></pre></td></tr></table></figure>
+
+<p><strong>4）修改支持库类</strong><br> 将原来<code>import</code>的<code>android.**</code>包删除，重新<code>import</code>新的<code>androidx.**</code>包；</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">import android<span class="hljs-selector-class">.support</span><span class="hljs-selector-class">.v7</span><span class="hljs-selector-class">.app</span><span class="hljs-selector-class">.AppCompatActivity</span>; → import androidx<span class="hljs-selector-class">.appcompat</span><span class="hljs-selector-class">.app</span><span class="hljs-selector-class">.AppCompatActivity</span>;<br></code></pre></td></tr></table></figure>
+
+<p><strong>5）一键迁移AndroidX库</strong><br> AS 3.2 及以上版本提供了更加方便快捷的方法一键迁移到 AndroidX。选择菜单上的<strong>ReFactor —— Migrate to AndroidX…</strong> 即可。（如果迁移失败，就需要重复上面1，2，3，4步手动去修改迁移）</p>
+<p><strong>注意：</strong>如果你的项目compileSdkVersion 低于28，点击Refactor to AndroidX…会提示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">You need to have at least have compileSdk <span class="hljs-number">28</span> set in your <span class="hljs-keyword">module</span> build.gradle to refactor to androidx<br></code></pre></td></tr></table></figure>
+
+<p>提示让你使用不低于28的sdk，升级最新到SDK，然后点击 **Migrate to AndroidX…**，AS就会自动将项目重构并使用AndroidX库。</p>
+<h3 id="子线程创建Handler"><a href="#子线程创建Handler" class="headerlink" title="子线程创建Handler"></a>子线程创建Handler</h3><ul>
+<li>创建当前线程的Looper　　</li>
+<li>创建当前线程的Handler　</li>
+<li>调用当前线程Looper对象的loop方法</li>
+</ul>
+<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>Service是一个专门在后台处理长时间任务的Android组件，它没有UI。它有两种启动方式，startService和bindService。</p>
+<h3 id="startService"><a href="#startService" class="headerlink" title="startService"></a>startService</h3><ul>
+<li>第一步：新建类并继承Service且必须重写onBind()方法，有选择的重写onCreate()、onStartCommand()及onDestroy()方法。</li>
+<li>第二步：在配置文件AndroidManifest.xml中进行注册，否则不能生效。</li>
+<li>第三步：在 Activity 中利用 startService(Intent) 可实现 Service 的启动。</li>
+<li>第四步：在 Activity 中 stopService(Intent) 停止服务，或者在Service任意位置调用stopSelf()；</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Service</span> </span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">MyService</span>(<span class="hljs-params"></span>)</span> &#123;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">onCreate</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onCreate();<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> int <span class="hljs-function"><span class="hljs-title">onStartCommand</span>(<span class="hljs-params">Intent intent, int flags, int startId</span>)</span> &#123;<br>        <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> <span class="hljs-function"><span class="hljs-title">Runnable</span>(<span class="hljs-params"></span>)</span> &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">run</span>(<span class="hljs-params"></span>)</span> &#123;<br>                <span class="hljs-comment">//处理具体的逻辑</span><br>                <span class="hljs-comment">//必须调用stopService或者stopSelf方法才能停止</span><br>                stopSelf();<br>            &#125;<br>        &#125;).start();<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.onStartCommand(intent, flags, startId);<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">onDestroy</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onDestroy();<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> IBinder <span class="hljs-function"><span class="hljs-title">onBind</span>(<span class="hljs-params">Intent intent</span>)</span> &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> UnsupportedOperationException(<span class="hljs-string">&quot;Not yet implemented&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//在配置文件AndroidManifest.xml中进行注册</span><br>&lt;service<br>    <span class="hljs-attr">android</span>:name=<span class="hljs-string">&quot;.MyService&quot;</span><br>    <span class="hljs-attr">android</span>:enabled=<span class="hljs-string">&quot;true&quot;</span><br>    <span class="hljs-attr">android</span>:exported=<span class="hljs-string">&quot;true&quot;</span> /&gt;<br><br><span class="hljs-comment">//启动</span><br>Intent intent = <span class="hljs-keyword">new</span> Intent(<span class="hljs-built_in">this</span>, MyService.class);<br> startService(intent);<br><span class="hljs-comment">//停止</span><br>Intent intent = <span class="hljs-keyword">new</span> Intent(<span class="hljs-built_in">this</span>, MyService.class);<br>stopService(intent);<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="bindService"><a href="#bindService" class="headerlink" title="bindService"></a>bindService</h3><ul>
+<li>第一步：创建BindService服务端，继承自Service，并在类中创建一个实例IBinder接口实现对象并提供公共方法给客户端调用。</li>
+<li>第二步：从 onBind() 回调方法返回此Binder实例；</li>
+<li>第三步：在客户端中，从onServiceConnected()回调方法接收Binder，并使用提供的方法调用绑定服务。</li>
+<li>绑定服务提供了客户端和服务端接口，进行数据的交互(发送请求、获取结果、进程间通信)</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Service</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> Mybinder mBinder = <span class="hljs-keyword">new</span> Mybinder();<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TestService</span><span class="hljs-params">()</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> IBinder <span class="hljs-title">onBind</span><span class="hljs-params">(Intent intent)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> mBinder;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mybinder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Binder</span> </span>&#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">showToast</span><span class="hljs-params">()</span> </span>&#123;<br>            Toast.makeText(getApplicationContext(), <span class="hljs-string">&quot;BindService&quot;</span>, Toast.LENGTH_SHORT).show();<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> TestService.Mybinder mBinder;<br>    <span class="hljs-keyword">private</span> ServiceConnection mConnection = <span class="hljs-keyword">new</span> ServiceConnection() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onServiceConnected</span><span class="hljs-params">(ComponentName name, IBinder service)</span> </span>&#123;<br>            <span class="hljs-comment">//成功绑定</span><br>            mBinder = (TestService.Mybinder) service;<br>            mBinder.showToast();<br>        &#125;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onServiceDisconnected</span><span class="hljs-params">(ComponentName name)</span> </span>&#123;<br>            <span class="hljs-comment">//断开连接</span><br>        &#125;<br>    &#125;;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_main);<br>        <span class="hljs-comment">//绑定服务</span><br>        Intent bindIntent = <span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>, TestService.class);<br>        bindService(bindIntent, mConnection, BIND_AUTO_CREATE);<br>        <span class="hljs-comment">//解绑服务</span><br>        unbindService(mConnection);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h3 id="IntentService-1"><a href="#IntentService-1" class="headerlink" title="IntentService"></a>IntentService</h3><p>第一步：新建类并继承IntentService，在这里需要提供一个无参的构造函数且必须在其内部调用父类的有参构造函数，然后具体实现在onHandleIntent()方法，这里可以去处理一些耗时操作而不用担心 ANR 的问题，因为这个方法已经是在子线程中运行的了。 第二步：在配置文件中进行注册。 第三步：在活动中利用startService(Intent)实现IntentService的启动，和Service用的方法是完全一样的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyIntentService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">IntentService</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyIntentService</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>(<span class="hljs-string">&quot;MyIntentService&quot;</span>);<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onHandleIntent</span><span class="hljs-params">(Intent intent)</span> </span>&#123;<br>        <span class="hljs-comment">//子线程 耗时操作</span><br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDestroy</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.onDestroy();<br>    &#125;<br>&#125;<br><span class="hljs-comment">//调用方法</span><br>Intent intentService = <span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>, MyIntentService.class);<br>startService(intentService);<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<h3 id="IntentService原理"><a href="#IntentService原理" class="headerlink" title="IntentService原理"></a>IntentService原理</h3><p>IntentService是Service的子类，是一个异步的、会自动停止的服务，很好解决了传统的Service中处理完耗时操作忘记停止并销毁Service的问题。onHandleIntent封装了 HandlerThread 和 Handler，可用于执行后台<code>耗时的任务</code>，当任务全部执行完毕后<code>自动停止</code>。它的<code>优先级</code>比普通线程要高，所以适合执行高优先级的后台任务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span> </span>&#123;<br><br>        <span class="hljs-keyword">super</span>.onCreate();<br>        <span class="hljs-comment">//使用的是HandlerThread</span><br>        HandlerThread thread = <span class="hljs-keyword">new</span> HandlerThread(<span class="hljs-string">&quot;IntentService[&quot;</span> + mName + <span class="hljs-string">&quot;]&quot;</span>);<br>        <span class="hljs-comment">//启动HandlerThread，这时候回监听消息队列</span><br>        thread.start();<br>        <span class="hljs-comment">//获取这个线程的looper</span><br>        mServiceLooper = thread.getLooper();<br>        <span class="hljs-comment">//创建了一个handler</span><br>        mServiceHandler = <span class="hljs-keyword">new</span> ServiceHandler(mServiceLooper);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ServiceHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Handler</span> </span>&#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ServiceHandler</span><span class="hljs-params">(Looper looper)</span> </span>&#123;<br>            <span class="hljs-keyword">super</span>(looper);<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;<br>            <span class="hljs-comment">//处理逻辑是我们在MyService里面重写的这个方法</span><br>            onHandleIntent((Intent)msg.obj);<br>            <span class="hljs-comment">//从这里可以看出,我们执行完任务后,service就销毁了</span><br>            stopSelf(msg.arg1);<br>        &#125;<br>    &#125;<br><br><span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onStart</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Intent intent, <span class="hljs-keyword">int</span> startId)</span> </span>&#123;<br>        Message msg = mServiceHandler.obtainMessage();<br>        msg.arg1 = startId;<br>        msg.obj = intent;<br>        mServiceHandler.sendMessage(msg);<br>    &#125;  <br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h3 id="保证Service不被杀死"><a href="#保证Service不被杀死" class="headerlink" title="保证Service不被杀死"></a>保证Service不被杀死</h3><ul>
+<li>在AndroidManifest.xml配置文件设置android:priority 属性，和有序广播一样。</li>
+<li>在onStartCommand里面调用 startForeground()方法把Service提升为前台进程级别，然后再onDestroy里面要记得调用stopForeground()方法。</li>
+</ul>
+<h3 id="Service-和-BroadcastReceiver-共同点"><a href="#Service-和-BroadcastReceiver-共同点" class="headerlink" title="Service 和 BroadcastReceiver 共同点"></a>Service 和 BroadcastReceiver 共同点</h3><p>都是运行在主线程当中，都不能做长时间的<code>耗时操作</code>。</p>
+<h3 id="使用Service"><a href="#使用Service" class="headerlink" title="使用Service"></a>使用Service</h3><p>当需要长期在后台进行的工作我们需要将其放在Service中去做，比如音乐播放、下载、上传大文件、定时关闭应用等功能。这样做的原因是如果放在Activity当中去执行的话，当Activity销毁后，那这些功能也就停止了，这显然是不符合我们的设计要求的，所以要将他们放在Service中去执行。</p>
+<h3 id="前台服务和普通服务的不同"><a href="#前台服务和普通服务的不同" class="headerlink" title="前台服务和普通服务的不同"></a>前台服务和普通服务的不同</h3><p>前台服务和普通服务最大的区别是：前者会一直有一个正在运行的图标在系统的状态栏显示，下拉状态栏后可以看到更加详细的信息，非常类似于通知的效果。使用前台服务或者为了防止服务被回收掉，比如听歌，或者由于特殊的需求，比如实时天气状况。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java">/修改MyService的onCreate()方法：<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span></span>&#123;<br>        Intent intent = <span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>,MainActivity.class);<br>        PendingIntent pi = PendingIntent.getActivity(<span class="hljs-keyword">this</span>,<span class="hljs-number">0</span>,intent,<span class="hljs-number">0</span>);<br>        Notification notification = <span class="hljs-keyword">new</span> NotificationCompat.Builder(<span class="hljs-keyword">this</span>)<br>                .setContentTitle(<span class="hljs-string">&quot;This is content title&quot;</span>)<br>                .setContentText(<span class="hljs-string">&quot;This is content text&quot;</span>)<br>                .setWhen(System.currentTimeMillis())<br>                .setSmallIcon(R.mipmap.ic_launcher)<br>                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))<br>                .setContentIntent(pi)<br>                .build();<br>        startForeground(<span class="hljs-number">1</span>,notification);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="Service-里面可以弹吐司么"><a href="#Service-里面可以弹吐司么" class="headerlink" title="Service 里面可以弹吐司么"></a>Service 里面可以弹吐司么</h3><p>可以的，Service不仅可以弹Toast还能弹出对话框，第一，Service是运行在主线程当中；第二，弹吐司有个条件就是得有一个 Context 上下文，而 Service 本身就是 Context 的子类；因此在 Service 里面弹吐司是完全可以的。</p>
+<h3 id="调用者如何获取绑定后的Service的方法"><a href="#调用者如何获取绑定后的Service的方法" class="headerlink" title="调用者如何获取绑定后的Service的方法"></a>调用者如何获取绑定后的Service的方法</h3><p>onBind回调方法将返回给客户端一个IBinder接口实例，IBinder允许客户端回调服务的方法，比如得到Service运行的状态或其他操作。我们需要IBinder对象返回具体的Service对象才能操作，所以说具体的Service对象必须首先实现Binder对象。</p>
+<h4 id="本地服务与远程服务"><a href="#本地服务与远程服务" class="headerlink" title="本地服务与远程服务"></a>本地服务与远程服务</h4><ul>
+<li>本地服务依附在主进程上，在一定程度上节约了资源。本地服务因为是在同一进程，因此不需要IPC，也不需要AIDL。相应bindService会方便很多。缺点是主进程被kill后，服务变会终止。</li>
+<li>远程服务是独立的进程，对应进程名格式为所在包名加上你指定的android:process字符串。由于是独立的进程，因此在Activity所在进程被kill,该服务依然在运行。缺点是该服务是独立的进程，会占用一定资源，并且使用AIDL进行IPC稍微麻烦一点。</li>
+</ul>
+<h4 id="既使用startService又使用bindService的情况"><a href="#既使用startService又使用bindService的情况" class="headerlink" title="既使用startService又使用bindService的情况"></a>既使用startService又使用bindService的情况</h4><p>如果一个Service又被启动又被绑定，则该Service会一直在后台运行。首先不管如何调用，onCreate始终只会调用一次。对应startService调用多少次，Service的onStart方法便会调用多少次。Service的终止，需要unbindService和stopService同时调用才行。不管startService与bindService的调用顺序，如果先调用unbindService，此时服务不会自动终止，再调用stopService之后，服务才会终止；如果先调用stopService，此时服务也不会终止，而再调用unbindService或者之前调用bindService的Context不存在了（如Activity被finish的时候）之后，服务才会自动停止。</p>
+<p>那么，什么情况下既使用startService，又使用bindService呢？</p>
+<p>如果你只是想要启动一个后台服务长期进行某项任务，那么使用startService便可以了。如果你还想要与正在运行的Service取得联系，那么有两种方法：一种是使用broadcast，另一种是使用bindService。前者的缺点是如果交流较为频繁，容易造成性能上的问题，而后者则没有这些问题。因此，这种情况就需要startService和bindService一起使用了。</p>
+<h4 id="进程如何进行保活？"><a href="#进程如何进行保活？" class="headerlink" title="进程如何进行保活？"></a>进程如何进行保活？</h4><ul>
+<li>提升进程的优先级，让系统不要轻易杀死进程；</li>
+<li>App间关联唤醒，打开一个App的时候会启动、唤醒其他App。</li>
+<li>最好的方案那肯定是跟系统厂商建立合作关系，把App加入系统内存清理的白名单；比如微信，降低oom_adj值，尽量保证进程不被系统杀死。</li>
+</ul>
+<h3 id="startService和bindService的区别"><a href="#startService和bindService的区别" class="headerlink" title="startService和bindService的区别"></a>startService和bindService的区别</h3><ul>
+<li><p><strong>startService</strong>()：开启Service，调用者退出后Service仍然<code>存在</code>。</p>
+</li>
+<li><p><strong>bindService</strong>()：开启Service，调用者退出后Service也随即<code>退出</code>。</p>
+</li>
+<li><p>只是用startService()启动服务：onCreate() -&gt; onStartCommand() -&gt; onDestory</p>
+</li>
+<li><p>只是用bindService()绑定服务：onCreate() -&gt; onBind() -&gt; onUnBind() -&gt; onDestory</p>
+</li>
+<li><p>同时使用startService()启动服务与bindService()绑定服务：onCreate() -&gt; onStartCommnad() -&gt; onBind() -&gt; onUnBind() -&gt; onDestory</p>
+</li>
+<li><p>多次调用startService，该Service只能被创建一次，即该Service的onCreate方法只会被调用一次。但是每次调用startService，onStartCommand方法都会被调用。Service的onStart方法在API 5时被废弃，替代它的是onStartCommand方法。</p>
+</li>
+<li><p>第一次执行bindService时，onCreate和onBind方法会被调用，但是多次执行bindService时，onCreate和onBind方法并不会被多次调用，即并不会多次创建服务和绑定服务。</p>
+</li>
+</ul>
+<h3 id="Intent的标志位FLAG"><a href="#Intent的标志位FLAG" class="headerlink" title="Intent的标志位FLAG"></a>Intent的标志位FLAG</h3><ul>
+<li>Intent.FLAG_ACTIVITY_SINGLE_TOP    与加载模式singleTop功能相同</li>
+<li>Intent.FLAG_ACTIVITY_CLEAR_TOP      销毁目标Activity和它之上的所有Activity，重新创建目标Activity</li>
+</ul>
+<h3 id="Intent-和-PendingIntent-区别"><a href="#Intent-和-PendingIntent-区别" class="headerlink" title="Intent 和 PendingIntent 区别"></a>Intent 和 PendingIntent 区别</h3><p>PendingIntent 待确定意图。PendingIntent 是一个Intent的描述。这个类用于处理即将发生的事情，比如在通知Notification中用于跳转页面，但不是马上跳转。 </p>
+<p>Intent一般是用作Activity、Service、BroadcastReceiver之间传递数据；而Pendingintent一般用在 Notification上，可以理解为延迟执行的intent，PendingIntent是对Intent一个包装。</p>
+<h3 id="显示调用和隐式调用"><a href="#显示调用和隐式调用" class="headerlink" title="显示调用和隐式调用"></a>显示调用和隐式调用</h3><ul>
+<li>隐式调用就是没有明确的指出组件信息。</li>
+<li>在构造Intent对象时就指定被启动的组件</li>
+</ul>
+<h3 id="intentFilter"><a href="#intentFilter" class="headerlink" title="intentFilter"></a>intentFilter</h3><p>IntentFilter是意图过滤器，常用于Intent的隐式调用匹配。<br>IntentFilter有3种匹配规则，分别是action、categroy、data。</p>
+<p>意图过滤器 可以给广播和activity添加启动过滤。通过action匹配意图动作</p>
+<ul>
+<li>action（动作）：代表要执行的动作，ACTION_MAIN：应用程序入口点。常见的是在receiver中过滤广播，和隐式意图打开界面</li>
+<li>category（类别）：指定目标操作的类别，CATEGORY_LAUNCHER：该应用的入口Activity，用来测试，打开页面等等</li>
+<li>data（数据）：向Action属性提供操作的数据, 是一个Uri对象。”tel://“：号码数据格式，后面跟电话号码</li>
+</ul>
+<p>Intent需要匹配多组intent-fliter中的任意一组，每一组包含action、data、category，即Intent必须同时满足这三者的过滤规则。<br>在同一个应用中，尽量使用显示意图，因为显示意图比隐式意图的效率高。</p>
+<h3 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h3><p>Context 也叫上下文，是有关应用程序环境的全局信息的接口。这是一个抽象类, 它允许访问特定于应用程序的资源和类，以及对应用程序级操作的调用，比如启动活动，发送广播和接收意图等；</p>
+<ul>
+<li>Activity, Service, Application 都是 Context 的子类</li>
+<li>对于Activity/Service来说, getApplication()和getApplicationContext()的返回值完全相同; 除非厂商修改过接口</li>
+<li>getApplication只能在activty和service中使用 其他地方只能用getApplicationContext来获取Application</li>
+</ul>
+<h3 id="广播细分"><a href="#广播细分" class="headerlink" title="广播细分"></a>广播细分</h3><p><strong>普通广播是什么？</strong></p>
+<ol>
+<li>调用sendBroadcast()发送</li>
+</ol>
+<p><strong>有序广播是什么？</strong></p>
+<ol>
+<li>调用<code>sendOrderedBroadcast()</code>发送</li>
+<li>广播接收者会按照<code>priority优先级</code>从大到小进行排序。声明在intent-filter元素的android:priority属性中，数值越大优先级别越高，其取值范围为-1000到1000。当然也可以在调用IntentFilter对象的setPriority()方法进行设置</li>
+<li><code>优先级</code>相同的广播，<code>动态注册</code>的广播优先处理</li>
+<li>广播接收者还能对广播进行<code>截断和修改</code></li>
+</ol>
+<p><strong>本地广播的优点?</strong></p>
+<ol>
+<li>效率更高。</li>
+<li>发送的广播不会离开我们的应用，不会泄露关键数据。</li>
+<li>其他程序无法将广播发送到我们程序内部，不会有安全漏洞。</li>
+</ol>
+<h3 id="BroadcastReceiver-与-LocalBroadcastReceiver-有什么区别-1"><a href="#BroadcastReceiver-与-LocalBroadcastReceiver-有什么区别-1" class="headerlink" title="BroadcastReceiver 与 LocalBroadcastReceiver 有什么区别"></a>BroadcastReceiver 与 LocalBroadcastReceiver 有什么区别</h3><ul>
+<li>BroadcastReceiver 是跨应用广播，利用Binder机制实现，支持动态和静态两种方式注册方式。</li>
+<li>LocalBroadcastReceiver 是应用内广播，利用Handler实现，利用了IntentFilter的match功能，提供消息的发布与接收功能，实现应用内通信，效率和安全性比较高，仅支持动态注册。</li>
+</ul>
+<h3 id="Activity-与-Fragment-之间常见的几种通信方式"><a href="#Activity-与-Fragment-之间常见的几种通信方式" class="headerlink" title="Activity 与 Fragment 之间常见的几种通信方式"></a>Activity 与 Fragment 之间常见的几种通信方式</h3><p>官方推荐采用setArguments(bundle)的方式，因为fragment存在回收的情况,当再次重建时会通过空参构造方法反射出新的fragment。需要通过savedInstanceState去恢复数据。</p>
+<ul>
+<li>fragment的setArguments（bundle）传到fragment，在fragment中，用getArguments接收。onAttach获取到activity实例，直接调就好了。</li>
+<li>EventBus的方式</li>
+<li>viewModel 做数据管理，activity 和 fragment 公用同个viewModel 实现数据传递</li>
+<li> 设置接口间接调用</li>
+</ul>
+<h3 id="Fragment生命周期"><a href="#Fragment生命周期" class="headerlink" title="Fragment生命周期"></a>Fragment生命周期</h3><p>表示Activity中的行为或用户界面Fragment 定义和管理自己的布局，具有自己的生命周期，并且可以处理自己的输入事件。Fragment 不能独立存在，而是必须由 Activity 或另一个 Fragment 托管。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/4625401-a2c6ab45dc165d6b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/317/format/webp" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<ul>
+<li>onAttach() ： 当Fragment与Activity发生关联时调用。 </li>
+<li>onCreate()： 创建Fragment时被回调。 </li>
+<li>onCreateView()： 每次创建、绘制该Fragment的View组件时回调该方法，Fragment将会显示该方法返回的View 组件。 </li>
+<li>onActivityCreated()： 当 Fragment 所在的Activity被启动完成后回调该方法。 </li>
+<li>onStart()： 启动 Fragment 时被回调，此时Fragment可见。 </li>
+<li>onResume()： 恢复 Fragment 时被回调，获取焦点时回调。 </li>
+<li>onPause()： 暂停 Fragment 时被回调，失去焦点时回调。</li>
+<li>onStop()： 停止 Fragment 时被回调，Fragment不可见时回调。 </li>
+<li>onDestroyView()： 销毁与Fragment有关的视图，但未与Activity解除绑定。 </li>
+<li>onDestroy()： 销毁 Fragment 时被回调。 </li>
+<li>onDetach()： 与onAttach相对应，当Fragment与Activity关联被取消时调用。</li>
+</ul>
+<p><strong>生命周期变化</strong></p>
+<ul>
+<li>正常创建：onAttach() —&gt; onCreate() —&gt; onCreateView() —&gt; onActivityCreated() —&gt; onStart() —&gt; onResume()</li>
+<li>按下Home键回到桌面、锁屏：onPause() —&gt; onStop()</li>
+<li>从桌面返回Fragment、解锁：onStart() —&gt; onResume()</li>
+<li>切换到其他Fragment：onPause() —&gt; onStop() —&gt; onDestroyView()</li>
+<li>切换回本身的Fragment：onCreateView() —&gt; onActivityCreated() —&gt; onStart() —&gt; onResume()</li>
+<li>按下Back键退出：onPause() —&gt; onStop() —&gt; onDestroyView() —&gt; onDestroy() —&gt; onDetach()</li>
+</ul>
+<h3 id="handler-导致内存泄漏的原因"><a href="#handler-导致内存泄漏的原因" class="headerlink" title="handler 导致内存泄漏的原因"></a>handler 导致内存泄漏的原因</h3><p>当 activity 调用 finish 方法时，由于消息队列中有没被执行完的 message，message 持有 handler 的引用，handler 作为内部类又持有外部 activity 的引用，导致activity无法被释放；</p>
+<ul>
+<li>把 handler 定义为静态内部类，对外部 activity 的引用使用弱引用的方式</li>
+<li>在 activity 里的 onDestroy 回调方法中，调用 handler的removeCallbacksAndMessages（null）方法，清除消息队列中message</li>
+<li>把 handler 单独定义成一个类，不作为非静态内部类存在</li>
+</ul>
+<h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
+<li><a target="_blank" rel="noopener" href="http://www.xsong.wang/2019/10/12/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8BService/#7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81service%E4%B8%8D%E8%A2%AB%E6%9D%80%E6%AD%BB%E5%B0%B1%E6%98%AF%E6%8F%90%E9%AB%98service%E4%BC%98%E5%85%88%E7%BA%A7">Android学习笔记之Service</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/12/Android-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android 进程间通信</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/08/Android-%E6%9E%B6%E6%9E%84/">
+                        <span class="hidden-mobile">Android 架构</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'leexiaoyang/leexiaoyang.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

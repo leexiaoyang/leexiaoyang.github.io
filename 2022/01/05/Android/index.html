@@ -18,19 +18,18 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Activity 与 Fragment 之间常见的几种通信方式？Activity-&gt;Activity 1.Intent 123通过Intent携带需要的信息，但要注意，intent对携带写信的大小有限制，传递对象要实现序列化接口startActivity()startActivityForResult()  2.Broadcast或者LocalBroadcast或者EventBus 1在A中">
+    <meta name="description" content="Activity 的常用生命周期 onCreate()： 表示 Activity 正在被创建，常用来 初始化工作，比如调用 setContentView 加载界面布局资源，初始化 Activity 所需数据等； onRestart()：表示 Activity 正在重新启动，一般情况下，当前Acitivty 从不可见重新变为可见时，OnRestart就会被调用； onStart()： 表示 Acti">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 四大组件相关">
 <meta property="og:url" content="http://example.com/2022/01/05/Android/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Activity 与 Fragment 之间常见的几种通信方式？Activity-&gt;Activity 1.Intent 123通过Intent携带需要的信息，但要注意，intent对携带写信的大小有限制，传递对象要实现序列化接口startActivity()startActivityForResult()  2.Broadcast或者LocalBroadcast或者EventBus 1在A中">
+<meta property="og:description" content="Activity 的常用生命周期 onCreate()： 表示 Activity 正在被创建，常用来 初始化工作，比如调用 setContentView 加载界面布局资源，初始化 Activity 所需数据等； onRestart()：表示 Activity 正在重新启动，一般情况下，当前Acitivty 从不可见重新变为可见时，OnRestart就会被调用； onStart()： 表示 Acti">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Blogs/source/_posts/RecyclerView.assets/image-20220110112958969.png">
 <meta property="article:published_time" content="2022-01-04T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-07T09:18:49.013Z">
+<meta property="article:modified_time" content="2022-03-26T12:30:29.477Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Android">
-<meta property="article:tag" content="四大组件">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="c:/Blogs/source/_posts/RecyclerView.assets/image-20220110112958969.png">
   
@@ -211,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      110 分钟
+      108 分钟
     </span>
   
 
@@ -243,20 +242,7 @@
             <h1 style="display: none">Android 四大组件相关</h1>
             
             <div class="markdown-body">
-              <h4 id="Activity-与-Fragment-之间常见的几种通信方式？"><a href="#Activity-与-Fragment-之间常见的几种通信方式？" class="headerlink" title="Activity 与 Fragment 之间常见的几种通信方式？"></a>Activity 与 Fragment 之间常见的几种通信方式？</h4><p>Activity-&gt;Activity</p>
-<p>1.Intent</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs undefined">通过Intent携带需要的信息，但要注意，intent对携带写信的大小有限制，传递对象要实现序列化接口<br>startActivity()<br>startActivityForResult()<br></code></pre></td></tr></table></figure>
-
-<p>2.Broadcast或者LocalBroadcast或者EventBus</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">在A中发出广播，在B中接收广播并解析其中数据<br></code></pre></td></tr></table></figure>
-
-<p>3.用数据存储的方式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs undefined">理论上凡是数据存储的方式，我们均能在A存储信息，并在B读取，达到通信的目的<br>SharedPreference<br>SQLite<br>File<br>Android剪切板等<br></code></pre></td></tr></table></figure>
-
-<p>4.使用静态变量</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">在A中将静态变量赋值，在B中读取并置空<br></code></pre></td></tr></table></figure>
-
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="Activity-的常用生命周期"><a href="#Activity-的常用生命周期" class="headerlink" title="Activity 的常用生命周期"></a>Activity 的常用生命周期</h4><ul>
+              <h4 id="Activity-的常用生命周期"><a href="#Activity-的常用生命周期" class="headerlink" title="Activity 的常用生命周期"></a>Activity 的常用生命周期</h4><ul>
 <li><strong>onCreate()：</strong> 表示 Activity 正在被创建，常用来 初始化工作，比<br>如调用 setContentView 加载界面布局资源，初始化 Activity 所<br>需数据等；</li>
 <li><strong>onRestart()：</strong>表示 Activity 正在重新启动，一般情况下，当前<br>Acitivty 从不可见重新变为可见时，OnRestart就会被调用；</li>
 <li><strong>onStart()：</strong> 表示 Activity 正在被启动，此时 Activity 可见但不<br>在前台，还处于后台，无法与用户交互；</li>
@@ -348,7 +334,7 @@
 <h4 id="描述一下Android的事件分发机制？"><a href="#描述一下Android的事件分发机制？" class="headerlink" title="描述一下Android的事件分发机制？"></a>描述一下Android的事件分发机制？</h4><p>Android事件分发机制的本质：事件从哪个对象发出，经过哪些对象，最终由哪个对象处理了该事件。此处对象指的是Activity、Window与View。</p>
 <p>Android事件的分发顺序：Activity（Window） -&gt; ViewGroup -&gt; View</p>
 <p>Android事件的分发主要由三个方法来完成，如下所示：</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">// 父View调用dispatchTouchEvent()开始分发事件</span><br>public boolean dispatch<span class="hljs-constructor">TouchEvent(MotionEvent <span class="hljs-params">event</span>)</span>&#123;<br>    boolean consume = <span class="hljs-literal">false</span>;<br>    <span class="hljs-comment">// 父View决定是否拦截事件</span><br>    <span class="hljs-keyword">if</span>(on<span class="hljs-constructor">InterceptTouchEvent(<span class="hljs-params">event</span>)</span>)&#123;<br>        <span class="hljs-comment">// 父View调用onTouchEvent(event)消费事件，如果该方法返回true，表示</span><br>        <span class="hljs-comment">// 该View消费了该事件，后续该事件序列的事件（Down、Move、Up）将不会在传递</span><br>        <span class="hljs-comment">// 该其他View。</span><br>        consume = on<span class="hljs-constructor">TouchEvent(<span class="hljs-params">event</span>)</span>;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-comment">// 调用子View的dispatchTouchEvent(event)方法继续分发事件</span><br>        consume = child.dispatch<span class="hljs-constructor">TouchEvent(<span class="hljs-params">event</span>)</span>;<br>    &#125;<br>    return consume;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">// 父View调用dispatchTouchEvent()开始分发事件</span><br>public boolean dispatch<span class="hljs-constructor">TouchEvent(MotionEvent <span class="hljs-params">event</span>)</span>&#123;<br>    boolean consume = <span class="hljs-literal">false</span>;<br>    <span class="hljs-comment">// 父View决定是否拦截事件</span><br>    <span class="hljs-keyword">if</span>(on<span class="hljs-constructor">InterceptTouchEvent(<span class="hljs-params">event</span>)</span>)&#123;<br>        <span class="hljs-comment">// 父View调用onTouchEvent(event)消费事件，如果该方法返回true，表示</span><br>        <span class="hljs-comment">// 该View消费了该事件，后续该事件序列的事件（Down、Move、Up）将不会在传递</span><br>        <span class="hljs-comment">// 该其他View。</span><br>        consume = on<span class="hljs-constructor">TouchEvent(<span class="hljs-params">event</span>)</span>;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-comment">// 调用子View的dispatchTouchEvent(event)方法继续分发事件</span><br>        consume = child.dispatch<span class="hljs-constructor">TouchEvent(<span class="hljs-params">event</span>)</span>;<br>    &#125;<br>    return consume;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
 
@@ -532,8 +518,6 @@
                     <i class="iconfont icon-tags"></i>
                     
                       <a class="hover-with-bg" href="/tags/Android/">Android</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/">四大组件</a>
                     
                   </div>
                 

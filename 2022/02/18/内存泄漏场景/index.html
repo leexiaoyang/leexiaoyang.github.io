@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.9k 字
+      2.7k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      25 分钟
+      23 分钟
     </span>
   
 
@@ -256,7 +256,7 @@
 </blockquote>
 </li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><pre><code class="hljs JAVA"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecondActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Object inner;<br>    <span class="hljs-keyword">private</span> Button button;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_main);<br>        button = (Button) findViewById(R.id.bt_next);<br>        button.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>&#123;<br>                createInnerClass();<br>                finish();<br>            &#125;<br>        &#125;);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">createInnerClass</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InnerClass</span> </span>&#123;<br>        &#125;<br>        inner = <span class="hljs-keyword">new</span> InnerClass();<span class="hljs-comment">//1</span><br>    &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><pre><code class="hljs JAVA">  <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecondActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> InnerClass mInnerClass = <span class="hljs-keyword">null</span>;    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Bundle savedInstanceState)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.act_test);<br>        <span class="hljs-keyword">if</span> (mInnerClass == <span class="hljs-keyword">null</span>) &#123;<br>            mInnerClass = <span class="hljs-keyword">new</span> InnerClass();<br>        &#125;<br>    &#125;    <br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InnerClass</span> </span>&#123;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>该实例的生命周期会和应用程序一样长，并且会一直持有SecondActivity 的引用，导致</p>
 <p>SecondActivity无法被回收。</p>
@@ -315,7 +315,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/18/Android%E4%BF%9D%E6%B4%BB/">
+                      <a href="/2022/02/18/Android%20%E4%BF%9D%E6%B4%BB/">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">Android保活</span>
                         <span class="visible-mobile">上一篇</span>

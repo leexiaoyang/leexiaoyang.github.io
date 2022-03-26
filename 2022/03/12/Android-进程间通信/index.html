@@ -18,12 +18,12 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Android 进程间通信方式   通信方式 优点 缺点 使用场景    Bundle 简单易用 只能传输Bundle支持的数据类型 四大组件间的进程间通信   文件共享 简单易用 不适合高并发场景，并且无法做到即时通信 无并发访问的情况，交换实时性不高的简单数据   Messenger 功能一般，支持一对多串行通信，支持实时通信 不能很好的处理高并发情况，不支持RPC，只能传输Bundle支持的">
+    <meta name="description" content="Android 进程间通信方式 只有允许不同应用的客户端用 IPC 方式调用远程方法，并且想要在服务中处理多线程时，才有必要使用 AIDL 如果需要调用远程方法，但不需要处理并发 IPC，就应该通过实现一个 Binder 创建接口 如果您想执行 IPC，但只是传递数据，不涉及方法调用，也不需要高并发，就使用 Messenger 来实现接口 如果需要处理一对多的进程间数据共享（主要是数据的 CRUD">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 进程间通信">
 <meta property="og:url" content="http://example.com/2022/03/12/Android-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android 进程间通信方式   通信方式 优点 缺点 使用场景    Bundle 简单易用 只能传输Bundle支持的数据类型 四大组件间的进程间通信   文件共享 简单易用 不适合高并发场景，并且无法做到即时通信 无并发访问的情况，交换实时性不高的简单数据   Messenger 功能一般，支持一对多串行通信，支持实时通信 不能很好的处理高并发情况，不支持RPC，只能传输Bundle支持的">
+<meta property="og:description" content="Android 进程间通信方式 只有允许不同应用的客户端用 IPC 方式调用远程方法，并且想要在服务中处理多线程时，才有必要使用 AIDL 如果需要调用远程方法，但不需要处理并发 IPC，就应该通过实现一个 Binder 创建接口 如果您想执行 IPC，但只是传递数据，不涉及方法调用，也不需要高并发，就使用 Messenger 来实现接口 如果需要处理一对多的进程间数据共享（主要是数据的 CRUD">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Blogs/source_posts/Android-进程间通信.assets/v2-aab2affe42958a659ea8a517ffaff5a0_1440w.jpg">
 <meta property="og:image" content="c:/Blogs/source_posts/Android-进程间通信.assets/v2-cbd7d2befbed12d4c8896f236df96dbf_1440w.jpg">
@@ -202,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      3.1k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      27 分钟
     </span>
   
 
@@ -243,7 +243,14 @@
             <h1 style="display: none">Android 进程间通信</h1>
             
             <div class="markdown-body">
-              <h3 id="Android-进程间通信方式"><a href="#Android-进程间通信方式" class="headerlink" title="Android 进程间通信方式"></a>Android 进程间通信方式</h3><table>
+              <h2 id="Android-进程间通信方式"><a href="#Android-进程间通信方式" class="headerlink" title="Android 进程间通信方式"></a>Android 进程间通信方式</h2><ul>
+<li>只有允许不同应用的客户端用 IPC 方式调用远程方法，并且想要在服务中<strong>处理多线程</strong>时，才有必要使用 <code>AIDL</code></li>
+<li>如果需要调用远程方法，但不需要处理并发 IPC，就应该通过实现一个 <code>Binder</code> 创建接口</li>
+<li>如果您想执行 IPC，但只是传递数据，不涉及方法调用，也不需要高并发，就使用 <code>Messenger</code> 来实现接口</li>
+<li>如果需要处理一对多的进程间数据共享（主要是数据的 CRUD），就使用 <code>ContentProvider</code></li>
+<li>如果要实现一对多的并发实时通信，就使用 <code>Socket</code></li>
+</ul>
+<table>
 <thead>
 <tr>
 <th>通信方式</th>
@@ -288,6 +295,12 @@
 <td>实现细节较为烦琐，不支持直接RPC</td>
 <td>网络数据交换</td>
 </tr>
+<tr>
+<td>共享内存</td>
+<td>借助<code>Binder</code>+文件描述符(<code>FileDescriptor</code>)实现了共享内存的传递。让多个进程操作同一块内存区域。并且添加了互斥锁</td>
+<td></td>
+<td>进程间需要传递大量数据的场景</td>
+</tr>
 </tbody></table>
 <p>从Linux系统上来说，有Socket、消息队列、管道、共享内存、Binder。理论上，这些都可以实现跨进程。在Android的本地进程间通信，见识过两种：</p>
 <ul>
@@ -296,7 +309,7 @@
 <li><p>基于socket，例如：通知Zygote进程进行进程的孵化，就是通过socket通知过去的。</p>
 </li>
 </ul>
-<h3 id="进程隔离"><a href="#进程隔离" class="headerlink" title="进程隔离"></a>进程隔离</h3><p>进程与进程间内存是不共享的。A 进程和 B 进程之间要进行数据交互就得采用特殊的通信机制：进程间通信（IPC）。</p>
+<h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><h3 id="进程隔离"><a href="#进程隔离" class="headerlink" title="进程隔离"></a>进程隔离</h3><p>进程与进程间内存是不共享的。A 进程和 B 进程之间要进行数据交互就得采用特殊的通信机制：进程间通信（IPC）。</p>
 <h3 id="用户空间-User-Space-内核空间-Kernel-Space"><a href="#用户空间-User-Space-内核空间-Kernel-Space" class="headerlink" title="用户空间(User Space)/内核空间(Kernel Space)"></a>用户空间(User Space)/内核空间(Kernel Space)</h3><p>Kernel space 是 Linux 内核的运行空间，User space 是用户程序的运行空间。</p>
 <h3 id="微内核和宏内核"><a href="#微内核和宏内核" class="headerlink" title="微内核和宏内核"></a>微内核和宏内核</h3><ul>
 <li>微内核，用户服务和内核服务分别运行在不同的地址空间中；</li>
@@ -307,8 +320,6 @@
 <li>当一个任务（进程）执行系统调用而陷入内核代码中执行时，称进程处于<strong>内核运行态（内核态）</strong>。</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs text">copy_from_user() //将数据从用户空间拷贝到内核空间<br>copy_to_user() //将数据从内核空间拷贝到用户空间<br></code></pre></td></tr></table></figure>
-
-
 
 
 
@@ -344,9 +355,43 @@
 <li>对象在网络中传递；</li>
 <li>对象在 <code>IPC</code> 间传递。</li>
 </ul>
-<p>每一个进程都分配有一个独立的虚拟机，不同的虚拟机在内存分配上有不同的地址空间，这就导致在不同的虚拟机上访问同一个对象会产生多个副本。例如我们在A中访问的name的值只会影响当前进程，而对其他进程不会造成影响，所以在B中访问name时依旧只能访问自己进程中的副本。</p>
+<h2 id="ShareMemory"><a href="#ShareMemory" class="headerlink" title="ShareMemory"></a>ShareMemory</h2><p>基于<code>Linux</code>共享内存的。android IPC的核心方式是binder，但是android binder的传输限制1M(被很多进程共享)，在较大数据交换一般通过文件，但是效率很低，</p>
+<ul>
+<li>binder 限制（binder的android上的限制1M，而且是被多个进程共享的）;</li>
+<li>binder 在android进程中经过一次内存copy，内存共享通过mmap，0次copy效率更高；</li>
+</ul>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ul>
+<li>进程A通过<code>MemoryFile</code>创建共享内存，得到fd(<code>FileDescriptor</code>)</li>
+<li>进程A通过fd将数据写入共享内存</li>
+<li>进程A将fd封装成实现<code>Parcelable</code>接口的<code>ParcelFileDescriptor</code>对象，通过<code>Binder</code>将<code>ParcelFileDescriptor</code>对象发送给进程B</li>
+<li>进程B获从<code>ParcelFileDescriptor</code>对象中获取fd，从fd中读取数据</li>
+</ul>
+<h2 id="传递Bitmap"><a href="#传递Bitmap" class="headerlink" title="传递Bitmap"></a>传递Bitmap</h2><p>如果传输的数据是<code>Bitmap</code>，还可以用<code>Bundle</code>的<code>putBinder</code>方案<br>定义<code>binder</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ImageBinder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">IRemoteGetBitmap</span>.<span class="hljs-title">Stub</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Bitmap <span class="hljs-title">getBitMap</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> RemoteException </span>&#123;<br>        <span class="hljs-keyword">return</span> mBitmap;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>发送</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">Bundle bundle = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Bundle</span>();<br>bundle.<span class="hljs-built_in">putBinder</span>(<span class="hljs-string">&quot;bitmap&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">ImageBinder</span>());<br>intent.<span class="hljs-built_in">putExtras</span>(bundle);<br></code></pre></td></tr></table></figure>
+
+<p>接收：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ImageBinder imageBinder = (ImageBinder) bundle.getBinder(<span class="hljs-string">&quot;bitmap&quot;</span>);<br>Bitmap bitmap = imageBinder.getBitmap();<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
 <h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35519585">写给 Android 应用工程师的 Binder 原理剖析</a></li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35519585">写给 Android 应用工程师的 Binder 原理剖析</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ed87b12dfe0d">android 共享内存(ShareMemory）的实现</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6990379493235884062#heading-2">共享内存简介</a></p>
+</li>
 </ul>
 
             </div>
@@ -376,12 +421,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2022/03/17/Android-Retrofit/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android Retrofit</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/08/Android-%E6%9E%B6%E6%9E%84/">
-                        <span class="hidden-mobile">Android 架构</span>
+                      <a href="/2022/03/12/Android-%E9%9D%A2%E7%BB%8F/">
+                        <span class="hidden-mobile">Android 面经</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

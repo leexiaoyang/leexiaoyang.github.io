@@ -18,21 +18,24 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="应用无响应，Android系统对于一些事件需要在一定的时间范围内完成，如果超过预定时间能未能得到有效响应或者响应时间过长，都会造成ANR。  ANR出现场景 Service Timeout：前台服务在20s内未执行完成，后台服务200s 123&#x2F;&#x2F; How long we wait for a service to finish executing.static final int SERVIC">
+    <meta name="description" content="git配置123456git config --global credential.helper storegit config --global http.proxy 127.0.0.1:7890git config --global https.proxy 127.0.0.1:7890git config --global --unset http.proxygit config --glob">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ANR">
-<meta property="og:url" content="http://example.com/2022/02/20/ANR/index.html">
+<meta property="og:title" content="git 命令大全">
+<meta property="og:url" content="http://example.com/2022/03/24/git-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="应用无响应，Android系统对于一些事件需要在一定的时间范围内完成，如果超过预定时间能未能得到有效响应或者响应时间过长，都会造成ANR。  ANR出现场景 Service Timeout：前台服务在20s内未执行完成，后台服务200s 123&#x2F;&#x2F; How long we wait for a service to finish executing.static final int SERVIC">
+<meta property="og:description" content="git配置123456git config --global credential.helper storegit config --global http.proxy 127.0.0.1:7890git config --global https.proxy 127.0.0.1:7890git config --global --unset http.proxygit config --glob">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-20T15:06:24.000Z">
-<meta property="article:modified_time" content="2022-02-20T15:06:24.000Z">
+<meta property="og:image" content="c:/Blogs/source_posts/git-命令大全.assets/image-20220324190158004-164811971926022.png">
+<meta property="og:image" content="c:/Blogs/source_posts/git-命令大全.assets/image-20220324190219253-164811974040723.png">
+<meta property="article:published_time" content="2022-03-24T07:35:30.000Z">
+<meta property="article:modified_time" content="2022-03-24T07:35:30.000Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Blogs/source_posts/git-命令大全.assets/image-20220324190158004-164811971926022.png">
   
   
-  <title>ANR - Hexo</title>
+  <title>git 命令大全 - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +181,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="ANR">
+            <span class="h2" id="subtitle" title="git 命令大全">
               
             </span>
 
@@ -188,8 +191,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-20 23:06" pubdate>
-        2022年2月20日 晚上
+      <time datetime="2022-03-24 15:35" pubdate>
+        2022年3月24日 下午
       </time>
     </span>
   
@@ -199,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      1.2k 字
     </span>
   
 
@@ -208,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      11 分钟
     </span>
   
 
@@ -237,52 +240,50 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">ANR</h1>
+            <h1 style="display: none">git 命令大全</h1>
             
             <div class="markdown-body">
-              <blockquote>
-<p>应用无响应，Android系统对于一些事件需要在一定的时间范围内完成，如果超过预定时间能未能得到有效响应或者响应时间过长，都会造成ANR。</p>
-</blockquote>
-<h3 id="ANR出现场景"><a href="#ANR出现场景" class="headerlink" title="ANR出现场景"></a>ANR出现场景</h3><ul>
-<li><p>Service Timeout：前台服务在20s内未执行完成，后台服务200s</p>
-<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we wait for a service to finish executing.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERVICE_TIMEOUT = <span class="hljs-number">20</span>*<span class="hljs-number">1000</span>; <span class="hljs-comment">// 前台    // How long we wait for a service to finish executing.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERVICE_BACKGROUND_TIMEOUT = SERVICE_TIMEOUT * <span class="hljs-number">10</span>; <span class="hljs-comment">// 后台</span><br></code></pre></td></tr></table></figure></li>
-<li><p>BroadcastQueue Timeout：前台广播在10s内未执行完成，后台广播60s</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we allow a receiver to run before giving up on it.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> BROADCAST_FG_TIMEOUT = <span class="hljs-number">10</span>*<span class="hljs-number">1000</span>;  <span class="hljs-comment">// 前台</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> BROADCAST_BG_TIMEOUT = <span class="hljs-number">60</span>*<span class="hljs-number">1000</span>;  <span class="hljs-comment">// 后台</span><br></code></pre></td></tr></table></figure></li>
-<li><p>ContentProvider Timeout：内容提供者执行超时</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we wait until we timeout on key dispatching.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> KEY_DISPATCHING_TIMEOUT = <span class="hljs-number">5</span>*<span class="hljs-number">1000</span>;<br></code></pre></td></tr></table></figure></li>
-<li><p>InputDispatching Timeout： 输入事件分发超时5s，包括按键分发事件的超时</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// How long we wait for an attached process to publish its content providers</span><br><span class="hljs-comment">// before we decide it must be hung.</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> CONTENT_PROVIDER_PUBLISH_TIMEOUT = <span class="hljs-number">10</span>*<span class="hljs-number">1000</span>;<br></code></pre></td></tr></table></figure></li>
-</ul>
-<p>Activity 的生命周期回调的阻塞并不在触发 ANR 的场景里面，所以并不会直接触发 ANR。只不过死循环阻塞了主线程，如果系统再有上述的四种事件发生，就无法在相应的时间内处理从而触发 ANR。</p>
-<h3 id="ANR实现原理"><a href="#ANR实现原理" class="headerlink" title="ANR实现原理"></a>ANR实现原理</h3><blockquote>
-<p>基于Handler消息机制来完成。在一个事件执行开始时，通过Handler去post一个对应时间的延迟</p>
-<p>消息，如果事件在规定事件内执行完成，就remove掉这个message，否则，Handler就会收到这</p>
-<p>个ANR的Message,做进一步处理，dump日志，弹出ANR对话框。</p>
-</blockquote>
-<h3 id="ANR分析"><a href="#ANR分析" class="headerlink" title="ANR分析"></a>ANR分析</h3><ul>
-<li>ANR出现的进程包名，从log中搜索“ANR in”或“am_anr”</li>
-<li>在/data/anr/traces.txt文件中写入ANR相关信息</li>
-</ul>
-<h3 id="哪些地方是执行在主线程的"><a href="#哪些地方是执行在主线程的" class="headerlink" title="哪些地方是执行在主线程的"></a>哪些地方是执行在主线程的</h3><ul>
-<li>Activity的所有生命周期回调都是执行在主线程的</li>
-<li>Service默认是执行在主线程的</li>
-<li>BroadcastReceiver的onReceive回调是执行在主线程的</li>
-<li>没有使用子线程的Looper的Handler的handleMessage, post(Runnable)是执行在主线程的</li>
-<li>AsyncTask的回调中除了doInBackground, 其他都是执行在主线程的</li>
-<li>View的post(Runnable)是执行在主线程的</li>
-</ul>
-<h3 id="避免ANR"><a href="#避免ANR" class="headerlink" title="避免ANR"></a>避免ANR</h3><ul>
-<li><p>避免在主线程进行复杂耗时的操作，特别是文件读取或者数据库操作</p>
-</li>
-<li><p>BroadCastReceiver 要进行复杂操作的的时候，在onReceive()方法中启动一个Service来处理</p>
-</li>
-<li><p>避免在IntentReceiver里启动一个Activity，因为它会创建一个新的画面，并从当前用户正在运行</p>
-<p>的程序上抢夺焦点</p>
-</li>
-</ul>
+              <h3 id="git配置"><a href="#git配置" class="headerlink" title="git配置"></a>git配置</h3><figure class="highlight lua"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs lua">git <span class="hljs-built_in">config</span> <span class="hljs-comment">--global credential.helper store</span><br><br>git <span class="hljs-built_in">config</span> <span class="hljs-comment">--global http.proxy 127.0.0.1:7890</span><br>git <span class="hljs-built_in">config</span> <span class="hljs-comment">--global https.proxy 127.0.0.1:7890</span><br>git <span class="hljs-built_in">config</span> <span class="hljs-comment">--global --unset http.proxy</span><br>git <span class="hljs-built_in">config</span> <span class="hljs-comment">--global --unset https.proxy</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs routeros">$ git<span class="hljs-built_in"> config </span>--global -l<br>user.<span class="hljs-attribute">name</span>=leexiaoyang<br>user.<span class="hljs-attribute">email</span>=xiaoyanglee@outlook.com<br>http.<span class="hljs-attribute">sslverify</span>=<span class="hljs-literal">false</span><br>http.<span class="hljs-attribute">postbuffer</span>=524288000<br>http.<span class="hljs-attribute">proxy</span>=127.0.0.1:11000<br>core.<span class="hljs-attribute">autocrlf</span>=<span class="hljs-literal">false</span><br>https.<span class="hljs-attribute">proxy</span>=127.0.0.1:11000<br>credential.<span class="hljs-attribute">helper</span>=store<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<h3 id="git-push-命令"><a href="#git-push-命令" class="headerlink" title="git push 命令"></a>git push 命令</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-comment">// git push 命用于从将本地的分支版本上传到远程并合并。</span><br>git push <span class="hljs-params">&lt;远程主机名&gt;</span> <span class="hljs-params">&lt;本地分支名&gt;</span>:<span class="hljs-params">&lt;远程分支名&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="git如何进行fork仓同步主仓代码"><a href="#git如何进行fork仓同步主仓代码" class="headerlink" title="git如何进行fork仓同步主仓代码"></a>git如何进行fork仓同步主仓代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 新增远程主仓代码库</span><br>git remote add upstream repo地址<br><span class="hljs-comment">// 抓取主仓代码库的修改</span><br>git fetch upstream<br><span class="hljs-comment">// 切换到dev分支，合并主仓的dev分支</span><br>git checkout dev<br>git merge upstream/dev<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="git-fetch-vs-git-pull"><a href="#git-fetch-vs-git-pull" class="headerlink" title="git fetch vs  git pull"></a>git fetch vs  git pull</h3><p>都是从远程拉取代码到本地，git fetch只是拉取到本地，git pull不仅拉取到本地还merge到本地分支中。所以git pull是git fetch与git merge的集合体。</p>
+<h3 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a>git rebase</h3><p><img src="C:\Blogs\source_posts\git-命令大全.assets\image-20220324190158004-164811971926022.png" srcset="/img/loading3.gif" lazyload alt="image-20220324190158004"></p>
+<p>git rebase命令会把你的”mywork”分支里的每个提交(commit)取消掉，并且把它们临时 保存为补丁(patch)(这些补丁放到”.git/rebase”目录中),然后把”mywork”分支更新 为最新的”origin”分支，最后把保存的这些补丁应用到”mywork”分支上。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">git add <span class="hljs-regexp">//</span> 命令去更新这些内容的索引(index), 然后，你无需执行 git-commit,只要执行:<br>git rebase --<span class="hljs-keyword">continue</span> <span class="hljs-regexp">//</span> 继续应用(apply)余下的补丁<br>git rebase --abort <span class="hljs-regexp">//</span> --abort参数来终止rebase的行动，并且<span class="hljs-string">&quot;mywork&quot;</span> 分支会回到rebase开始前的状态。<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h3><p><img src="C:\Blogs\source_posts\git-命令大全.assets\image-20220324190219253-164811974040723.png" srcset="/img/loading3.gif" lazyload alt="image-20220324190219253"></p>
+<p>用”pull”命令把”origin”分支上的修改拉下来并且和你的修改合并； 结果看起来就像一个新的”合并的提交”(merge commit):</p>
 <h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU4NDc1MjI4Mw==&mid=2247484180&idx=2&sn=16fbcb4b3c9ed2999e41adc3e1219242&chksm=fd944ee0cae3c7f68a32d8fa25b48058ca87bb5f2dfed22d4d291e5e7e05e2af63499495823a&scene=21#wechat_redirect">Android高频面试专题 - 进阶篇（一）ANR</a></li>
-<li></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34197548">https://zhuanlan.zhihu.com/p/34197548</a></li>
 </ul>
 
             </div>
@@ -312,18 +313,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/20/Android-%E5%BA%94%E7%94%A8%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">应用的启动流程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/20/Android%E5%B9%BF%E6%92%AD/">
-                        <span class="hidden-mobile">Android广播</span>
+                      <a href="/2022/03/20/Java-%E7%B1%BB%E5%85%B3%E7%B3%BB/">
+                        <span class="hidden-mobile">Java 类关系</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      1k 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12 分钟
+      9 分钟
     </span>
   
 
@@ -345,15 +345,6 @@
 <td align="left"></td>
 </tr>
 </tbody></table>
-<h3 id="点击图标开始app的启动流程"><a href="#点击图标开始app的启动流程" class="headerlink" title="点击图标开始app的启动流程"></a>点击图标开始app的启动流程</h3><ul>
-<li>点击app图标，Launcher进程使用Binder IPC向system__server进程发起startActivity请求；</li>
-<li>system__server进程收到1中的请求后，向zygote进程发送创建新进程的请求；</li>
-<li>zygote进程fork出新的App进程</li>
-<li>App进程通过Binder IPC向system__server进程发起attachApplication请求；</li>
-<li>system__server进程收到4中的请求后，通过Binder IPC向App进程发送scheduleLauncherActivity请求；</li>
-<li>App进程的ApplicationThread线程收到5的请求后，通过handler向主线程发送LAUNCHER_ACTIVITY消息；</li>
-<li>主线程收到6中发送来的Message后，反射创建目标Activity，回调oncreate等方法，开始执行生命周期方法，我们就可以看到应用页面了。</li>
-</ul>
 <h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
 <li><a target="_blank" rel="noopener" href="http://gityuan.com/2015/12/19/android-process-category/">进程篇—进程整理</a></li>
 </ul>
@@ -395,7 +386,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/24/Android%20View%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B/">
+                      <a href="/2022/02/24/Android-view%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B/">
                         <span class="hidden-mobile">Android View绘制流程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>

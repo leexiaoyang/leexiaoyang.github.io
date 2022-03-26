@@ -18,23 +18,23 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="什么是 LiveDataLiveData 是一个可观测的数据持有类。但是不同于通常的被观察者，LiveData 具有生命周期感知能力。  不会发生内存泄漏 观察者会绑定到 Lifecycle对象，并在其关联的生命周期遭到销毁后进行自我清理。  LiveData 怎么感知生命周期感知 调用 observe 方法时，会调用 owner.getLifecycle().addObserver(wrappe">
+    <meta name="description" content="什么是 LiveDataLiveData 是一个可观测的数据持有类。但是不同于通常的被观察者，LiveData 具有生命周期感知能力。 不会发生内存泄漏 观察者会绑定到 Lifecycle对象，并在其关联的生命周期遭到销毁后进行自我清理。 LiveData 怎么感知生命周期感知 调用 observe 方法时，会调用 owner.getLifecycle().addObserver(wrapper)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 架构">
 <meta property="og:url" content="http://example.com/2022/03/08/Android-%E6%9E%B6%E6%9E%84/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="什么是 LiveDataLiveData 是一个可观测的数据持有类。但是不同于通常的被观察者，LiveData 具有生命周期感知能力。  不会发生内存泄漏 观察者会绑定到 Lifecycle对象，并在其关联的生命周期遭到销毁后进行自我清理。  LiveData 怎么感知生命周期感知 调用 observe 方法时，会调用 owner.getLifecycle().addObserver(wrappe">
+<meta property="og:description" content="什么是 LiveDataLiveData 是一个可观测的数据持有类。但是不同于通常的被观察者，LiveData 具有生命周期感知能力。 不会发生内存泄漏 观察者会绑定到 Lifecycle对象，并在其关联的生命周期遭到销毁后进行自我清理。 LiveData 怎么感知生命周期感知 调用 observe 方法时，会调用 owner.getLifecycle().addObserver(wrapper)">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Blogs/source_posts/Android-架构.assets/9MZN0Jy.png">
-<meta property="og:image" content="c:/Blogs/source_posts/Android-架构.assets/image-20220220111750862-8bacdcebc65a4b42b7141ed833147c9a.png">
 <meta property="og:image" content="c:/Blogs/source_posts/Android-架构.assets/940884-20191224113557012-808127152.jpg">
 <meta property="og:image" content="c:/Blogs/source_posts/Android-ViewModel.assets/webp.webp">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-架构.assets/9MZN0Jy.png">
+<meta property="og:image" content="c:/Blogs/source_posts/Android-架构.assets/image-20220220111750862-8bacdcebc65a4b42b7141ed833147c9a.png">
 <meta property="article:published_time" content="2022-03-08T13:19:35.000Z">
 <meta property="article:modified_time" content="2022-03-08T13:19:35.000Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="c:/Blogs/source_posts/Android-架构.assets/9MZN0Jy.png">
+<meta name="twitter:image" content="c:/Blogs/source_posts/Android-架构.assets/940884-20191224113557012-808127152.jpg">
   
   
   <title>Android 架构 - Hexo</title>
@@ -204,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.6k 字
+      3.7k 字
     </span>
   
 
@@ -246,9 +246,7 @@
             
             <div class="markdown-body">
               <h3 id="什么是-LiveData"><a href="#什么是-LiveData" class="headerlink" title="什么是 LiveData"></a>什么是 LiveData</h3><p>LiveData 是一个可观测的数据持有类。但是不同于通常的被观察者，LiveData 具有生命周期感知能力。</p>
-<ul>
-<li>不会发生内存泄漏 观察者会绑定到 <code>Lifecycle</code>对象，并在其关联的生命周期遭到销毁后进行自我清理。</li>
-</ul>
+<p>不会发生内存泄漏 观察者会绑定到 <code>Lifecycle</code>对象，并在其关联的生命周期遭到销毁后进行自我清理。</p>
 <h3 id="LiveData-怎么感知生命周期感知"><a href="#LiveData-怎么感知生命周期感知" class="headerlink" title="LiveData 怎么感知生命周期感知"></a>LiveData 怎么感知生命周期感知</h3><ul>
 <li>调用 observe 方法时，会调用 owner.getLifecycle().addObserver(wrapper) </li>
 <li>将 owner 和 observer 的包装对象添加到 owner.getLifecycle()</li>
@@ -263,15 +261,7 @@
 
 
 
-<h3 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h3><p><strong>M：</strong>数据模型，Presenter 需要通过Model层存储、获取数据</p>
-<p><strong>V：</strong>视图，通常指 Actrivity、Fragment 或某个 View 控件。通常View 需要实现一个逻辑接口，Presenter调用View 逻辑接口将结果返回给View 。</p>
-<p><strong>P：</strong>中间人，Presenter 主要作为沟通View 和Model 的桥梁，MVP 中的View 不能直接访问Model ，需要通过Presenter 发出请求。Presenter 从Model 层检索数据后，返回给View 层，使得View 和Model 之间没有耦合，也将业务逻辑从View 角色上抽离出来。<strong>Presenter 持有的View 、Model 引用</strong></p>
-<p><img src="C:\Blogs\source_posts\Android-架构.assets\9MZN0Jy.png" srcset="/img/loading3.gif" lazyload alt="img"></p>
-<h3 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h3><p><strong>M：</strong>数据模型，保持程序的数据状态。与 View 存在一定耦合，即 View 可以通过 Model 查询数据更新视图。同时 Model 还负责接受 Controller 的事件来刷新数据</p>
-<p><strong>V：</strong>视图，通常指 Actrivity、Fragment 或某个 View 控件。响应用户的交互触发 Controller 的逻辑。同时还可以查询更改 Model 中的数据</p>
-<p><strong>C：</strong>控制器，响应来自 View 的交互请求，然后修改 Model 中的响应数据</p>
-<p><img src="C:\Blogs\source_posts\Android-架构.assets\image-20220220111750862-8bacdcebc65a4b42b7141ed833147c9a.png" srcset="/img/loading3.gif" lazyload alt="image20220220111750862.png"></p>
-<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><p>本质上就是MVC 的改进版。以注重生命周期的方式存储和管理界面相关的数据。View 与Model 进行了双向绑定，让视图的显示控制和数据分离。数据的修改会直接反应到View 角色上，而View 的修改也会导致数据的变更。</p>
+<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><p>本质上就是MVC 的改进版。ViewModel 是数据与 UI 分离的中间层。以注重生命周期的方式存储和管理界面相关的数据。View 与Model 进行了双向绑定，让视图的显示控制和数据分离。数据的修改会直接反应到View 角色上，而View 的修改也会导致数据的变更。</p>
 <p>由于<code>ViewModel</code>的生命周期是作用于整个Activity的，1）不会因为屏幕旋转而销毁，减少了维护状态的工作 2）由于在作用域内单一实例的特性，使得多个<code>fragment</code>之间可以方便通信，并且维护同一个数据状态。3）完善了<code>MVVM</code>架构，使得解耦更加纯粹。</p>
 <p><img src="C:\Blogs\source_posts\Android-架构.assets\940884-20191224113557012-808127152.jpg" srcset="/img/loading3.gif" lazyload alt="img"></p>
 <p><code>XViewModel</code>很简单，在初始化时启动一个定时任务，每隔一秒通过<code>postValue</code>方法刷新一下数据。</p>
@@ -288,6 +278,14 @@
 
 
 
+<h3 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h3><p><strong>M：</strong>数据模型，Presenter 需要通过Model层存储、获取数据</p>
+<p><strong>V：</strong>视图，通常指 Actrivity、Fragment 或某个 View 控件。通常View 需要实现一个逻辑接口，Presenter调用View 逻辑接口将结果返回给View 。</p>
+<p><strong>P：</strong>中间人，Presenter 主要作为沟通View 和Model 的桥梁，MVP 中的View 不能直接访问Model ，需要通过Presenter 发出请求。Presenter 从Model 层检索数据后，返回给View 层，使得View 和Model 之间没有耦合，也将业务逻辑从View 角色上抽离出来。<strong>Presenter 持有的View 、Model 引用</strong></p>
+<p><img src="C:\Blogs\source_posts\Android-架构.assets\9MZN0Jy.png" srcset="/img/loading3.gif" lazyload alt="img"></p>
+<h3 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h3><p><strong>M：</strong>数据模型，保持程序的数据状态。与 View 存在一定耦合，即 View 可以通过 Model 查询数据更新视图。同时 Model 还负责接受 Controller 的事件来刷新数据</p>
+<p><strong>V：</strong>视图，通常指 Actrivity、Fragment 或某个 View 控件。响应用户的交互触发 Controller 的逻辑。同时还可以查询更改 Model 中的数据</p>
+<p><strong>C：</strong>控制器，响应来自 View 的交互请求，然后修改 Model 中的响应数据</p>
+<p><img src="C:\Blogs\source_posts\Android-架构.assets\image-20220220111750862-8bacdcebc65a4b42b7141ed833147c9a.png" srcset="/img/loading3.gif" lazyload alt="image20220220111750862.png"></p>
 <h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://heyanle.com/archives/androidyuan-ma-jia-gou-mo-shi-mvcmvphe-mvvm">Android 源码架构模式——MVC、MVP 和 MVVM</a></li>
 <li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6991168529454088228">https://juejin.cn/post/6991168529454088228</a></li>
@@ -320,9 +318,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/12/Android-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
+                      <a href="/2022/03/12/Android-%E9%9D%A2%E7%BB%8F/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Android 进程间通信</span>
+                        <span class="hidden-mobile">Android 面经</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

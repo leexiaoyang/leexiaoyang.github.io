@@ -18,12 +18,12 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="型变、协变、逆变、不变型变：用来描述类型转换后的继承关系（即协变、逆变和不变的统称）。比如：List&lt;Orange&gt;是List&lt;Fruit&gt;的子类型吗？答案是No，两者并没有关系，并不能相互读写数据。因此，型变是处理如List&lt;Orange&gt;(List&lt;? extends Orange&gt;)和List&lt;Fruit&gt;子类型关系的一种表达方式。">
+    <meta name="description" content="面向对象的六大基本原则 单一职责(Single Responsibility Principle)：一个类只做一件事，可读性提高 里式替换原则( Liskov Substitution Principle):依赖继承和多态，就是能用父类的地方就可以用子类替换，用子类的但不能用父类。 依赖倒置原则(Dependence Inversion Principle)：依赖抽象，就是模块之间的依赖通过抽象发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java基础">
 <meta property="og:url" content="http://example.com/2022/03/01/Java%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="型变、协变、逆变、不变型变：用来描述类型转换后的继承关系（即协变、逆变和不变的统称）。比如：List&lt;Orange&gt;是List&lt;Fruit&gt;的子类型吗？答案是No，两者并没有关系，并不能相互读写数据。因此，型变是处理如List&lt;Orange&gt;(List&lt;? extends Orange&gt;)和List&lt;Fruit&gt;子类型关系的一种表达方式。">
+<meta property="og:description" content="面向对象的六大基本原则 单一职责(Single Responsibility Principle)：一个类只做一件事，可读性提高 里式替换原则( Liskov Substitution Principle):依赖继承和多态，就是能用父类的地方就可以用子类替换，用子类的但不能用父类。 依赖倒置原则(Dependence Inversion Principle)：依赖抽象，就是模块之间的依赖通过抽象发">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Blogs/source_posts/Java基础.assets/1629712458383-5.png">
 <meta property="og:image" content="c:/Blogs/source_posts/Java基础.assets/85916163-8a124800-b880-11ea-9224-dde832893d0f.png">
@@ -31,7 +31,7 @@
 <meta property="article:published_time" content="2022-03-01T06:27:18.000Z">
 <meta property="article:modified_time" content="2022-03-01T06:27:18.000Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面试">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="c:/Blogs/source_posts/Java基础.assets/1629712458383-5.png">
   
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      11k 字
+      15k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      89 分钟
+      129 分钟
     </span>
   
 
@@ -244,7 +244,179 @@
             <h1 style="display: none">Java基础</h1>
             
             <div class="markdown-body">
-              <h3 id="型变、协变、逆变、不变"><a href="#型变、协变、逆变、不变" class="headerlink" title="型变、协变、逆变、不变"></a>型变、协变、逆变、不变</h3><p>型变：用来描述类型转换后的继承关系（即协变、逆变和不变的统称）。比如：<code>List&lt;Orange&gt;</code>是<code>List&lt;Fruit&gt;</code>的子类型吗？答案是No，两者并没有关系，并不能相互读写数据。因此，<strong>型变</strong>是处理如<code>List&lt;Orange&gt;</code>(<code>List&lt;? extends Orange&gt;</code>)和<code>List&lt;Fruit&gt;</code>子类型关系的一种表达方式。</p>
+              <h3 id="面向对象的六大基本原则"><a href="#面向对象的六大基本原则" class="headerlink" title="面向对象的六大基本原则"></a>面向对象的六大基本原则</h3><ol>
+<li>单一职责(Single Responsibility Principle)：一个类只做一件事，可读性提高</li>
+<li>里式替换原则( Liskov Substitution Principle):依赖继承和多态，就是能用父类的地方就可以用子类替换，用子类的但不能用父类。</li>
+<li>依赖倒置原则(Dependence Inversion Principle)：依赖抽象，就是模块之间的依赖通过抽象发生。</li>
+<li>开闭原则(Open-Close Principle):不管是实体类,模块还是函数都应该遵循对扩展开放对修改关闭。还是要依赖封装和继承</li>
+<li>接口隔离原则(Interface Segregation Principle):一个类对另一个类的依赖应该建立在最小的接口上，如果接口太大，我们需要把它分割成一些更细小的接口，也是为了降低耦合性</li>
+<li>迪米特原则(Law of Demeter ):也称最少知识原则，也就是说一个类应该对自己需要耦合或者调用的类知道的最少，只需知道该方法即可，实现细节不必知道。</li>
+</ol>
+<h3 id="常量池-constant-pool"><a href="#常量池-constant-pool" class="headerlink" title="常量池(constant pool)"></a>常量池(constant pool)</h3><p>指的是在编译期被确定，并保存已编译的.class文件中的一些数据。它包括了关于类、方法、接口等中的常量，也包括字符串常量。 </p>
+<h3 id="String-trim"><a href="#String-trim" class="headerlink" title="String.trim()"></a>String.trim()</h3><p>去除字符串两边的空白</p>
+<h3 id="String-intern"><a href="#String-intern" class="headerlink" title="String.intern()"></a>String.intern()</h3><p>String.intern()是一个Native方法，它的作用是：如果字符串常量池中已经包含一个等于此String对象的字符串，如果有，则返回其的引用；否则，将此String对象包含的字符串添加到常量池中，并返回它的引用。</p>
+<h3 id="String、StringBuffer和StringBuilder的区别"><a href="#String、StringBuffer和StringBuilder的区别" class="headerlink" title="String、StringBuffer和StringBuilder的区别"></a>String、StringBuffer和StringBuilder的区别</h3><ul>
+<li>String 为字符串常量，一旦创建不可以被修改，是线程安全的；String 类使用 final 修饰符，不可以被继承；String 的长度是不变的。适用于少量操作的字符串。</li>
+<li>StringBuffer 为字符串变量，长度是可变的，线程安全。适用于多线程下在字符缓冲区进行大量字符串操作</li>
+<li>StringBuilder 为字符串变量，长度是可变的，线程不安全。适用于单线程下在字符缓冲区进行大量字符串操作。</li>
+<li>字符串操作在执行速度：StringBuilder &gt; StringBuffer &gt; String</li>
+</ul>
+<h3 id="抽象类与接口的区别"><a href="#抽象类与接口的区别" class="headerlink" title="抽象类与接口的区别"></a>抽象类与接口的区别</h3><ul>
+<li><p>接口中没有构造方法，而抽象类中可以有。</p>
+</li>
+<li><p>接口中的方法修饰符默认是public abstract，抽象类可以是任意访问修饰符。</p>
+</li>
+<li><p>抽象类有的变量默认是 public static final 修饰，而抽象类中的变量无限制。</p>
+</li>
+<li><p>接口中不能含有静态方法（java8取消限制）以及静态代码块，而抽象类可以有。</p>
+</li>
+<li><p>接口可以多实现 implement， 抽象类只能单继承 extends ，一个类如果继承抽象类，要么实现它的抽象方法，要么也定义为一个抽象类。</p>
+</li>
+<li><p>接口是不可以被实例化，抽象类也不可以被实例化。</p>
+</li>
+<li><p>default 方法 （实现类可以选择重写，也可以不重写）</p>
+</li>
+<li><p>static 方法 （接口名.static方法名调用，切记实现类不能继承static方法）</p>
+</li>
+</ul>
+<h3 id="URL特殊符号及编码"><a href="#URL特殊符号及编码" class="headerlink" title="URL特殊符号及编码"></a>URL特殊符号及编码</h3><table>
+<thead>
+<tr>
+<th>+</th>
+<th>URL 中+号表示空格</th>
+<th>%2B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空格</td>
+<td>URL中的空格可以用+号或者编码</td>
+<td>%20</td>
+</tr>
+<tr>
+<td>/</td>
+<td>分隔目录和子目录</td>
+<td>%2F</td>
+</tr>
+<tr>
+<td>?</td>
+<td>分隔实际的URL和参数</td>
+<td>%3F</td>
+</tr>
+<tr>
+<td>%</td>
+<td>指定特殊字符</td>
+<td>%25</td>
+</tr>
+<tr>
+<td>#</td>
+<td>表示书签</td>
+<td>%23</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>URL 中指定的参数间的分隔符</td>
+<td>%26</td>
+</tr>
+<tr>
+<td>=</td>
+<td>URL 中指定参数的值</td>
+<td>%3D</td>
+</tr>
+</tbody></table>
+<h3 id="抽象类与接口的区别-1"><a href="#抽象类与接口的区别-1" class="headerlink" title="抽象类与接口的区别"></a>抽象类与接口的区别</h3><ul>
+<li><p>抽象类可以提供成员方法的实现细节，而接口中只能存在 public 抽象方法；</p>
+</li>
+<li><p>抽象类中的成员变量可以是各种类型的，而接口中的成员变量只能是 <code>public static final</code> 类型的；</p>
+</li>
+<li><p>接口中不能含有构造器、静态代码块以及静态方法，而抽象类可以有构造器、静态代码块和静态方法；</p>
+</li>
+<li><p>一个类只能继承一个抽象类，而一个类却可以实现多个接口；</p>
+</li>
+<li><p>如果你往抽象类中添加新的方法，你可以给它提供默认的实现。因此你不需要改变你现在的代码。如果你往接口中添加方法，那么你必须改变实现该接口的类。</p>
+</li>
+<li><p>接口更多的为了约束类的行为，可用于解耦，而抽象类更加侧重于代码复用。</p>
+</li>
+</ul>
+<h3 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h3><ul>
+<li>抽象方法必须为public或者protected（因为如果为private，则不能被子类继承，子类便无法实现该方法），缺省情况下默认为public。</li>
+<li>如果一个类继承于一个抽象类，则子类必须实现父类的抽象方法。如果子类没有实现父类的抽象方法，则必须将子类也定义为为abstract类。如果抽象类中含有抽象属性，再实现子类中必须将抽象属性初始化，除非子类也为抽象类。</li>
+</ul>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><ul>
+<li>接口全是抽象方法可用作制定协议规范，变量全是final不可修改，即接口本身特性规定只能定义常量，接口是更高级更纯粹的抽象意义，体现了开闭原则：对修改关闭，对扩展开放。</li>
+<li>Kotlin的接口类似于java 8，它们都可以包含抽象方，以及方法的实现。</li>
+</ul>
+<h3 id="内部类和外部类"><a href="#内部类和外部类" class="headerlink" title="内部类和外部类"></a>内部类和外部类</h3><p>内部类可以直接访问外部类中的成员(包括私有成员),</p>
+<p>而外部类要访问内部类中的成员必须要建立内部类的对象</p>
+<h3 id="static-静态修饰符"><a href="#static-静态修饰符" class="headerlink" title="static 静态修饰符"></a>static 静态修饰符</h3><p>static修饰表示静态的，在类加载时JVM会把它放到方法区，被本类以及本类中所有实例所公用。在编译后所分配的内存会在一直存在，直到程序退出内存才会释放这个空间。</p>
+<h3 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h3><p>定义在一个类内部的类叫内部类，包含内部类的类称为外部类。内部类可以声明public、protected、private等访问限制，可以声明 为abstract的供其他内部类或外部类继承与扩展，或者声明为static、final的，也可以实现特定的接口。封装、解耦（作用域）、提高内聚。</p>
+<ul>
+<li>静态内部类<ul>
+<li>静态内部类是不需要依赖于外部类的</li>
+<li>可以添加任意的访问修饰符public、protected、private 以及默认，因为它就是类的成员。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>匿名内部类</p>
+<p>没有名字的内部类。使用匿名内部类有个前提条件：必须继承一个父类或实现一个接口，但最多只能继承一个父类，或实现一个接口。</p>
+<ul>
+<li><p>匿名内部类不能有构造器（构造方法）</p>
+</li>
+<li><p>匿名内部类不可以是抽象类</p>
+</li>
+<li><p>匿名内部类也是不能有访问修饰符和 static 修饰符的。</p>
+</li>
+<li><p>匿名内部类是唯一一种没有构造器的类。用于接口回调。</p>
+</li>
+<li><p>匿名内部类在编译的时候由系统自动起名为 Outer$1.class。</p>
+</li>
+<li><p>节省了定义实现类的过程，<strong>还能够自动向上转型</strong>。</p>
+</li>
+</ul>
+</li>
+<li><p>局部内部类</p>
+<p>局部内部类是定义在一个方法或者一个作用域里面的类，它和成员内部类的区别在于局部内部类的访问仅限于方法内或者该作用域内。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Outer</span> </span>&#123;<span class="hljs-comment">//外部类</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OuterFun1</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;外部类成员方法&quot;</span>);<br>        <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Inner</span> </span>&#123;<span class="hljs-comment">//局部内部类</span><br>            <br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>局部内部类就像是方法里面的一个局部变量一样，是不能有 public、protected、private 以及 static 修饰符的。</li>
+<li>局部内部类可以直接访问外部类的所有成员，包含私有的；</li>
+<li>不能添加修饰符，因为它是一个局部变量，局部变量是不能使用修饰符的，但是可以用final修饰，因为局部变量是可以使用final修饰的。</li>
+<li>局部内部类访问外部类的成员属性或者方法时，直接访问；</li>
+<li>作用域仅仅在定义它的方法或者代码块中。</li>
+<li>外部类访问局部内部类的成员属性或者方法时，通过先创建对象，再访问，且必须要在作用域内。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Outer</span> </span>&#123;<span class="hljs-comment">//外部类</span><br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Outer outerObj = <span class="hljs-keyword">new</span> Outer(<span class="hljs-string">&quot;joshua317&quot;</span>);<br>        outerObj.OuterFun1();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Outer</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.name = name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OuterFun1</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;外部类成员方法&quot;</span>);<br>        <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Inner</span> </span>&#123;<span class="hljs-comment">//内部类</span><br>            String name;<br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">InnerFun1</span><span class="hljs-params">()</span> </span>&#123;<br>                <span class="hljs-comment">//访问外部类的同名成员属性</span><br>                System.out.println(<span class="hljs-string">&quot;局部内部类的成员属性name:&quot;</span>+ name + <span class="hljs-string">&quot; 我是外部类的成员属性name:&quot;</span>+Outer.<span class="hljs-keyword">this</span>.name);<br>            &#125;<br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;<br>                <span class="hljs-keyword">this</span>.name = name;<br>            &#125;<br><br>        &#125;<br>        Inner inner = <span class="hljs-keyword">new</span> Inner();<br>        inner.setName(<span class="hljs-string">&quot;innerName&quot;</span>);<br>        inner.InnerFun1();<br>        System.out.println(<span class="hljs-string">&quot;局部内部类的成员属性name：&quot;</span> + inner.name);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>成员内部类</p>
+<p>成员内部类是最普通的内部类，它的定义为位于另一个类的内部。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-symbol">Outer</span> &#123;<span class="hljs-comment">//外部类</span><br><br>    <span class="hljs-keyword">class</span> <span class="hljs-symbol">Inner</span> &#123;<span class="hljs-comment">//内部类</span><br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>成员内部类可以无条件访问外部类的所有成员属性和成员方法（包括private成员和静态成员）</p>
+</li>
+<li><p>当成员内部类拥有和外部类同名的成员变量或者方法时，会根据就近原则，即默认情况下访问的是成员内部类的成员。如果要访问外部类的同名成员，需要以下面的形式进行访问：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">外部类.<span class="hljs-keyword">this</span>.成员变量<br>外部类.<span class="hljs-keyword">this</span>.成员方法<br></code></pre></td></tr></table></figure></li>
+<li><p>成员内部类可以拥有 private 访问权限、protected 访问权限、public 访问权限及包访问权限。比如上面的例子，如果成员内部类 Inner 用 private 修饰，则只能在外部类的内部访问，如果用 public 修饰，则任何地方都能访问；如果用 protected 修饰，则只能在同一个包下或者继承外部类的情况下访问；如果是默认访问权限，则只能在同一个包下访问。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="静态内部类与非静态内部类的区别"><a href="#静态内部类与非静态内部类的区别" class="headerlink" title="静态内部类与非静态内部类的区别"></a>静态内部类与非静态内部类的区别</h3><ul>
+<li><p>是否能拥有静态成员</p>
+<p>静态内部类可以有静态成员(方法，属性)，而非静态内部类则不能有静态成员(方法，属性)。</p>
+</li>
+<li><p>访问外部类的成员</p>
+<p>静态内部类只能够访问外部类的静态成员,而非静态内部类则可以访问外部类的所有成员(方法，属性)。</p>
+</li>
+<li><p>静态内部类和非静态内部类在创建时有区别</p>
+<p>假设类A有静态内部类B和非静态内部类C，创建B和C的区别为：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs haxe">A a=<span class="hljs-keyword">new</span> <span class="hljs-type">A</span>(); <br>A.B b=<span class="hljs-keyword">new</span> <span class="hljs-type">A</span>.B(); <br>A.C c=a.<span class="hljs-keyword">new</span> <span class="hljs-type">C</span>();<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="字节码文件"><a href="#字节码文件" class="headerlink" title="字节码文件"></a>字节码文件</h3><p>Java源代码经过虚拟机编译器编译后产生的文件（即扩展为.class的文件），它不面向任何特定的处理器，只面向虚拟机。字节码是一种二进制的类文件，它的内容是JVM的指令，而不像C、C++经由编译器直接生成<code>机器码</code>。</p>
+<p>在一定程度上解决了传统解释型语言执行效率低的问题，同时又保留了解释型语言可移植的特点。由于字节码并不专对一种特定的机器，因此，Java程序无须重新编译便可在多种不同的计算机上运行。</p>
+<h3 id="型变、协变、逆变、不变"><a href="#型变、协变、逆变、不变" class="headerlink" title="型变、协变、逆变、不变"></a>型变、协变、逆变、不变</h3><p>型变：用来描述类型转换后的继承关系（即协变、逆变和不变的统称）。比如：<code>List&lt;Orange&gt;</code>是<code>List&lt;Fruit&gt;</code>的子类型吗？答案是No，两者并没有关系，并不能相互读写数据。因此，<strong>型变</strong>是处理如<code>List&lt;Orange&gt;</code>(<code>List&lt;? extends Orange&gt;</code>)和<code>List&lt;Fruit&gt;</code>子类型关系的一种表达方式。</p>
 <p>协变(covariance)：满足条件诸如<code>List&lt;Orange&gt;</code>是<code>List&lt;? extends Fruit&gt;</code>的子类型时，称为协变。</p>
 <p>逆变(covariance)：满足条件<code>List&lt;Fruit&gt;</code>是<code>List&lt;? super Orange&gt;</code>的子类型时，称为逆变。</p>
 <p>不变(invariance)：表示<code>List&lt;Orange&gt;</code>和<code>List&lt;Fruit&gt;</code>不存在型变关系。</p>
@@ -255,13 +427,13 @@
 </ul>
 <h3 id="JAVA泛型的用法"><a href="#JAVA泛型的用法" class="headerlink" title="JAVA泛型的用法"></a>JAVA泛型的用法</h3><ul>
 <li><p>泛型方法：将方法的参数类型定义为泛型，在调用的时候接受不同类型的参数。泛型类中的类型参数与泛型方法中的类型参数是没有相应的联系的，<strong>泛型方法始终以自己定义的类型参数为准</strong>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test1</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;<br>    <span class="hljs-comment">// 泛型方法与泛型类稍有不同的地方是，类型参数也就是尖括号那一部分是写在返回值前面</span><br>    <span class="hljs-comment">// &lt;T&gt;中的 T 被称为类型参数，而方法中的 T 被称为参数化类型，它不是运行时真正的参数。</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMethod</span><span class="hljs-params">(T t)</span></span>&#123;<br>		System.out.println(t.getClass().getName());<br>	&#125;<br>    <br>    <span class="hljs-comment">// 为了避免混淆，如果在一个泛型类中存在泛型方法，那么两者的类型参数最好不要同名。</span><br>	<span class="hljs-keyword">public</span>  &lt;E&gt; <span class="hljs-function">E <span class="hljs-title">testMethod1</span><span class="hljs-params">(E e)</span></span>&#123;<br>		<span class="hljs-keyword">return</span> e;<br>	&#125;<br>&#125;<br><br><br>Test1&lt;String&gt; t = <span class="hljs-keyword">new</span> Test1();<br>t.testMethod(<span class="hljs-string">&quot;generic&quot;</span>);<br>Integer i = t.testMethod1(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">1</span>));<br></code></pre></td></tr></table></figure></li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test1</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;<br>    <span class="hljs-comment">// 泛型方法与泛型类稍有不同的地方是，类型参数也就是尖括号那一部分是写在返回值前面</span><br>    <span class="hljs-comment">// &lt;T&gt;中的 T 被称为类型参数，而方法中的 T 被称为参数化类型，它不是运行时真正的参数。</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMethod</span><span class="hljs-params">(T t)</span></span>&#123;<br>		System.out.println(t.getClass().getName());<br>	&#125;<br>    <br>    <span class="hljs-comment">// 为了避免混淆，如果在一个泛型类中存在泛型方法，那么两者的类型参数最好不要同名。</span><br>	<span class="hljs-keyword">public</span>  &lt;E&gt; <span class="hljs-function">E <span class="hljs-title">testMethod1</span><span class="hljs-params">(E e)</span></span>&#123;<br>		<span class="hljs-keyword">return</span> e;<br>	&#125;<br>&#125;<br><br><br>Test1&lt;String&gt; t = <span class="hljs-keyword">new</span> Test1();<br>t.testMethod(<span class="hljs-string">&quot;generic&quot;</span>);<br>Integer i = t.testMethod1(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">1</span>));<br></code></pre></td></tr></table></figure></li>
 <li><p>泛型类：定义类的时候在类上定义了泛型，传入不同的参数实例化不同的对象，用户想要使用哪种类型，就在创建的时候指定类型。使用的时候，该类就会自动转换成用户想要使用的类型了。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 将 value 这个属性的类型也参数化了，这就是所谓的参数化类型</span><br><span class="hljs-comment">// 泛型类不至接受一个类型参数，它还可以这样接受多个类型参数。</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cache</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;<br>	T value;<br><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getValue</span><span class="hljs-params">()</span> </span>&#123;<br>		<span class="hljs-keyword">return</span> value;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setValue</span><span class="hljs-params">(T value)</span> </span>&#123;<br>		<span class="hljs-keyword">this</span>.value = value;<br>	&#125;<br>&#125;<br><br><span class="hljs-comment">// 不再需要对取出来的结果进行强制转换了。</span><br>Cache&lt;String&gt; cache1 = <span class="hljs-keyword">new</span> Cache&lt;String&gt;();<br>cache1.setValue(<span class="hljs-string">&quot;123&quot;</span>);<br>String value2 = cache1.getValue();<br>		<br>Cache&lt;Integer&gt; cache2 = <span class="hljs-keyword">new</span> Cache&lt;Integer&gt;();<br>cache2.setValue(<span class="hljs-number">456</span>);<br><span class="hljs-keyword">int</span> value3 = cache2.getValue();<br></code></pre></td></tr></table></figure></li>
 <li><p>泛型接口：通过在接口名后面添加类型参数的声明部分来实现。泛型接口和泛型类差不多。</p>
 </li>
 </ul>
-<h3 id="类型擦除"><a href="#类型擦除" class="headerlink" title="类型擦除"></a>类型擦除</h3><p>泛型只存在源码中，编译器将源码编译成字节码之时，就会把泛型『擦除』，所以字节码中并不存在泛型。最终替换成了 Object。类型擦除的主要目的是避免过多的创建类而造成的运行时的过度消耗。<code>List&lt;A&gt;</code>表示一个类型，再用<code>List&lt;B&gt;</code>表示另一个类型，以此类推，无疑会引起类型的数量爆炸。</p>
+<h3 id="类型擦除、伪泛型"><a href="#类型擦除、伪泛型" class="headerlink" title="类型擦除、伪泛型"></a>类型擦除、伪泛型</h3><p>泛型只存在源码中，编译器将源码编译成字节码之时，就会把泛型『擦除』，所以字节码中并不存在泛型。最终替换成了 Object。类型擦除的主要目的是避免过多的创建类而造成的运行时的过度消耗。<code>List&lt;A&gt;</code>表示一个类型，再用<code>List&lt;B&gt;</code>表示另一个类型，以此类推，无疑会引起类型的数量爆炸。</p>
 <p>当类定义中的类型参数存在限制时，在类型擦除中替换为类型参数的上界或者下界。</p>
 <p>​       <img src="C:\Blogs\source_posts\Java基础.assets\1629712458383-5.png" srcset="/img/loading3.gif" lazyload alt="img"></p>
 <h3 id="泛型类型限定"><a href="#泛型类型限定" class="headerlink" title="泛型类型限定"></a>泛型类型限定</h3><p><strong>通配符的出现是为了指定泛型中的类型范围</strong>。</p>
@@ -344,6 +516,13 @@
 <li><p>ReflectionData</p>
 <p>用来缓存从JVM中读取类的如下属性数据。</p>
 </li>
+</ul>
+<h3 id="反射的优缺点"><a href="#反射的优缺点" class="headerlink" title="反射的优缺点"></a>反射的优缺点</h3><ul>
+<li>增加程序的灵活性。</li>
+<li>策略模式</li>
+<li>性能问题</li>
+<li>维护问题</li>
+<li>反射破坏了Java语言的访问限制</li>
 </ul>
 <h3 id="实例初始化"><a href="#实例初始化" class="headerlink" title="实例初始化"></a>实例初始化</h3><p>初始化属于实例的内容（非静态）</p>
 <h3 id="类的初始化"><a href="#类的初始化" class="headerlink" title="类的初始化"></a>类的初始化</h3><p>类第一次加载到内存时进行的过程</p>
@@ -451,6 +630,8 @@ Field[] getDeclaredFields()
 </ul>
 <h3 id="什么时候需要重写equals与-hashcode"><a href="#什么时候需要重写equals与-hashcode" class="headerlink" title="什么时候需要重写equals与 hashcode"></a>什么时候需要重写equals与 hashcode</h3><p>hashcode：元素的地址转换成一个整数返回</p>
 <p>只有当类需要作为key放在HashTable和HashMap等这些具有Hash结构的集合中才需要重写hashcode。因为 hash结构的集合存储的是不重复的对象，依据 hashCode 和 equals 进行判断，所以 hash结构的集合存储的对象必须重写 hashCode 和 equals。</p>
+<h3 id="equals和hashCode同时存在的意义"><a href="#equals和hashCode同时存在的意义" class="headerlink" title="equals和hashCode同时存在的意义"></a>equals和hashCode同时存在的意义</h3><p>一个是保证可靠，一个是保证性能。根据地址hash出来的一个int 32 位的整型数字，先比较 <strong>hash</strong> (通过hashCode的高16位和低16位进行异或运算得出的) ，因为两个相同的对象hash值一定相等。</p>
+<h3 id="为什么重写equals必须重写hashCode"><a href="#为什么重写equals必须重写hashCode" class="headerlink" title="为什么重写equals必须重写hashCode"></a>为什么重写equals必须重写hashCode</h3><p>每个覆盖了equals方法的类中，必须覆盖hashCode。如果不这么做，就违背了hashCode的通用约定，也就是上面注释中所说的。进而导致该类无法结合所以与散列的集合一起正常运作，这里指的是HashMap、HashSet、HashTable、ConcurrentHashMap。</p>
 <h3 id="为什么equals相等hashcode必相等"><a href="#为什么equals相等hashcode必相等" class="headerlink" title="为什么equals相等hashcode必相等"></a>为什么equals相等hashcode必相等</h3><p>如果只重写了 equals 方法，两个对象 equals 返回了true，集合是不允许出现重复元素的，只能插入一个。此时如果没有重写 hashCode 方法，那么就无法定位到同一个位置，集合还是会插入元素。这样集合中就出现了重复元素了。那么重写的equals方法就没有意义了。</p>
 <h3 id="抽象类必须要有抽象方法吗"><a href="#抽象类必须要有抽象方法吗" class="headerlink" title="抽象类必须要有抽象方法吗"></a>抽象类必须要有抽象方法吗</h3><p>不需要，抽象类不一定非要有抽象方法</p>
 <h3 id="StringBuffer-和-StringBuilder-的区别是什么"><a href="#StringBuffer-和-StringBuilder-的区别是什么" class="headerlink" title="StringBuffer 和 StringBuilder 的区别是什么"></a>StringBuffer 和 StringBuilder 的区别是什么</h3><p><code>StringBuilder</code>是线程不安全的，效率较高；而<code>StringBuffer</code>是线程安全的，效率较低。</p>
@@ -460,14 +641,18 @@ Field[] getDeclaredFields()
 <h3 id="接口和抽象类区别"><a href="#接口和抽象类区别" class="headerlink" title="接口和抽象类区别"></a>接口和抽象类区别</h3><img src="C:\Blogs\source\_posts\Java面试题.assets\image-20220301165217271.png" srcset="/img/loading3.gif" lazyload alt="image-20220301165217271" sty le="zoom:50%;" style="zoom:50%;" /> 
 
 <ul>
-<li>接口中没有构造方法，而抽象类中可以有。</li>
-<li>接口中的方法修饰符默认是public abstract，抽象类可以是任意访问修饰符。</li>
-<li>抽象类有的变量默认是 public static final 修饰，而抽象类中的变量无限制。</li>
-<li>接口中不能含有静态方法（java8取消限制）以及静态代码块，而抽象类可以有。</li>
-<li>接口可以多实现 implement， 抽象类只能单继承 extends ，一个类如果继承抽象类，要么实现它的抽象方法，要么也定义为一个抽象类。</li>
-<li>接口是不可以被实例化，抽象类也不可以被实例化。</li>
-</ul>
-<ul>
+<li><p>接口中没有构造方法，而抽象类中可以有。</p>
+</li>
+<li><p>接口中的方法修饰符默认是public abstract，抽象类可以是任意访问修饰符。</p>
+</li>
+<li><p>抽象类有的变量默认是 public static final 修饰，而抽象类中的变量无限制。</p>
+</li>
+<li><p>接口中不能含有静态方法（java8取消限制）以及静态代码块，而抽象类可以有。</p>
+</li>
+<li><p>接口可以多实现 implement， 抽象类只能单继承 extends ，一个类如果继承抽象类，要么实现它的抽象方法，要么也定义为一个抽象类。</p>
+</li>
+<li><p>接口是不可以被实例化，抽象类也不可以被实例化。</p>
+</li>
 <li><p>default 方法 （实现类可以选择重写，也可以不重写）</p>
 </li>
 <li><p>static 方法 （接口名.static方法名调用，切记实现类不能继承static方法）</p>
@@ -515,7 +700,7 @@ Field[] getDeclaredFields()
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                      <a class="hover-with-bg" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
                     
                   </div>
                 
@@ -523,7 +708,7 @@ Field[] getDeclaredFields()
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>
                     
                   </div>
                 
